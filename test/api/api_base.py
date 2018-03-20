@@ -1,8 +1,7 @@
-import pytest
 from flask.testing import FlaskClient
 from flask_testing import LiveServerTestCase
 
-from http_endpoints_test.mock_server import app
+from rest_test.mock_server import app
 
 
 class ApiTestBase(LiveServerTestCase):
