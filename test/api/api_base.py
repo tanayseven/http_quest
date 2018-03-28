@@ -1,7 +1,7 @@
 from flask.testing import FlaskClient
 from flask_testing import LiveServerTestCase
 
-from rest_test.mock_server import app
+from rest_test.app import app
 
 
 class ApiTestBase(LiveServerTestCase):
