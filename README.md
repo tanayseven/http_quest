@@ -1,8 +1,12 @@
 Endpoint Test
 =============
 
-This is a repository containing code for an online carts code that I had answered in a test
--------------------------------------------------------------------------------------------
+This is an app that can be used to conduct a custom coding test by using REST as the interface with candidate
+-------------------------------------------------------------------------------------------------------------
+
+You need Docker and Docker-Compose to have this app running on your local system
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Problem 1
 ---------
