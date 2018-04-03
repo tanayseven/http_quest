@@ -11,4 +11,3 @@ Prerequisites
 
 * Docker
 * Docker Compose
-
