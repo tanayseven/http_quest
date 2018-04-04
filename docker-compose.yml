@@ -2,11 +2,14 @@ version: '2'
 services:
   database:
     environment:
-      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=rest_test
+      - POSTGRES_PASSWORD=rest_test
     build:
       context: .
       dockerfile: Database.Dockerfile
   app:
+    environment:
+      - DATABASE_URL=postgresql://rest_test:rest_test@database/rest_test
     build:
       context: .
       dockerfile: App.Dockerfile

@@ -9,5 +9,8 @@ setup(
         'requests==2.18.4',
         'pytest==3.4.2',
         'Flask-Testing==0.7.1',
+        'sqlalchemy==1.2.6',
+        'psycopg2==2.7.4',
+        'alembic==0.9.9',
     ],
 )
