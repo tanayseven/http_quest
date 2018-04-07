@@ -11,6 +11,7 @@ setup(
         'Flask-Testing==0.7.1',
         'flask-sqlalchemy==2.3.2',
         'flask-migrate==2.1.1',
+        'flask-security==3.0.0',
         'psycopg2==2.7.4',
         'alembic==0.9.9',
     ],

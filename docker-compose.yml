@@ -9,7 +9,8 @@ services:
       dockerfile: Database.Dockerfile
   app:
     environment:
-      - DATABASE_URL=postgresql://rest_test:rest_test@database/rest_test
+      - DATABASE_URI=postgresql://rest_test:rest_test@database/rest_test
+      - SECRET_KEY=some_secret
     build:
       context: .
       dockerfile: App.Dockerfile
