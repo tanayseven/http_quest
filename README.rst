@@ -14,8 +14,8 @@ Prerequisites
 * Docker
 * Docker Compose
 
-Usage
-~~~~~
+Usage Instructions
+~~~~~~~~~~~~~~~~~~
 
 To build all the Docker images using ``docker-compose``
 
