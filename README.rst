@@ -1,9 +1,11 @@
-Endpoint Test
+Rest Test
 =============
 
 
-This is an app that can be used to conduct a custom coding test by using REST as the interface with candidate
--------------------------------------------------------------------------------------------------------------
+Test people using REST
+----------------------
+
+A modular platform that helps you add your own Rest Tests
 
 
 Prerequisites
