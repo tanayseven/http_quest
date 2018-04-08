@@ -8,6 +8,7 @@ setup(
         'flask==0.12.2',
         'requests==2.18.4',
         'pytest==3.4.2',
+        'pytest-cov==2.5.1',
         'pylint==1.8.4',
         'mypy==0.580',
         'Flask-Testing==0.7.1',

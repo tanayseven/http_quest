@@ -1,3 +1,21 @@
+.. image:: https://travis-ci.org/tanayseven/rest-test.svg?branch=master
+    :alt: tests
+    :target: https://travis-ci.org/tanayseven/rest-test
+
+.. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/test_coverage
+   :target: https://codeclimate.com/github/tanayseven/rest-test/test_coverage
+   :alt: Test Coverage
+
+.. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/maintainability
+   :target: https://codeclimate.com/github/tanayseven/rest-test/maintainability
+   :alt: Maintainability
+
+.. image:: https://img.shields.io/github/license/tanayseven/rest-test.svg
+    :alt: license
+    :target: https://github.com/tanayseven/rest-test/blob/master/LICENSE.txt
+
+
+
 Rest Test
 =============
 
