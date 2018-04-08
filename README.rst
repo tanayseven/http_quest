@@ -15,6 +15,9 @@
     :target: https://github.com/tanayseven/rest-test/blob/master/LICENSE.txt
 
 
+.. image:: https://img.shields.io/github/repo-size/tanayseven/rest-test.svg
+    :alt: GitHub repo size in bytes
+
 
 Rest Test
 =============
