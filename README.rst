@@ -13,3 +13,18 @@ Prerequisites
 
 * Docker
 * Docker Compose
+
+Usage
+~~~~~
+
+To build all the Docker images using ``docker-compose``
+
+.. code-block:: bash
+
+    docker-compose build
+
+To run the whole application as containers using ``docker-compose``
+
+.. code-block:: bash
+
+    docker-compose up
