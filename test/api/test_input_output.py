@@ -1,6 +1,6 @@
 import requests
 
-from test.api.api_base import ApiTestBase
+from test.base import ApiTestBase
 
 
 class TestInputApi(ApiTestBase):

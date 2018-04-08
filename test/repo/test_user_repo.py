@@ -1,25 +1,6 @@
-from datetime import datetime
-
-import os
-import pytest
-
-from rest_test.app import app, db
 from rest_test.model import User
 from rest_test.repo import UserRepo
-
-
-class DatabaseTest:
-    @pytest.fixture(autouse=True)
-    def setup(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('TEST_DATABASE_URI')
-        self.client = app.test_client()
-        self._ctx = app.test_request_context()
-        self._ctx.push()
-        db.session.remove()
-        db.drop_all()
-        db.create_all()
-        yield
-        self._ctx.pop()
+from test.base import DatabaseTest
 
 
 class TestUserRepo(DatabaseTest):
