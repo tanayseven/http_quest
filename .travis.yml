@@ -10,6 +10,6 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 script:
-  - ./create_test_database
   - docker-compose up -d
+  - ./create_test_database
   - ./container_exec pytest
