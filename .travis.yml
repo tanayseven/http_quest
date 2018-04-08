@@ -13,5 +13,6 @@ before_install:
 
 script:
   - docker-compose up -d
+  - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
   - ./create_test_database
   - ./container_exec pytest
