@@ -9,7 +9,6 @@ from rest_test.repo import UserRepo
 
 
 class DatabaseTest:
-    # noinspection PyAttributeOutsideInit
     @pytest.fixture(autouse=True)
     def setup(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('TEST_DATABASE_URI')
