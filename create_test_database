@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker container exec -it resttest_database_1 psql -U rest_test -c "create database test_rest_test"
