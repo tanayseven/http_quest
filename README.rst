@@ -28,3 +28,18 @@ To run the whole application as containers using ``docker-compose``
 .. code-block:: bash
 
     docker-compose up
+
+
+To run all the tests in the application run
+
+.. code-block:: bash
+
+    ./container_exec pytest
+
+To perform migrations run
+
+.. code-block:: bash
+
+    ./container_exec flask db migrate # Detect and create migration files
+    ./container_exec flask db upgrade # Actually perform migrations on the database
+    ./container_exec flask db --help # For info about the other database migration commands
