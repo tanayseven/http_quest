@@ -43,3 +43,10 @@ To perform migrations run
     ./container_exec flask db migrate # Detect and create migration files
     ./container_exec flask db upgrade # Actually perform migrations on the database
     ./container_exec flask db --help # For info about the other database migration commands
+
+
+For Linux only: files created by container (like migration files) are owned by root because Docker runs as root
+
+.. code-block:: bash
+
+    ./reset_ownership # needs sudo password, will change the owner to yourself
