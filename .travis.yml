@@ -1,8 +1,8 @@
 dist: trusty
 
 env:
-  - DOCKER_COMPOSE_VERSION=1.20.1
   global:
+    - DOCKER_COMPOSE_VERSION=1.20.1
     - CC_TEST_REPORTER_ID=14fc80033c021303783594f6d6d231cfa7f5841bf7569963a97c4103eb89ab6d
 
 before_install:
