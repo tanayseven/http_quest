@@ -22,3 +22,9 @@ class TestInputApi(ApiTestBase):
             'message': 'to login, please POST `login_format` on /login',
             'login_format': {'email': '<your_email>', 'password': '<your_password>'}
         }
+
+    def test_that_invalid_login_of_admin_with_invalid_email_fails(self):
+        request_payload = {'email': 'foobaz', 'password': 'password'}
+        response = requests.post(self.get_server_url() + '/login', json=request_payload)
+        assert response.status_code == 401
+        assert response.json() == {'message': 'invalid email or password'}

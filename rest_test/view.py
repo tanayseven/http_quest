@@ -4,18 +4,28 @@ root_view = Blueprint('root', __name__)
 
 
 @root_view.route('/', methods=('GET',))
-def something():
+def root_get():
     data = {'message': 'this is the / please go to /login for any further activity'}
     return jsonify(data)
 
 
 @root_view.route('/login', methods=('GET',))
-def login():
+def login_get():
     data = {
         'message': 'to login, please POST `login_format` on /login',
         'login_format': {'email': '<your_email>', 'password': '<your_password>'}
     }
     return jsonify(data)
+
+
+@root_view.route('/login', methods=('POST',))
+def login_post():
+    # TODO actual login logic
+    login_success, token = False, ''
+    if login_success:
+        return jsonify({'token': token})
+    else:
+        return jsonify({'message': 'invalid email or password'}), 401
 
 
 @root_view.route('/send', methods=('POST',))
