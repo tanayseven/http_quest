@@ -1,6 +1,6 @@
 from typing import Union
 
-from rest_test.extensions import db
+from rest_test.extensions import db, jwt
 from rest_test.model import User
 
 

@@ -1,7 +1,6 @@
 import os
 import pytest
 from flask import Flask
-from flask.testing import FlaskClient
 from flask_testing import LiveServerTestCase
 
 from rest_test.app import app
@@ -27,4 +26,5 @@ class DatabaseTest:
         db.drop_all()
         db.create_all()
         yield
-        self._ctx.pop()
+        if hasattr(self, '_ctx'):
+            self._ctx.pop()

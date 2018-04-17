@@ -1,5 +1,3 @@
-from flask_security import RoleMixin, UserMixin
-
 from rest_test.extensions import db
 
 role_users = db.Table(
@@ -9,13 +7,13 @@ role_users = db.Table(
 )
 
 
-class Role(db.Model, RoleMixin):
+class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(128))

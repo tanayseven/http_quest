@@ -1,9 +1,9 @@
 import requests
 
-from test.base import ApiTestBase
+from test.base import ApiTestBase, DatabaseTest
 
 
-class TestInputApi(ApiTestBase):
+class TestInputApi(DatabaseTest, ApiTestBase):
 
     def test_that_the_get_at_root_returns_correct_value(self):
         response = requests.get(self.get_server_url())
