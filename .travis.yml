@@ -3,7 +3,6 @@ dist: trusty
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.20.1
-    - CC_TEST_REPORTER_ID=14fc80033c021303783594f6d6d231cfa7f5841bf7569963a97c4103eb89ab6d
 
 before_install:
   - sudo apt-get update
@@ -14,15 +13,13 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-
-script:
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
+
+script:
   - ./create_test_database
   - ./container_exec pytest --cov rest_test test/
 
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./container_exec coveralls
+

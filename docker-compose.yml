@@ -13,6 +13,7 @@ services:
       - TEST_DATABASE_URI=postgresql://rest_test:rest_test@database/test_rest_test
       - FLASK_DEBUG=true
       - SECRET_KEY=some_secret
+      - COVERALLS_REPO_TOKEN
     build:
       context: .
       dockerfile: App.Dockerfile

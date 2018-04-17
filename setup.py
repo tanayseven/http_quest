@@ -17,5 +17,6 @@ setup(
         'flask-migrate==2.1.1',
         'flask-jwt==0.3.2',
         'psycopg2-binary==2.7.4',
+        'coveralls==1.3.0'
     ],
 )
