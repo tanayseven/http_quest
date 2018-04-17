@@ -2,9 +2,10 @@
     :alt: tests
     :target: https://travis-ci.org/tanayseven/rest-test
 
-.. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/test_coverage
-   :target: https://codeclimate.com/github/tanayseven/rest-test/test_coverage
-   :alt: Test Coverage
+.. image:: https://coveralls.io/repos/github/tanayseven/rest-test/badge.svg?branch=HEAD
+    :alt: test coverage
+    :target: https://coveralls.io/github/tanayseven/rest-test?branch=HEAD
+
 
 .. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/maintainability
    :target: https://codeclimate.com/github/tanayseven/rest-test/maintainability
