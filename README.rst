@@ -6,7 +6,6 @@
     :alt: test coverage
     :target: https://coveralls.io/github/tanayseven/rest-test?branch=HEAD
 
-
 .. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/maintainability
    :target: https://codeclimate.com/github/tanayseven/rest-test/maintainability
    :alt: Maintainability
