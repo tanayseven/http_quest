@@ -30,3 +30,12 @@ class TestUserRepo(DatabaseTest):
         ))
         actual_user = UserRepo.authenticate('user@domain.com', 'foobaz')
         assert None == actual_user
+
+    def test_identity_should_return_user_when_given_a_user_id(self):
+        user = UserRepo.create_user(User(
+            email='user@domain.com',
+            password='password',
+            active=True,
+        ))
+        actual_user = UserRepo.identity({'id': user.id})
+        assert actual_user == user

@@ -1,6 +1,6 @@
 from typing import Union
 
-from rest_test.extensions import db, jwt
+from rest_test.extensions import db
 from rest_test.model import User
 
 
@@ -17,5 +17,6 @@ class UserRepo:
             filter_by(email=email, password=password).one_or_none()
 
     @staticmethod
-    def identity(cls, payload: str) -> Union[User, None]:
-        pass
+    def identity(payload: dict) -> Union[User, None]:
+        return db.session.query(User).\
+            filter_by(id=payload.get('id')).one_or_none()
