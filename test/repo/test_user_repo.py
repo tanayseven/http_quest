@@ -39,3 +39,12 @@ class TestUserRepo(DatabaseTest):
         ))
         actual_user = UserRepo.identity({'id': user.id})
         assert actual_user == user
+
+    def test_identity_should_return_none_when_given_invalid_user_id(self):
+        UserRepo.create_user(User(
+            email='user@domain.com',
+            password='password',
+            active=True,
+        ))
+        actual_user = UserRepo.identity({'id': 12345})
+        assert actual_user is None
