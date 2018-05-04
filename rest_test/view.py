@@ -24,18 +24,6 @@ def login_get():
     return jsonify(data)
 
 
-# @root_view.route('/login', methods=('POST',))
-# def login_post():
-#     login_success, token = login_user(
-#         request.json.get('username'),
-#         request.json.get('password'),
-#     )
-#     if login_success:
-#         return jsonify({'token': token})
-#     else:
-#         return jsonify({'message': 'invalid email or password'}), 401
-
-
 @root_view.route('/send', methods=('POST',))
 def something_else():
     data = {'something': 'something extra'}
