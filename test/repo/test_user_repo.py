@@ -20,7 +20,7 @@ class TestUserRepo(DatabaseTest):
             active=True,
         ))
         actual_user = UserRepo.authenticate('foobaz', 'password')
-        assert None == actual_user
+        assert actual_user is None
 
     def test_authenticate_should_return_none_if_user_enters_wrong_password(self):
         UserRepo.create_user(User(
