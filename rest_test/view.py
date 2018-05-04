@@ -1,6 +1,12 @@
-from flask import Blueprint, jsonify
+from typing import Tuple
+
+from flask import Blueprint, jsonify, request
 
 root_view = Blueprint('root', __name__)
+
+
+def login_user(username: str, password: str) -> Tuple[bool, str]:
+    return False, ''
 
 
 @root_view.route('/', methods=('GET',))
@@ -18,14 +24,16 @@ def login_get():
     return jsonify(data)
 
 
-@root_view.route('/login', methods=('POST',))
-def login_post():
-    # TODO actual login logic
-    login_success, token = False, ''
-    if login_success:
-        return jsonify({'token': token})
-    else:
-        return jsonify({'message': 'invalid email or password'}), 401
+# @root_view.route('/login', methods=('POST',))
+# def login_post():
+#     login_success, token = login_user(
+#         request.json.get('username'),
+#         request.json.get('password'),
+#     )
+#     if login_success:
+#         return jsonify({'token': token})
+#     else:
+#         return jsonify({'message': 'invalid email or password'}), 401
 
 
 @root_view.route('/send', methods=('POST',))

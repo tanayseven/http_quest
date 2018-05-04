@@ -1,5 +1,8 @@
+import pytest
 import requests
 
+from rest_test.model import User
+from rest_test.repo import UserRepo
 from test.base import ApiTestBase, DatabaseTest
 
 
@@ -27,4 +30,19 @@ class TestInputApi(DatabaseTest, ApiTestBase):
         request_payload = {'email': 'foobaz', 'password': 'password'}
         response = requests.post(self.get_server_url() + '/login', json=request_payload)
         assert response.status_code == 401
-        assert response.json() == {'message': 'invalid email or password'}
+        assert response.json() == {
+            'description': 'Invalid credentials',
+            'error': 'Bad Request',
+            'status_code': 401,
+        }
+
+    def test_that_correct_login_of_admin_returns_auth_token(self):
+        UserRepo.create_user(User(
+            email='user@domain.com',
+            password='password',
+            active=True,
+        ))
+        request_payload = {'email': 'user@domain.com', 'password': 'password'}
+        response = requests.post(self.get_server_url() + '/login', json=request_payload)
+        assert response.status_code == 200
+        assert 'access_token' in response.json()

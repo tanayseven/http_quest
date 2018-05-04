@@ -8,4 +8,6 @@ RUN pip install -e .
 
 ENV FLASK_APP="rest_test.app:app"
 
+CMD ["flask", "db", "upgrade"]
+
 CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]

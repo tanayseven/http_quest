@@ -9,6 +9,9 @@ from rest_test.view import root_view
 app: Flask = Flask(__name__.split('.')[0])
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
+app.config['JWT_AUTH_PASSWORD_KEY'] = 'password'
+app.config['JWT_AUTH_URL_RULE'] = '/login'
 
 db.init_app(app)
 migrate.init_app(app)
