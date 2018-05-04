@@ -1,12 +1,6 @@
-from typing import Tuple
-
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 
 root_view = Blueprint('root', __name__)
-
-
-def login_user(username: str, password: str) -> Tuple[bool, str]:
-    return False, ''
 
 
 @root_view.route('/', methods=('GET',))
