@@ -16,9 +16,3 @@ def login_get():
         'login_format': {'email': '<your_email>', 'password': '<your_password>'}
     }
     return jsonify(data)
-
-
-@root_view.route('/send', methods=('POST',))
-def something_else():
-    data = {'something': 'something extra'}
-    return jsonify(data)

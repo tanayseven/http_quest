@@ -1,4 +1,3 @@
-import pytest
 import requests
 
 from rest_test.model import User
@@ -6,17 +5,12 @@ from rest_test.repo import UserRepo
 from test.base import ApiTestBase, DatabaseTest
 
 
-class TestInputApi(DatabaseTest, ApiTestBase):
+class TestLoginApi(DatabaseTest, ApiTestBase):
 
     def test_that_the_get_at_root_returns_correct_value(self):
         response = requests.get(self.get_server_url())
         assert response.status_code == 200
-        assert response.json() == {'message': 'this is the / please go to /login for any further activity'}
-
-    def test_that_post_also_works_as_well(self):
-        response = requests.post(self.get_server_url() + '/send', json={'something': 'lala'})
-        assert response.status_code == 200
-        assert response.json() == {'something': 'something extra'}
+        assert 'message' in response.json()
 
     def test_that_get_at_login_returns_login_details(self):
         response = requests.get(self.get_server_url() + '/login')
