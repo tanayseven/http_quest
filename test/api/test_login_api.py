@@ -20,7 +20,7 @@ class TestLoginApi(ApiTestBase):
 
     def test_that_invalid_login_of_admin_with_invalid_email_fails(self):
         request_payload = {'email': 'foobaz', 'password': 'password'}
-        response = self.app_test.post('/login', data=json.dumps(request_payload), content_type='application/json')
+        response = self.app_test.post_json(url='/login', body=request_payload)
         assert response.status_code == 401
         assert json.loads(response.data) == {
             'description': 'Invalid credentials',
@@ -35,12 +35,12 @@ class TestLoginApi(ApiTestBase):
             active=True,
         ))
         request_payload = {'email': 'user@domain.com', 'password': 'password'}
-        response = self.app_test.post('/login', data=json.dumps(request_payload), content_type='application/json')
+        response = self.app_test.post_json(url='/login', body=request_payload)
         assert response.status_code == 200
         assert 'access_token' in json.loads(response.data)
 
     def test_that_correct_post_to_reset_password_succeeds(self):
         request_payload = {'email': 'user@domain.com'}
-        response = self.app_test.post('/forgot_password', data=json.dumps(request_payload), content_type='application/json')
+        response = self.app_test.post_json(url='/forgot_password', body=request_payload)
         assert response.status_code == 200
         assert 'message' in json.loads(response.data)
