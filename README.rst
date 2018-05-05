@@ -55,7 +55,7 @@ To run all the tests in the application run
 .. code-block:: bash
 
     ./container_exec pytest # Just run the tests
-    ./container_exec --cov rest_test test/ # Run tests with coverage
+    ./container_exec pytest --cov rest_test test/ # Run tests with coverage
 
 To perform migrations run
 
