@@ -1,30 +1,28 @@
-import requests
+from flask import json
 
 from rest_test.model import User
 from rest_test.repo import UserRepo
-from test.base import ApiTestBase, DatabaseTest
+from test.base import ApiTestBase
 
 
-class TestLoginApi(DatabaseTest, ApiTestBase):
+class TestLoginApi(ApiTestBase):
 
     def test_that_the_get_at_root_returns_correct_value(self):
-        response = requests.get(self.get_server_url())
+        response = self.app_test.get('/')
         assert response.status_code == 200
-        assert 'message' in response.json()
+        assert 'message' in json.loads(response.data)
 
     def test_that_get_at_login_returns_login_details(self):
-        response = requests.get(self.get_server_url() + '/login')
+        response = self.app_test.get('/login')
         assert response.status_code == 200
-        assert response.json() == {
-            'message': 'to login, please POST `login_format` on /login',
-            'login_format': {'email': '<your_email>', 'password': '<your_password>'}
-        }
+        assert 'message' in json.loads(response.data)
+        assert 'login_format' in json.loads(response.data)
 
     def test_that_invalid_login_of_admin_with_invalid_email_fails(self):
         request_payload = {'email': 'foobaz', 'password': 'password'}
-        response = requests.post(self.get_server_url() + '/login', json=request_payload)
+        response = self.app_test.post('/login', data=json.dumps(request_payload), content_type='application/json')
         assert response.status_code == 401
-        assert response.json() == {
+        assert json.loads(response.data) == {
             'description': 'Invalid credentials',
             'error': 'Bad Request',
             'status_code': 401,
@@ -37,6 +35,6 @@ class TestLoginApi(DatabaseTest, ApiTestBase):
             active=True,
         ))
         request_payload = {'email': 'user@domain.com', 'password': 'password'}
-        response = requests.post(self.get_server_url() + '/login', json=request_payload)
+        response = self.app_test.post('/login', data=json.dumps(request_payload), content_type='application/json')
         assert response.status_code == 200
-        assert 'access_token' in response.json()
+        assert 'access_token' in json.loads(response.data)
