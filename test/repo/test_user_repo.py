@@ -1,5 +1,5 @@
-from rest_test.model import User
-from rest_test.repo import UserRepo
+from rest_test.user.model import User
+from rest_test.user.repo import UserRepo
 from test.base import DatabaseTest
 
 
