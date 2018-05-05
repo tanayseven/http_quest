@@ -2,7 +2,7 @@ import os
 from flask import Flask
 
 from rest_test.extensions import db, jwt, migrate
-from rest_test.products.view import products_view
+from rest_test.product.view import products_view
 from rest_test.repo import UserRepo
 from rest_test.view import root_view
 
