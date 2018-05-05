@@ -38,3 +38,9 @@ class TestLoginApi(ApiTestBase):
         response = self.app_test.post('/login', data=json.dumps(request_payload), content_type='application/json')
         assert response.status_code == 200
         assert 'access_token' in json.loads(response.data)
+
+    def test_that_correct_post_to_reset_password_succeeds(self):
+        request_payload = {'email': 'user@domain.com'}
+        response = self.app_test.post('/forgot_password', data=json.dumps(request_payload), content_type='application/json')
+        assert response.status_code == 200
+        assert 'message' in json.loads(response.data)

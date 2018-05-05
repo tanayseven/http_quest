@@ -7,6 +7,11 @@ services:
     build:
       context: .
       dockerfile: Database.Dockerfile
+  mailcatcher:
+    image: "schickling/mailcatcher"
+    ports:
+      - '1080:1080'
+      - '1025:1025'
   app:
     environment:
       - DATABASE_URI=postgresql://rest_test:rest_test@database/rest_test
@@ -24,3 +29,4 @@ services:
       - '80:5000'
     depends_on:
       - database
+      - mailcatcher
