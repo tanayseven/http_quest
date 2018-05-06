@@ -54,16 +54,16 @@ To run all the tests in the application run
 
 .. code-block:: bash
 
-    ./container_exec pytest # Just run the tests
-    ./container_exec pytest --cov rest_test test/ # Run tests with coverage
+    ./app_exec pytest # Just run the tests
+    ./app_exec pytest --cov rest_test test/ # Run tests with coverage
 
 To perform migrations run
 
 .. code-block:: bash
 
-    ./container_exec flask db migrate # Detect and create migration files
-    ./container_exec flask db upgrade # Actually perform migrations on the database
-    ./container_exec flask db --help # For info about the other database migration commands
+    ./app_exec flask db migrate # Detect and create migration files
+    ./app_exec flask db upgrade # Actually perform migrations on the database
+    ./app_exec flask db --help # For info about the other database migration commands
 
 
 For Linux only: files created by container (like migration files) are owned by root because Docker runs as root
