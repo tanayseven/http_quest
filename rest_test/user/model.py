@@ -6,3 +6,4 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(128))
     active = db.Column(db.Boolean())
+    password_reset_token = db.Column(db.String(255), unique=True, nullable=True)
