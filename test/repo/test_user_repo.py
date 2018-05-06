@@ -37,7 +37,7 @@ class TestUserRepo(DatabaseTest):
             password='password',
             active=True,
         ))
-        actual_user = UserRepo.identity({'id': user.id})
+        actual_user = UserRepo.identity({'identity': user.id})
         assert actual_user == user
 
     def test_identity_should_return_none_when_given_invalid_user_id(self):

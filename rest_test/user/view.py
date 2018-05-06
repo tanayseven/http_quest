@@ -1,4 +1,5 @@
 from flask import jsonify, Blueprint
+from flask_jwt import jwt_required
 from flask_mail import Message
 
 from rest_test.extensions import mail
@@ -24,3 +25,12 @@ def password_reset():
                   body='this is the body of the message')
     mail.send(msg)
     return jsonify(data)
+
+
+@user_view.route('/user/create_new', methods=('POST',))
+@jwt_required()
+def create_new():
+    success_data = {
+        'message': 'the user has been created and the password information is sent to them',
+    }
+    return jsonify(success_data)

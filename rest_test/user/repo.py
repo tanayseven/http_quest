@@ -19,4 +19,4 @@ class UserRepo:
     @staticmethod
     def identity(payload: dict) -> Union[User, None]:
         return db.session.query(User).\
-            filter_by(id=payload.get('id')).one_or_none()
+            filter_by(id=payload.get('identity')).one_or_none()

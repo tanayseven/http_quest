@@ -9,8 +9,15 @@ from rest_test.app import app
 from rest_test.extensions import db
 
 
-def _post_json(self, url: str, body: dict):
-    return self.post(url, data=json.dumps(body), content_type='application/json')
+def _post_json(self, url: str = '/', body=None, headers=None):
+    headers = {} if headers is None else headers
+    body = {} if body is None else body
+    return self.post(
+        url,
+        data=json.dumps(body),
+        content_type='application/json',
+        headers=headers,
+    )
 
 
 class DatabaseTest:
@@ -38,4 +45,5 @@ class ApiTestBase(DatabaseTest):
     @pytest.fixture(autouse=True)
     def api_setup(self):
         self.app_test = self.create_app()
+        self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)
