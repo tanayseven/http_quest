@@ -1,6 +1,5 @@
 from flask import json
 
-from rest_test.extensions import mail
 from rest_test.user.model import User
 from test.base import ApiTestBase
 
