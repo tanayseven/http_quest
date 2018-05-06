@@ -6,7 +6,7 @@ from flask import json
 from flask.testing import FlaskClient
 
 from rest_test.app import app
-from rest_test.extensions import db
+from rest_test.extensions import db, mail
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):
@@ -42,8 +42,14 @@ class ApiTestBase(DatabaseTest):
         with app.app_context():
             return app.test_client()
 
+    @staticmethod
+    def create_outbox():
+        with mail.record_messages() as outbox:
+            return outbox
+
     @pytest.fixture(autouse=True)
     def api_setup(self):
         self.app_test = self.create_app()
+        self.mail_outbox = self.create_outbox()
         self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)
