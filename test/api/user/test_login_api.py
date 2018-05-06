@@ -1,19 +1,10 @@
 from flask import json
 
 from rest_test.user.model import User
-from rest_test.user.repo import UserRepo
 from test.base import ApiTestBase
 
 
 class TestLoginApi(ApiTestBase):
-
-    @staticmethod
-    def create_user():
-        return UserRepo.create_user(User(
-            email='user@domain.com',
-            password='password',
-            active=True,
-        ))
 
     def request_login(self, user: User) -> str:
         request_payload = {'email': user.email, 'password': user.password}

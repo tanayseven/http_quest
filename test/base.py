@@ -7,6 +7,8 @@ from flask.testing import FlaskClient
 
 from rest_test.app import app
 from rest_test.extensions import db, mail
+from rest_test.user.model import User
+from rest_test.user.repo import UserRepo
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):
@@ -32,6 +34,14 @@ class DatabaseTest:
         yield
         if hasattr(self, '_ctx'):
             self._ctx.pop()
+
+    @staticmethod
+    def create_user():
+        return UserRepo.create_user(User(
+            email='user@domain.com',
+            password='password',
+            active=True,
+        ))
 
 
 class ApiTestBase(DatabaseTest):
