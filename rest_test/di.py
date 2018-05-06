@@ -1,5 +1,10 @@
-from injector import Binder
+from flask import Flask
+from flask_mail import Mail
+from injector import Module, provider, singleton
 
 
-def configure(binder: Binder):
-    pass
+class MailModule(Module):
+    @provider
+    @singleton
+    def provide_ext(self, app: Flask) -> Mail:
+        return Mail(app)

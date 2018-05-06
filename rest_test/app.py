@@ -3,8 +3,8 @@ from flask import Flask
 from flask_injector import FlaskInjector
 
 from rest_test.config import apply_dev_config
-from rest_test.di import configure
-from rest_test.extensions import db, jwt, migrate, mail
+from rest_test.di import MailModule
+from rest_test.extensions import db, jwt, migrate
 from rest_test.product.view import products_view
 from rest_test.user.repo import UserRepo
 from rest_test.user.view import user_view
@@ -24,10 +24,10 @@ jwt.identity_handler(UserRepo.identity)
 jwt.authentication_handler(UserRepo.authenticate)
 jwt.init_app(app)
 
-mail.init_app(app)
+# mail.init_app(app)
 
 app.register_blueprint(products_view)
 app.register_blueprint(user_view)
 app.register_blueprint(root_view)
 
-FlaskInjector(app=app, modules=[configure])
+FlaskInjector(app=app, modules=[MailModule])
