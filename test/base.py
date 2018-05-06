@@ -52,14 +52,14 @@ class ApiTestBase(DatabaseTest):
         with app.app_context():
             return app.test_client()
 
-    @staticmethod
-    def create_outbox():
+    @pytest.fixture
+    def mail_outbox(self):
         with mail.record_messages() as outbox:
-            return outbox
+            yield outbox
 
     @pytest.fixture(autouse=True)
-    def api_setup(self):
+    def api_setup(self, mail_outbox):
         self.app_test = self.create_app()
-        self.mail_outbox = self.create_outbox()
+        self.mail_outbox = mail_outbox
         self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)
