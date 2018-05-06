@@ -18,8 +18,8 @@ before_script:
 
 script:
   - ./create_test_database
-  - ./container_exec pytest --cov rest_test test/
+  - ./app_exec pytest --cov rest_test test/
 
 after_script:
-  - ./container_exec coveralls
+  - ./app_exec coveralls
 
