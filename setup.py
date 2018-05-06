@@ -11,7 +11,6 @@ setup(
         'pylint==1.8.4',
         'mypy==0.580',
         'Flask-Testing==0.7.1',
-        'flask-injector==0.10.1',
         'flask-sqlalchemy==2.3.2',
         'flask-migrate==2.1.1',
         'flask-jwt==0.3.2',

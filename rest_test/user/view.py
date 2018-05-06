@@ -1,7 +1,8 @@
 from flask import jsonify, Blueprint
 from flask_jwt import jwt_required
-from flask_mail import Message, Mail
-from injector import inject
+from flask_mail import Message
+
+from rest_test.extensions import mail
 
 user_view = Blueprint('user', __name__)
 
@@ -16,8 +17,7 @@ def login_get():
 
 
 @user_view.route('/user/forgot_password', methods=('POST',))
-@inject
-def password_reset(mail: Mail):
+def password_reset():
     data = {
         'message': 'you should have received an email with password reset instructions',
     }
