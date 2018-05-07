@@ -33,3 +33,8 @@ class UserRepo:
     @staticmethod
     def reload_model(model_obj: Any):
         db.session.refresh(model_obj)
+
+    @staticmethod
+    def load_user_for_email(email: str):
+        return db.session.query(User).\
+            filter_by(email=email).one_or_none()

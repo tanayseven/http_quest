@@ -34,3 +34,12 @@ class TestUserRepo(DatabaseTest):
         token = UserRepo.create_password_reset_token(user)
         UserRepo.reload_model(user)
         assert user.password_reset_token == token
+
+    def test_load_user_for_email_should_return_a_user_if_it_exists(self):
+        expected_user = self.create_user()
+        actual_user = UserRepo.load_user_for_email(expected_user.email)
+        assert expected_user == actual_user
+
+    def test_load_user_for_email_should_not_return_a_user_if_it_does_not_exist(self):
+        fetched_user = UserRepo.load_user_for_email('foobaz')
+        assert fetched_user is None

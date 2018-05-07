@@ -13,11 +13,18 @@ class TestLoginApi(ApiTestBase):
         return token
 
     def test_that_correct_post_to_reset_password_succeeds(self):
-        request_payload = {'email': 'user@domain.com'}
+        user = self.create_user()
+        request_payload = {'email': user.email}
         response = self.app_test.post_json(url='/user/forgot_password', body=request_payload)
+        assert response.status_code == 200
+        assert 'message' in json.loads(response.data)
         assert len(self.mail_outbox) == 1
         assert self.mail_outbox[0].subject == 'Password Reset Instructions'
-        assert response.status_code == 200
+
+    def test_that_invalid_email_sent_to_reset_password_fails(self):
+        request_payload = {'email': 'foo baz'}
+        response = self.app_test.post_json(url='/user/forgot_password', body=request_payload)
+        assert response.status_code == 404
         assert 'message' in json.loads(response.data)
 
     def test_that_a_user_who_had_logged_in_can_create_other_users(self):
