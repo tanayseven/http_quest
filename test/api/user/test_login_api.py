@@ -16,6 +16,7 @@ class TestLoginApi(ApiTestBase):
         request_payload = {'email': 'user@domain.com'}
         response = self.app_test.post_json(url='/user/forgot_password', body=request_payload)
         assert len(self.mail_outbox) == 1
+        assert self.mail_outbox[0].subject == 'Password Reset Instructions'
         assert response.status_code == 200
         assert 'message' in json.loads(response.data)
 
