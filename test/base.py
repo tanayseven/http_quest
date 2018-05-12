@@ -27,7 +27,7 @@ class DatabaseTest:
     def new_user(email: str=None, password: str=None):
         return User(
             email=email or 'user@domain.com',
-            password=bcrypt.generate_password_hash(password or 'password'),
+            password=bcrypt.generate_password_hash(password or b'password'),
         )
 
     @pytest.fixture(autouse=True)
@@ -66,5 +66,8 @@ class ApiTestBase(DatabaseTest):
     def api_setup(self, mail_outbox):
         self.app_test = self.create_app()
         self.mail_outbox = mail_outbox
+        if os.environ.get('FAST_TESTS'):
+            bcrypt.generate_password_hash = lambda x: x
+            bcrypt.check_password_hash = lambda x, y: x == y
         self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)

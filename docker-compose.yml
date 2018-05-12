@@ -16,6 +16,7 @@ services:
     environment:
       - APP_ENVIRONMENT=dev
       - APP_LOCALE=en-IN
+      - FAST_TESTS=true
       - DATABASE_URI=postgresql://rest_test:rest_test@database/rest_test
       - TEST_DATABASE_URI=postgresql://rest_test:rest_test@database/test_rest_test
       - FLASK_DEBUG=true
