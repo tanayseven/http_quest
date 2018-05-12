@@ -1,14 +1,14 @@
-from types import MethodType
-
 import os
 import pytest
 from flask import json
 from flask.testing import FlaskClient
+from types import MethodType
 
 from rest_test.app import app
-from rest_test.extensions import db, mail
+from rest_test.extensions import db, mail, bcrypt
 from rest_test.user.model import User
 from rest_test.user.repo import UserRepo
+from rest_test.user.user import create_user
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):
@@ -23,6 +23,13 @@ def _post_json(self, url: str = '/', body=None, headers=None):
 
 
 class DatabaseTest:
+    @staticmethod
+    def new_user(email: str=None, password: str=None):
+        return User(
+            email=email or 'user@domain.com',
+            password=bcrypt.generate_password_hash(password or 'password'),
+        )
+
     @pytest.fixture(autouse=True)
     def database_setup(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('TEST_DATABASE_URI')
@@ -35,16 +42,13 @@ class DatabaseTest:
         if hasattr(self, '_ctx'):
             self._ctx.pop()
 
-    @staticmethod
-    def create_user():
-        return UserRepo.create_user(User(
-            email='user@domain.com',
-            password='password',
-            active=True,
-        ))
-
 
 class ApiTestBase(DatabaseTest):
+    def create_user(self):
+        create_user('user@domain.com', 'password')
+        self.mail_outbox.pop()
+        return UserRepo.fetch_user_by_email('user@domain.com')
+
     @staticmethod
     def create_app() -> FlaskClient:
         app.config['DEBUG'] = True

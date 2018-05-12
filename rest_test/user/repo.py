@@ -6,15 +6,15 @@ from rest_test.user.model import User
 
 class UserRepo:
     @staticmethod
-    def create_user(user: User) -> User:
+    def add(user: User) -> User:
         db.session.add(user)
         db.session.commit()
         return user
 
     @staticmethod
-    def user_with_email_and_password(email: str, password: str) -> Union[User, None]:
+    def fetch_user_by_email(email: str) -> Union[User, None]:
         return db.session.query(User).\
-            filter_by(email=email, password=password).one_or_none()
+            filter_by(email=email).one_or_none()
 
     @staticmethod
     def fetch_by_id(id_: int) -> Union[User, None]:
@@ -28,8 +28,8 @@ class UserRepo:
         db.session.commit()
 
     @staticmethod
-    def reload_model(model_obj: Any):
-        db.session.refresh(model_obj)
+    def reload(obj: Any):
+        db.session.refresh(obj)
 
     @staticmethod
     def load_user_for_email(email: str):

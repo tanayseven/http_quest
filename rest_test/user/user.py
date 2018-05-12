@@ -3,7 +3,7 @@ from typing import Tuple, Union
 
 from flask_mail import Message
 
-from rest_test.extensions import mail
+from rest_test.extensions import mail, bcrypt
 from rest_test.user.model import User
 from rest_test.user.repo import UserRepo
 from rest_test.user.translations import get_text
@@ -34,9 +34,27 @@ def create_password_reset_token(user: User) -> str:
     return token
 
 
+def create_user(email: str, password: str) -> bool:
+    existing_user = UserRepo.fetch_user_by_email(email)
+    if existing_user is not None:
+        return False
+    hashed_password = None
+    if password is not None:
+        hashed_password = bcrypt.generate_password_hash(password.encode())
+    UserRepo.add(User(
+        email=email,
+        password=hashed_password,
+    ))
+    reset_password_for_user_having_email(email)
+    return True
+
+
 def authenticate(email: str, password: str) -> Union[User, None]:
-    # TODO add bcrypt logic here
-    return UserRepo.user_with_email_and_password(email, password)
+    user = UserRepo.fetch_user_by_email(email)
+    if user is None:
+        return None
+    password_matches = bcrypt.check_password_hash(user.password, password.encode())
+    return user if password_matches else None
 
 
 def identity(payload: dict):

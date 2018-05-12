@@ -2,9 +2,8 @@ import os
 from flask import Flask
 
 from rest_test.config import apply_dev_config
-from rest_test.extensions import db, jwt, migrate, mail
+from rest_test.extensions import db, jwt, migrate, mail, bcrypt
 from rest_test.product.view import products_view
-from rest_test.user.repo import UserRepo
 from rest_test.user.user import authenticate, identity
 from rest_test.user.view import user_view
 from rest_test.view import root_view
@@ -24,6 +23,7 @@ jwt.authentication_handler(authenticate)
 jwt.init_app(app)
 
 mail.init_app(app)
+bcrypt.init_app(app)
 
 app.register_blueprint(products_view)
 app.register_blueprint(user_view)

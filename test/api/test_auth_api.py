@@ -1,6 +1,5 @@
 from flask import json
 
-from rest_test.user.model import User
 from rest_test.user.repo import UserRepo
 from test.base import ApiTestBase
 
@@ -24,11 +23,7 @@ class TestAuthApi(ApiTestBase):
         }
 
     def test_that_correct_login_of_admin_returns_auth_token(self):
-        UserRepo.create_user(User(
-            email='user@domain.com',
-            password='password',
-            active=True,
-        ))
+        UserRepo.add(self.new_user())
         request_payload = {'email': 'user@domain.com', 'password': 'password'}
         response = self.app_test.post_json(url='/user/login', body=request_payload)
         assert response.status_code == 200
