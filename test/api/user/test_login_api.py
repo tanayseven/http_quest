@@ -1,6 +1,7 @@
 from flask import json
 
 from rest_test.user.model import User
+from rest_test.user.translations import get_text
 from test.base import ApiTestBase
 
 
@@ -19,7 +20,7 @@ class TestLoginApi(ApiTestBase):
         assert response.status_code == 200
         assert 'message' in json.loads(response.data)
         assert len(self.mail_outbox) == 1
-        assert self.mail_outbox[0].subject == 'Password Reset Instructions'
+        assert self.mail_outbox[0].subject == get_text('password_reset_mail_subject')
 
     def test_that_invalid_email_sent_to_reset_password_fails(self):
         request_payload = {'email': 'foo baz'}
