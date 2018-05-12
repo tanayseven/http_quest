@@ -15,6 +15,7 @@ setup(
         'flask-migrate==2.1.1',
         'flask-jwt==0.3.2',
         'Flask-Mail==0.9.1',
+        'Flask-Bcrypt==0.7.1',
         'psycopg2-binary==2.7.4',
         'coveralls==1.3.0'
     ],

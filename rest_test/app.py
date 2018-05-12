@@ -5,6 +5,7 @@ from rest_test.config import apply_dev_config
 from rest_test.extensions import db, jwt, migrate, mail
 from rest_test.product.view import products_view
 from rest_test.user.repo import UserRepo
+from rest_test.user.user import authenticate, identity
 from rest_test.user.view import user_view
 from rest_test.view import root_view
 
@@ -18,8 +19,8 @@ db.init_app(app)
 migrate.init_app(app)
 
 # Add handlers for Flask-JWT
-jwt.identity_handler(UserRepo.identity)
-jwt.authentication_handler(UserRepo.authenticate)
+jwt.identity_handler(identity)
+jwt.authentication_handler(authenticate)
 jwt.init_app(app)
 
 mail.init_app(app)

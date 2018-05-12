@@ -1,4 +1,3 @@
-import uuid
 from typing import Union, Any
 
 from rest_test.extensions import db
@@ -13,22 +12,20 @@ class UserRepo:
         return user
 
     @staticmethod
-    def authenticate(email: str, password: str) -> Union[User, None]:
+    def user_with_email_and_password(email: str, password: str) -> Union[User, None]:
         return db.session.query(User).\
             filter_by(email=email, password=password).one_or_none()
 
     @staticmethod
-    def identity(payload: dict) -> Union[User, None]:
+    def fetch_by_id(id_: int) -> Union[User, None]:
         return db.session.query(User).\
-            filter_by(id=payload.get('identity')).one_or_none()
+            filter_by(id=id_).one_or_none()
 
     @staticmethod
-    def create_password_reset_token(user: User) -> str:
-        token = str(uuid.uuid4())
+    def add_password_reset_token_to_user(user: User, token: str):
         user.password_reset_token = token
         db.session.add(user)
         db.session.commit()
-        return token
 
     @staticmethod
     def reload_model(model_obj: Any):
