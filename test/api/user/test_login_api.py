@@ -9,7 +9,7 @@ from test.base import ApiTestBase
 
 class TestLoginApi(ApiTestBase):
 
-    def request_login(self, user: User, password: str=None):
+    def request_login(self, user: User, password: str = None):
         request_payload = {'email': user.email, 'password': 'password' if password is None else password}
         response = self.app_test.post_json(url='/user/login', body=request_payload)
         return response
@@ -33,6 +33,15 @@ class TestLoginApi(ApiTestBase):
         response = self.app_test.post_json(url='/user/forgot_password', body=request_payload)
         assert response.status_code == 404
         assert 'message' in json.loads(response.data)
+
+    def test_that_on_sending_invalid_json_create_other_user_fails(self):
+        token = self.request_login_token(self.create_user())
+        response = self.app_test.post_json(
+            url='/user/create_new',
+            body={},
+            headers={'Authorization': token},
+        )
+        assert response.status_code == 400
 
     def test_that_a_user_who_had_logged_in_can_create_other_users_successfully(self):
         token = self.request_login_token(self.create_user())
@@ -68,7 +77,7 @@ class TestLoginApi(ApiTestBase):
         )
         password_reset_token = json.loads(self.mail_outbox[0].body.replace("'", '"')).get('token')
         response = self.app_test.post_json(
-            url='/user/new_password/'+password_reset_token,
+            url='/user/new_password/' + password_reset_token,
             body={'new_password': 'new_password'}
         )
         assert response.status_code == 200
@@ -79,9 +88,8 @@ class TestLoginApi(ApiTestBase):
     def test_that_an_existing_user_who_has_not_reset_password_can_not_set_a_new_one(self):
         self.create_user()
         response = self.app_test.post_json(
-            url='/user/new_password/'+'foobaz',
+            url='/user/new_password/' + 'foobaz',
             body={'new_password': 'new_password'}
         )
         assert response.status_code == 400
         assert 'message' in json.loads(response.data)
-
