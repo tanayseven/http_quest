@@ -1,7 +1,6 @@
 from flask import jsonify, Blueprint, request
 from flask_jwt import jwt_required
 
-from rest_test.quiz.model import Candidate
 from rest_test.user.schema import new_password_schema, create_new_schema, password_reset_schema
 from rest_test.user.translations import get_text
 from rest_test.user.user import reset_password_for_user_having_email, create_user, update_password_for_token

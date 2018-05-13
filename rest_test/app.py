@@ -4,6 +4,7 @@ from flask import Flask
 from rest_test.config import apply_dev_config
 from rest_test.extensions import db, jwt, migrate, mail, bcrypt
 from rest_test.product.view import products_view
+from rest_test.quiz.view import quiz_view
 from rest_test.user.user import authenticate, identity
 from rest_test.user.view import user_view
 from rest_test.view import root_view
@@ -28,3 +29,4 @@ bcrypt.init_app(app)
 app.register_blueprint(products_view)
 app.register_blueprint(user_view)
 app.register_blueprint(root_view)
+app.register_blueprint(quiz_view)

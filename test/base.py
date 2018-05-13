@@ -71,3 +71,32 @@ class ApiTestBase(DatabaseTest):
             bcrypt.check_password_hash = lambda x, y: x == y
         self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)
+
+    @staticmethod
+    def request_login(app_test, user: User, password: str = None):
+        request_payload = {'email': user.email, 'password': 'password' if password is None else password}
+        response = app_test.post_json(url='/user/login', body=request_payload)
+        return response
+
+    @staticmethod
+    def request_login_token(app_test, user: User) -> str:
+        response = ApiTestBase.request_login(app_test, user)
+        token = 'JWT ' + json.loads(response.data)['access_token']
+        return token
+
+    @staticmethod
+    def assert_response_ok_and_has_message(response):
+        assert response.status_code == 200
+        assert 'message' in json.loads(response.data)
+
+    def mail_body_json(self) -> dict:
+        return json.loads(self.mail_outbox[0].body.replace("'", '"'))
+
+    def assert_has_one_mail_with_subject(self, subject):
+        assert len(self.mail_outbox) == 1
+        assert self.mail_outbox[0].subject == subject
+
+    def assert_has_one_mail_with_subject_and_recipients(self, subject, recipients):
+        self.assert_has_one_mail_with_subject(subject)
+        assert set(self.mail_outbox[0].recipients) == set(recipients)
+

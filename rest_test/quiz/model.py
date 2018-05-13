@@ -7,6 +7,9 @@ class CandidateStatus(Enum):
     ACTIVE = 'active'
     EXPIRED = 'expired'
 
+    def __str__(self) -> str:
+        return self.value
+
 
 class Candidate(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
