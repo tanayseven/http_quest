@@ -19,14 +19,26 @@ class TestLoginApi(ApiTestBase):
         token = 'JWT ' + json.loads(response.data)['access_token']
         return token
 
+    @staticmethod
+    def assert_response_ok_and_has_message(response):
+        assert response.status_code == 200
+        assert 'message' in json.loads(response.data)
+
+    def assert_has_one_mail_with_subject(self, subject):
+        assert len(self.mail_outbox) == 1
+        assert self.mail_outbox[0].subject == subject
+
+    def assert_has_one_mail_with_subject_and_recipients(self, subject, recipients):
+        self.assert_has_one_mail_with_subject(subject)
+        assert self.mail_outbox[0].recipients == recipients
+
     def test_that_correct_post_to_reset_password_succeeds(self):
         user = self.create_user()
         request_payload = {'email': user.email}
         response = self.app_test.post_json(url='/user/forgot_password', body=request_payload)
-        assert response.status_code == 200
-        assert 'message' in json.loads(response.data)
-        assert len(self.mail_outbox) == 1
-        assert self.mail_outbox[0].subject == get_text('password_reset_mail_subject')
+        self.assert_response_ok_and_has_message(response)
+        subject = get_text('password_reset_mail_subject')
+        self.assert_has_one_mail_with_subject(subject)
 
     def test_that_invalid_email_sent_to_reset_password_fails(self):
         request_payload = {'email': 'foo baz'}
@@ -52,9 +64,10 @@ class TestLoginApi(ApiTestBase):
         )
         assert response.status_code == 200
         assert 'message' in json.loads(response.data)
-        assert len(self.mail_outbox) == 1
-        assert self.mail_outbox[0].recipients == ['someuser@somedomain.com']
-        assert self.mail_outbox[0].subject == get_text('password_reset_mail_subject')
+        self.assert_has_one_mail_with_subject_and_recipients(
+            subject=get_text('password_reset_mail_subject'),
+            recipients=['someuser@somedomain.com'],
+        )
         expected_user = UserRepo.fetch_user_by_email('someuser@somedomain.com')
         assert expected_user is not None
 
@@ -80,8 +93,7 @@ class TestLoginApi(ApiTestBase):
             url='/user/new_password/' + password_reset_token,
             body={'new_password': 'new_password'}
         )
-        assert response.status_code == 200
-        assert 'message' in json.loads(response.data)
+        self.assert_response_ok_and_has_message(response)
         response = self.request_login(user, 'new_password')
         assert response.status_code == 200
 
