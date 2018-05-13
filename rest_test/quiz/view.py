@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_jwt import jwt_required
 
+from rest_test.quiz.model import QuizType
 from rest_test.quiz.quiz import create_new_candidate_token
 from rest_test.quiz.schema import new_candidate_token_schema
 from rest_test.quiz.translations import get_text
@@ -17,4 +18,13 @@ def create_candidate_token():
         'message': get_text('candidate_token_success')
     }
     create_new_candidate_token()
+    return jsonify(response), 200
+
+
+@quiz_view.route('/quiz/list_quiz_types', methods=('GET',))
+@jwt_required()
+def list_quiz_types():
+    response = {
+        'list_quiz_types': [str(type_) for type_ in QuizType]
+    }
     return jsonify(response), 200

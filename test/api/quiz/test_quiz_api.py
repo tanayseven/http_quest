@@ -1,3 +1,5 @@
+from flask import json
+
 from rest_test.quiz.model import QuizType
 from rest_test.quiz.repo import CandidateRepo
 from rest_test.quiz.translations import get_text
@@ -19,3 +21,11 @@ class TestQuizApi(ApiTestBase):
         candidate_token = self.mail_body_json().get('token')
         candidate = CandidateRepo.fetch_candidate_by_token(candidate_token)
         assert candidate.email == 'candidate@domain.com'
+
+    def test_list_quiz_type_returns_list_of_all_quizes(self):
+        token = self.request_login_token(self.app_test, self.create_user())
+        headers = {'Authorization': token}
+        response = self.app_test.get('/quiz/list_quiz_types', headers=headers)
+        assert response.status_code == 200
+        response_json = json.loads(response.data)
+        assert response_json.get('list_quiz_types') == [str(type_) for type_ in QuizType]
