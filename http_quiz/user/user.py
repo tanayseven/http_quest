@@ -3,10 +3,10 @@ from typing import Tuple, Union
 
 from flask_mail import Message
 
-from rest_test.extensions import mail, bcrypt
-from rest_test.user.model import User
-from rest_test.user.repo import UserRepo
-from rest_test.user.translations import get_text
+from http_quiz.extensions import mail, bcrypt
+from http_quiz.user.model import User
+from http_quiz.user.repo import UserRepo
+from http_quiz.user.translations import get_text
 
 
 def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:

@@ -1,4 +1,4 @@
-from rest_test.utilities import get_translation_for
+from http_quiz.utilities import get_translation_for
 
 en_IN = {
     'user_not_found': 'User could not be found',

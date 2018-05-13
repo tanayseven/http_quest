@@ -4,11 +4,11 @@ from flask import json
 from flask.testing import FlaskClient
 from types import MethodType
 
-from rest_test.app import app
-from rest_test.extensions import db, mail, bcrypt
-from rest_test.user.model import User
-from rest_test.user.repo import UserRepo
-from rest_test.user.user import create_user
+from http_quiz.app import app
+from http_quiz.extensions import db, mail, bcrypt
+from http_quiz.user.model import User
+from http_quiz.user.repo import UserRepo
+from http_quiz.user.user import create_user
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):

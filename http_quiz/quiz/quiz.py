@@ -5,11 +5,11 @@ from flask import request, json
 from flask_jwt import current_identity
 from flask_mail import Message
 
-from rest_test.extensions import mail
-from rest_test.quiz.model import Candidate, CandidateStatus
-from rest_test.quiz.repo import CandidateRepo
-from rest_test.quiz.translations import get_text
-from rest_test.user.model import User
+from http_quiz.extensions import mail
+from http_quiz.quiz.model import Candidate, CandidateStatus
+from http_quiz.quiz.repo import CandidateRepo
+from http_quiz.quiz.translations import get_text
+from http_quiz.user.model import User
 
 
 def create_new_candidate_token():

@@ -1,5 +1,5 @@
-from rest_test.translations import strings as base_string
-from rest_test.user.translations import strings as user_string
+from http_quiz.translations import strings as base_string
+from http_quiz.user.translations import strings as user_string
 
 
 def assert_keys_for_all_translations(strings: dict):

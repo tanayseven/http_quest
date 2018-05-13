@@ -1,13 +1,13 @@
 import os
 from flask import Flask
 
-from rest_test.config import apply_dev_config
-from rest_test.extensions import db, jwt, migrate, mail, bcrypt
-from rest_test.product.view import products_view
-from rest_test.quiz.view import quiz_view
-from rest_test.user.user import authenticate, identity
-from rest_test.user.view import user_view
-from rest_test.view import root_view
+from http_quiz.config import apply_dev_config
+from http_quiz.extensions import db, jwt, migrate, mail, bcrypt
+from http_quiz.product.view import products_view
+from http_quiz.quiz.view import quiz_view
+from http_quiz.user.user import authenticate, identity
+from http_quiz.user.view import user_view
+from http_quiz.view import root_view
 
 app: Flask = Flask(__name__.split('.')[0])
 

@@ -1,7 +1,7 @@
 from typing import Union, Any
 
-from rest_test.extensions import db
-from rest_test.user.model import User
+from http_quiz.extensions import db
+from http_quiz.user.model import User
 
 
 class UserRepo:

@@ -1,8 +1,8 @@
 from flask import json
 
-from rest_test.user.repo import UserRepo
-from rest_test.user.translations import get_text
-from rest_test.user.user import create_user
+from http_quiz.user.repo import UserRepo
+from http_quiz.user.translations import get_text
+from http_quiz.user.user import create_user
 from test.base import ApiTestBase
 
 

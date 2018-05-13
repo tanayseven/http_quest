@@ -18,14 +18,14 @@
     :alt: GitHub repo size in bytes
 
 
-Rest Test
-=============
+HTTP Quiz
+=========
 
 
-Test people using REST
-----------------------
+Have your own quiz over HTTP
+----------------------------
 
-A modular platform that helps you add your own Rest Tests
+A modular platform that helps you add your custom Quiz
 
 
 Prerequisites
@@ -55,7 +55,7 @@ To run all the tests in the application run
 .. code-block:: bash
 
     ./app_exec pytest # Just run the tests
-    ./app_exec pytest --cov rest_test test/ # Run tests with coverage
+    ./app_exec pytest --cov http_quiz test/ # Run tests with coverage
 
 To perform migrations run
 

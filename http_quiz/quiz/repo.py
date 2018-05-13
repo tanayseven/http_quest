@@ -1,7 +1,7 @@
 from typing import Union
 
-from rest_test.extensions import db
-from rest_test.quiz.model import Candidate
+from http_quiz.extensions import db
+from http_quiz.quiz.model import Candidate
 
 
 class CandidateRepo:

@@ -1,6 +1,6 @@
 import uuid
 
-from rest_test.user.repo import UserRepo
+from http_quiz.user.repo import UserRepo
 from test.base import DatabaseTest
 
 

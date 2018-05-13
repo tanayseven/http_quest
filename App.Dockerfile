@@ -6,7 +6,7 @@ ADD . /app
 
 RUN pip install -e .
 
-ENV FLASK_APP="rest_test.app:app"
+ENV FLASK_APP="http_quiz.app:app"
 
 CMD ["flask", "db", "upgrade"]
 
