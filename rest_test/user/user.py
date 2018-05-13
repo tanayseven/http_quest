@@ -56,8 +56,7 @@ def update_password_for_token(reset_token: str, password: str) -> bool:
         user.password_reset_token = ''
         UserRepo.save_and_reload(user)
         return True
-    else:
-        return False
+    return False
 
 
 def authenticate(email: str, password: str) -> Union[User, None]:
