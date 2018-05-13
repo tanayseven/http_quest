@@ -51,5 +51,3 @@ def new_password(reset_token: str):
     if success:
         return jsonify(success_response), 200
     return jsonify({'message': get_text('invalid_password_token')}), 400
-
-Candidate()
