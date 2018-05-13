@@ -49,6 +49,17 @@ def create_user(email: str, password: str) -> bool:
     return True
 
 
+def update_password_for_token(reset_token: str, password: str) -> bool:
+    user = UserRepo.fetch_user_by_reset_token(reset_token)
+    if user is not None:
+        user.password = bcrypt.generate_password_hash(password.encode())
+        user.password_reset_token = ''
+        UserRepo.save_and_reload(user)
+        return True
+    else:
+        return False
+
+
 def authenticate(email: str, password: str) -> Union[User, None]:
     user = UserRepo.fetch_user_by_email(email)
     if user is None:

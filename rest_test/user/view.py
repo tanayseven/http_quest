@@ -2,7 +2,7 @@ from flask import jsonify, Blueprint, request
 from flask_jwt import jwt_required
 
 from rest_test.user.translations import get_text
-from rest_test.user.user import reset_password_for_user_having_email, create_user
+from rest_test.user.user import reset_password_for_user_having_email, create_user, update_password_for_token
 
 user_view = Blueprint('user', __name__)
 
@@ -33,5 +33,15 @@ def create_new():
     success = create_user(request.json.get('email'), request.json.get('password'))
     if success:
         return jsonify(success_data)
-    else:
-        return jsonify({'message': get_text('user_already_exists')}), 400
+    return jsonify({'message': get_text('user_already_exists')}), 400
+
+
+@user_view.route('/user/new_password/<reset_token>', methods=('POST',))
+def new_password(reset_token: str):
+    success_response = {
+        'message': get_text('password_successfully_reset')
+    }
+    success = update_password_for_token(reset_token, request.json.get('new_password'))
+    if success:
+        return jsonify(success_response), 200
+    return jsonify({'message': get_text('invalid_password_token')}), 400

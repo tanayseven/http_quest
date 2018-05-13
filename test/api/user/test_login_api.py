@@ -9,9 +9,13 @@ from test.base import ApiTestBase
 
 class TestLoginApi(ApiTestBase):
 
-    def request_login(self, user: User) -> str:
-        request_payload = {'email': user.email, 'password': 'password'}
+    def request_login(self, user: User, password: str=None):
+        request_payload = {'email': user.email, 'password': 'password' if password is None else password}
         response = self.app_test.post_json(url='/user/login', body=request_payload)
+        return response
+
+    def request_login_token(self, user: User) -> str:
+        response = self.request_login(user)
         token = 'JWT ' + json.loads(response.data)['access_token']
         return token
 
@@ -31,7 +35,7 @@ class TestLoginApi(ApiTestBase):
         assert 'message' in json.loads(response.data)
 
     def test_that_a_user_who_had_logged_in_can_create_other_users_successfully(self):
-        token = self.request_login(self.create_user())
+        token = self.request_login_token(self.create_user())
         response = self.app_test.post_json(
             url='/user/create_new',
             body={'email': 'someuser@somedomain.com'},
@@ -46,7 +50,7 @@ class TestLoginApi(ApiTestBase):
         assert expected_user is not None
 
     def test_that_new_user_should_not_be_created_if_it_already_exists(self):
-        token = self.request_login(self.create_user())
+        token = self.request_login_token(self.create_user())
         create_user('someuser@somedomain.com', 'password')
         response = self.app_test.post_json(
             url='/user/create_new',
@@ -55,3 +59,29 @@ class TestLoginApi(ApiTestBase):
         )
         assert response.status_code == 400
         assert 'message' in json.loads(response.data)
+
+    def test_that_an_existing_user_who_has_reset_password_can_set_a_new_one(self):
+        user = self.create_user()
+        self.app_test.post_json(
+            url='/user/forgot_password',
+            body={'email': user.email},
+        )
+        password_reset_token = json.loads(self.mail_outbox[0].body.replace("'", '"')).get('token')
+        response = self.app_test.post_json(
+            url='/user/new_password/'+password_reset_token,
+            body={'new_password': 'new_password'}
+        )
+        assert response.status_code == 200
+        assert 'message' in json.loads(response.data)
+        response = self.request_login(user, 'new_password')
+        assert response.status_code == 200
+
+    def test_that_an_existing_user_who_has_not_reset_password_can_not_set_a_new_one(self):
+        self.create_user()
+        response = self.app_test.post_json(
+            url='/user/new_password/'+'foobaz',
+            body={'new_password': 'new_password'}
+        )
+        assert response.status_code == 400
+        assert 'message' in json.loads(response.data)
+

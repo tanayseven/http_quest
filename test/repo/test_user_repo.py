@@ -30,7 +30,7 @@ class TestUserRepo(DatabaseTest):
         user = UserRepo.add(self.new_user())
         token = str(uuid.uuid4())
         UserRepo.add_password_reset_token_to_user(user, token)
-        UserRepo.reload(user)
+        UserRepo.save_and_reload(user)
         assert user.password_reset_token == token
 
     def test_load_user_for_email_should_return_a_user_if_it_exists(self):
@@ -41,3 +41,13 @@ class TestUserRepo(DatabaseTest):
     def test_load_user_for_email_should_not_return_a_user_if_it_does_not_exist(self):
         fetched_user = UserRepo.load_user_for_email('foobaz')
         assert fetched_user is None
+
+    def test_fetch_user_by_reset_token_should_return_the_correct_user(self):
+        UserRepo.add(self.new_user('user1@domain.com'))
+        expected_user = UserRepo.add(self.new_user())
+        UserRepo.add(self.new_user('user2@domain.com'))
+        token = str(uuid.uuid4())
+        expected_user.password_reset_token = token
+        UserRepo.save_and_reload(expected_user)
+        actual_user = UserRepo.fetch_user_by_reset_token(token)
+        assert actual_user == expected_user

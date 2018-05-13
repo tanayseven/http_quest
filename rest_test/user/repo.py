@@ -28,10 +28,17 @@ class UserRepo:
         db.session.commit()
 
     @staticmethod
-    def reload(obj: Any):
+    def save_and_reload(obj: Any):
+        db.session.add(obj)
+        db.session.commit()
         db.session.refresh(obj)
 
     @staticmethod
-    def load_user_for_email(email: str):
+    def load_user_for_email(email: str) -> User:
         return db.session.query(User).\
             filter_by(email=email).one_or_none()
+
+    @staticmethod
+    def fetch_user_by_reset_token(reset_token: str) -> User:
+        return db.session.query(User).\
+            filter_by(password_reset_token=reset_token).one_or_none()
