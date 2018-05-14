@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   database:
     environment:
@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: Database.Dockerfile
+    tmpfs: /pgtmpfs
   mailcatcher:
     image: "schickling/mailcatcher"
     ports:
