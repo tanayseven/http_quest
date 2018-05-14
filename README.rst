@@ -35,20 +35,21 @@ Files and directories in root
 -----------------------------
 
 1. ``http_quiz`` contains the main source code which is the production code that runs this application. These are
-further divided into modules, each module handling some responsibility in the system. Checkout the subsection modules_.
+   further divided into modules, each module handling some responsibility in the system. Checkout the subsection
+   modules_.
 2. ``migrations`` contains the database migration files right from the very first migration to the latest one. use the
-command ``flask db --help`` to know how to use migrations.
+   command ``flask db --help`` to know how to use migrations.
 3. ``test`` contains the source code which tests the production code. Most of the tests written in the ``test``
-directory are HTTP api level tests.
+   directory are HTTP api level tests.
 4. ``create_test_database`` creates test database in the postgres container. This will be helpful for creating a test
-database after just starting a container esp. if you change the schema of the database and need to flush the existing
-test database.
+   database after just starting a container esp. if you change the schema of the database and need to flush the existing
+   test database.
 5. ``app_exec`` is used to execute a command inside the app container from the outside. The app container is the
-container that runs the flask web app.
+   container that runs the flask web app.
 6. ``db_exec`` is used to execute a command inside the database container from the outside. The database container is
-the container that runs postgres.
+   the container that runs postgres.
 7. ``reset_ownership`` (for linux) is used for resetting the permissions of the files that are generated/created from
-inside the containers in the shared volume. They are by default owned by root on creation.
+   inside the containers in the shared volume. They are by default owned by root on creation.
 
 .. _modules:
 
@@ -59,18 +60,18 @@ The project consists of modules which is further divided into different files.
 
 1. ``model.py`` contains all the models needed by the module in which this is placed. The models in this place.
 2. ``repo.py`` contains the data manipulation functionality abstracting out the handling of database sessions. It also
-uses different models of various different modules.
+   uses different models of various different modules.
 3. ``translations.py`` contains localized translation for all the strings used throughout the project.
 4. ``schema.py`` contains json schema that is used to validate JSON entering an HTTP endpoint
 5. ``view.py`` contains definition of an HTTP endpoint which can either be a GET or a POST
-7. ``<business_logic>.py`` something like for example ``user.py`` which will contain all the business logic for that
-sub-domain, in this example it will contain business logic for the user sub-domain.
+6. ``<business_logic>.py`` something like for example ``user.py`` which will contain all the business logic for that
+   sub-domain, in this example it will contain business logic for the user sub-domain.
 
 Setting up and using
 ====================
 
 Prerequisites
-~~~~~~~~~~~~~
+-------------
 
 * Docker
 * Docker Compose
@@ -107,7 +108,7 @@ To perform migrations run
     ./app_exec flask db --help # For info about the other database migration commands
 
 
-For Linux only: files created by container (like migration files) are owned by root because Docker runs as root
+For Linux only: files created by a container (like migration files) are owned by root because Docker runs as root
 
 .. code-block:: bash
 
