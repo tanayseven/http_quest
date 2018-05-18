@@ -22,7 +22,7 @@ class TestQuizApi(ApiTestBase):
         candidate = CandidateRepo.fetch_candidate_by_token(candidate_token)
         assert candidate.email == 'candidate@domain.com'
 
-    def test_list_quiz_type_returns_list_of_all_quizes(self):
+    def test_list_quiz_type_returns_list_of_all_quizzes(self):
         token = self.request_login_token(self.app_test, self.create_user())
         headers = {'Authorization': token}
         response = self.app_test.get('/quiz/list_quiz_types', headers=headers)
