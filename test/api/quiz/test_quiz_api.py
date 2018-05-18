@@ -7,7 +7,7 @@ from test.base import ApiTestBase
 
 
 class TestQuizApi(ApiTestBase):
-    def test_creation_of_new_candidate_token_should_successfully_send_two_emails(self):
+    def test_creation_of_new_candidate_token_should_successfully_send_emails_to_two_recipients(self):
         user = self.create_user()
         token = self.request_login_token(self.app_test, user)
         body = {'email': 'candidate@domain.com', 'name': 'Jane Doe', 'quiz_type': str(QuizType.SEQUENTIAL)}
