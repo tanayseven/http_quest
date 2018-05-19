@@ -53,6 +53,7 @@ class ApiTestBase(DatabaseTest):
     def create_app() -> FlaskClient:
         app.config['DEBUG'] = True
         app.config['TESTING'] = True
+        app.config['MAIL_SUPPRESS_SEND'] = True
         mail.init_app(app)
         with app.app_context():
             return app.test_client()
