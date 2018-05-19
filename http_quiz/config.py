@@ -12,5 +12,6 @@ def apply_dev_config(app):
         JWT_AUTH_URL_RULE='/user/login',
         MAIL_SERVER='mailcatcher',
         MAIL_PORT='1025',
+        MAIL_SUPPRESS_SEND=False,
         MAIL_DEFAULT_SENDER='noreply@resttest.com',
     )

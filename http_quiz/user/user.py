@@ -13,6 +13,11 @@ def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:
     user = UserRepo.load_user_for_email(email)
     if user is None:
         return {'message': get_text('user_not_found')}, False
+    reset_password_for_user(user)
+    return {'message': get_text('password_reset_instructions_sent_to_email')}, True
+
+
+def reset_password_for_user(user: User):
     token = create_password_reset_token(user)
     msg = Message(
         get_text('password_reset_mail_subject'),
@@ -25,7 +30,6 @@ def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:
             },
         }))
     mail.send(msg)
-    return {'message': get_text('password_reset_instructions_sent_to_email')}, True
 
 
 def create_password_reset_token(user: User) -> str:
@@ -34,18 +38,18 @@ def create_password_reset_token(user: User) -> str:
     return token
 
 
-def create_user(email: str, password: str) -> bool:
+def create_user(email: str, password: str=None) -> bool:
     existing_user = UserRepo.fetch_user_by_email(email)
     if existing_user is not None:
         return False
     hashed_password = None
     if password is not None:
         hashed_password = bcrypt.generate_password_hash(password.encode())
-    UserRepo.add(User(
+    user = UserRepo.add(User(
         email=email,
         password=hashed_password,
     ))
-    reset_password_for_user_having_email(email)
+    reset_password_for_user(user)
     return True
 
 

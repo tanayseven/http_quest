@@ -1,11 +1,14 @@
 import os
+
+import click
 from flask import Flask
+from flask.cli import with_appcontext
 
 from http_quiz.config import apply_dev_config
 from http_quiz.extensions import db, jwt, migrate, mail, bcrypt
 from http_quiz.product.view import products_view
 from http_quiz.quiz.view import quiz_view
-from http_quiz.user.user import authenticate, identity
+from http_quiz.user.user import authenticate, identity, create_user
 from http_quiz.user.view import user_view
 from http_quiz.view import root_view
 
@@ -30,3 +33,15 @@ app.register_blueprint(products_view)
 app.register_blueprint(user_view)
 app.register_blueprint(root_view)
 app.register_blueprint(quiz_view)
+
+
+@app.cli.command()
+@click.argument('email')
+def create_new_admin(email):
+    """Creates a new admin with the given username"""
+    success = create_user(email=email)
+    if success:
+        click.echo('Created a new user with the email: ' + email)
+        return
+    exit(-1)
+    click.echo('Sorry something went wrong')

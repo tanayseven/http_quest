@@ -13,7 +13,7 @@ def get_translation_for(strings: dict, key: str) -> str:
 
 def fetch_locale_from_request_else_use_default():
     return (
-        request.headers.get('Accept-Language') and request.headers.get('Accept-Language').split(',')[0]
+        request and request.headers.get('Accept-Language') and request.headers.get('Accept-Language').split(',')[0]
         or os.environ.get('APP_LOCALE')
     )
 
