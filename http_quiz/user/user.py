@@ -20,7 +20,7 @@ def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:
 
 
 def reset_password_for_user(user: User):
-    token = create_password_reset_token(user)
+    token = _create_password_reset_token(user)
     msg = Message(
         get_text('password_reset_mail_subject'),
         recipients=[user.email],
@@ -29,25 +29,33 @@ def reset_password_for_user(user: User):
     mail.send(msg)
 
 
-def create_password_reset_token(user: User) -> str:
+def _create_password_reset_token(user: User) -> str:
     token = str(uuid.uuid4())
     UserRepo.add_password_reset_token_to_user(user, token)
     return token
 
 
 def create_user(email: str, password: str=None) -> bool:
-    existing_user = UserRepo.fetch_user_by_email(email)
-    if existing_user is not None:
-        return False
-    hashed_password = None
-    if password is not None:
-        hashed_password = bcrypt.generate_password_hash(password).decode()
+    hashed_password, success = _generate_hashed_password_if_user_email_exists(email, password)
+    if not success:
+        return success
     user = UserRepo.add(User(
         email=email,
         password=hashed_password,
     ))
     reset_password_for_user(user)
     return True
+
+
+def _generate_hashed_password_if_user_email_exists(email, password):
+    success = True
+    hashed_password = None
+    existing_user = UserRepo.fetch_user_by_email(email)
+    if existing_user is not None:
+        success = False
+    if password is not None:
+        hashed_password = bcrypt.generate_password_hash(password).decode()
+    return hashed_password, success
 
 
 def update_password_for_token(reset_token: str, password: str) -> bool:
