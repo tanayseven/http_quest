@@ -29,7 +29,7 @@ class DatabaseTest:
     def new_user(email: str=None, password: str=None):
         return User(
             email=email or 'user@domain.com',
-            password=bcrypt.generate_password_hash(password or 'password'),
+            password=bcrypt.generate_password_hash(password or 'password').decode(),
         )
 
     @pytest.fixture(autouse=True)
