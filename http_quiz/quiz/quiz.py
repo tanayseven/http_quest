@@ -1,7 +1,8 @@
 import uuid
 from datetime import datetime
+from functools import wraps
 
-from flask import request, json
+from flask import request, json, jsonify
 from flask_jwt import current_identity
 from flask_mail import Message
 
@@ -21,6 +22,7 @@ def create_new_candidate_token():
         created_at=datetime.now(),
         token=token,
         quiz_type=request.json.get('quiz_type'),
+        quiz_name=request.json.get('quiz_name'),
         status=str(CandidateStatus.ACTIVE),
         created_by=user.id,
     )
@@ -33,3 +35,17 @@ def create_new_candidate_token():
             'token': token,
         })
     ))
+
+
+def candidate_token_required(quiz_type: str, quiz_name: str):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            candidate = CandidateRepo.fetch_candidate_by_token(request.headers.get('Authorization'))
+            if candidate.quiz_type == quiz_type and candidate.quiz_name == quiz_name:
+                return f(*args, **kwargs)
+            return jsonify({'message': 'Invalid Authorization Token'}), 401
+
+        return decorated_function
+
+    return decorator

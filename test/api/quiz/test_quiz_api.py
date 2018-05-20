@@ -7,10 +7,19 @@ from test.base import ApiTestBase
 
 
 class TestQuizApi(ApiTestBase):
+    @staticmethod
+    def sample_quiz_creation_body():
+        return {
+            'email': 'candidate@domain.com',
+            'name': 'Jane Doe',
+            'quiz_type': str(QuizType.SEQUENTIAL),
+            'quiz_name': 'products',
+        }
+
     def test_creation_of_new_candidate_token_should_successfully_send_emails_to_two_recipients(self):
         user = self.create_user()
         token = self.request_login_token(self.app_test, user)
-        body = {'email': 'candidate@domain.com', 'name': 'Jane Doe', 'quiz_type': str(QuizType.SEQUENTIAL)}
+        body = self.sample_quiz_creation_body()
         headers = {'Authorization': token}
         response = self.app_test.post_json(url='/quiz/new_candidate_token', body=body, headers=headers)
         assert response.status_code == 200

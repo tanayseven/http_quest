@@ -27,6 +27,7 @@ class Candidate(db.Model):
     created_at = db.Column(db.DateTime)
     token = db.Column(db.String(255), unique=True)
     quiz_type = db.Column(db.String(255), nullable=False)
+    quiz_name = db.Column(db.String(255), nullable=False)
     status = db.Column(db.String(64))
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
 
