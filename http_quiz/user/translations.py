@@ -30,6 +30,7 @@ hi_IN = {
 
 strings = {
     'en-IN': en_IN,
+    'en-US': en_IN,
     'hi-IN': hi_IN,
 }
 

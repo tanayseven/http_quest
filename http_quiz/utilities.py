@@ -13,9 +13,7 @@ def fetch_locale_from_request_else_use_default():
 
 
 def get_translation_for(strings: dict, key: str) -> str:
-    return strings.get(
-        fetch_locale_from_request_else_use_default()
-    ).get(key)
+    return strings.get(fetch_locale_from_request_else_use_default()).get(key)
 
 
 def load_template(template_name: str, args: dict):
