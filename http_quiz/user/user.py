@@ -1,12 +1,14 @@
 import uuid
 from typing import Tuple, Union
 
+from flask import json
 from flask_mail import Message
 
 from http_quiz.extensions import mail, bcrypt
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.translations import get_text
+from http_quiz.utilities import load_template
 
 
 def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:
@@ -22,13 +24,8 @@ def reset_password_for_user(user: User):
     msg = Message(
         get_text('password_reset_mail_subject'),
         recipients=[user.email],
-        body=str({
-            'message': get_text('password_reset_mail_message'),
-            'token': token,
-            'json_format': {
-                'new_password': '<password>',
-            },
-        }))
+        body=load_template('password_reset.html', {'token': token}),
+    )
     mail.send(msg)
 
 

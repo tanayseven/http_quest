@@ -2,7 +2,6 @@ import os
 
 import click
 from flask import Flask
-from flask.cli import with_appcontext
 
 from http_quiz.config import apply_dev_config
 from http_quiz.extensions import db, jwt, migrate, mail, bcrypt
@@ -12,7 +11,7 @@ from http_quiz.user.user import authenticate, identity, create_user
 from http_quiz.user.view import user_view
 from http_quiz.view import root_view
 
-app: Flask = Flask(__name__.split('.')[0])
+app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
 if os.environ.get('APP_ENVIRONMENT').lower() == 'dev':
     apply_dev_config(app)
@@ -41,7 +40,7 @@ def create_new_admin(email):
     """Creates a new admin with the given username"""
     success = create_user(email=email)
     if success:
-        click.echo('Created a new user with the email: ' + email)
+        print('Created a new user with the email: ' + email)
         return
+    print('Sorry something went wrong')
     exit(-1)
-    click.echo('Sorry something went wrong')

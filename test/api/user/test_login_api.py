@@ -64,7 +64,7 @@ class TestLoginApi(ApiTestBase):
             url='/user/forgot_password',
             body={'email': user.email},
         )
-        password_reset_token = self.mail_body_json().get('token')
+        password_reset_token = self.mail_body_extract_token()
         response = self.app_test.post_json(
             url='/user/new_password/' + password_reset_token,
             body={'new_password': 'new_password'}

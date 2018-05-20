@@ -1,4 +1,6 @@
 import os
+import re
+
 import pytest
 from flask import json
 from flask.testing import FlaskClient
@@ -92,6 +94,11 @@ class ApiTestBase(DatabaseTest):
 
     def mail_body_json(self) -> dict:
         return json.loads(self.mail_outbox[0].body.replace("'", '"'))
+
+    def mail_body_extract_token(self) -> str:
+        uuid_pattern = re.compile(r'([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})')
+        match = uuid_pattern.search(self.mail_outbox[0].body)
+        return match.string[match.start():match.end()]
 
     def assert_has_one_mail_with_subject(self, subject):
         assert len(self.mail_outbox) == 1
