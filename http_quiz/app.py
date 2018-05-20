@@ -7,6 +7,7 @@ from http_quiz.config import apply_dev_config
 from http_quiz.extensions import db, jwt, migrate, mail, bcrypt
 from http_quiz.product.view import products_view
 from http_quiz.quiz.view import quiz_view
+from http_quiz.user.model import User
 from http_quiz.user.user import authenticate, identity, create_user
 from http_quiz.user.view import user_view
 from http_quiz.view import root_view
@@ -44,3 +45,5 @@ def create_new_admin(email):
         return
     print('Sorry something went wrong')
     exit(-1)
+
+User()

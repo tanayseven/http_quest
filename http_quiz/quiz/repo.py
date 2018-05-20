@@ -14,4 +14,5 @@ class CandidateRepo:
     @staticmethod
     def fetch_candidate_by_token(token: str) -> Union[Candidate, None]:
         return db.session.query(Candidate).\
-            filter_by(token=token).one_or_none()
+            filter(Candidate.token == token).one_or_none()
+
