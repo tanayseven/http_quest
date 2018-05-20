@@ -63,7 +63,7 @@ The project consists of modules which is further divided into different files.
    uses different models of various different modules.
 3. ``translations.py`` contains localized translation for all the strings used throughout the project.
 4. ``schema.py`` contains json schema that is used to validate JSON entering an HTTP endpoint
-5. ``view.py`` contains definition of an HTTP endpoint which can either be a GET or a POST
+5. ``view.py`` contains definitions of HTTP endpoints which can either be GET or POST or any other ones
 6. ``<business_logic>.py`` something like for example ``user.py`` which will contain all the business logic for that
    sub-domain, in this example it will contain business logic for the user sub-domain.
 
