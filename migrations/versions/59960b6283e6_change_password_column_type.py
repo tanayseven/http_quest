@@ -13,7 +13,7 @@ import sqlalchemy as sa
 from http_quiz.app import app
 from http_quiz.extensions import db
 from http_quiz.user.model import User
-from http_quiz.user.user import reset_password_for_user
+from http_quiz.user.user import _reset_password_for_user
 
 revision = '59960b6283e6'
 down_revision = 'ffc021d174b1'
@@ -49,4 +49,4 @@ def before_password_column_change():
 def after_password_column_change(users):
     with app.app_context():
         for user in users:
-            reset_password_for_user(user)
+            _reset_password_for_user(user)
