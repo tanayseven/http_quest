@@ -46,4 +46,3 @@ def create_new_admin(email):
     print('Sorry something went wrong')
     exit(-1)
 
-User()
