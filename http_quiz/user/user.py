@@ -34,10 +34,7 @@ def create_user(email: str, password: str=None) -> bool:
     hashed_password, success = _generate_hashed_password_if_user_email_exists(email, password)
     if not success:
         return success
-    user = UserRepo.add(User(
-        email=email,
-        password=hashed_password,
-    ))
+    user = UserRepo.add(User(email=email, password=hashed_password))
     _reset_password_for_user(user)
     return True
 
