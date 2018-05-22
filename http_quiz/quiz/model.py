@@ -35,6 +35,7 @@ class Candidate(db.Model):
 class SequentialQuiz(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidate.id'))
+    problem_number = db.Column(db.Integer)
     input = db.Column(JSONB)
     output = db.Column(JSONB)
     attempts = db.Column(db.Integer, default=1)
