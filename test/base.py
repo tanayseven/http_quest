@@ -26,7 +26,7 @@ def _post_json(self, url: str = '/', body=None, headers=None):
 
 class DatabaseTest:
     @staticmethod
-    def new_user(email: str=None, password: str=None):
+    def new_user(email: str = None, password: str = None):
         return User(
             email=email or 'user@domain.com',
             password=bcrypt.generate_password_hash(password or 'password').decode(),
@@ -50,6 +50,9 @@ class ApiTestBase(DatabaseTest):
         create_user('user@domain.com', 'password')
         self.mail_outbox.pop()
         return UserRepo.fetch_user_by_email('user@domain.com')
+
+    def create_candidate(self):
+        pass  # TODO add new candidate creation here
 
     @staticmethod
     def create_app() -> FlaskClient:
@@ -111,4 +114,3 @@ class ApiTestBase(DatabaseTest):
     def assert_has_one_mail_with_subject_and_recipients(self, subject, recipients):
         self.assert_has_one_mail_with_subject(subject)
         assert set(self.mail_outbox[0].recipients) == set(recipients)
-

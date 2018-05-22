@@ -15,4 +15,4 @@ def root():
 @products_view.route('/product_quiz/problem_statement', methods=('GET',))
 @candidate_token_required('sequential', 'product_quiz')
 def problem_statement():
-    pass
+    data = {'message': ''}

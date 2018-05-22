@@ -16,7 +16,7 @@ services:
   app:
     environment:
       - APP_ENVIRONMENT=dev
-      - APP_LOCALE=en-IN
+      - APP_LOCALE=hi-IN
       - FAST_TESTS=true
       - DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz
       - TEST_DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz_test
