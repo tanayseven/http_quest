@@ -13,7 +13,7 @@ class TestQuizApi(ApiTestBase):
             'email': 'candidate@domain.com',
             'name': 'Jane Doe',
             'quiz_type': str(QuizType.SEQUENTIAL),
-            'quiz_name': 'products',
+            'quiz_name': 'product',
         }
 
     def test_creation_of_new_candidate_token_should_successfully_send_emails_to_two_recipients(self):
@@ -27,7 +27,7 @@ class TestQuizApi(ApiTestBase):
             get_text('candidate_token_mail_subject'),
             [body.get('email'), user.email]
         )
-        candidate_token = self.mail_body_json().get('token')
+        candidate_token = self.mail_body_extract_token()
         candidate = CandidateRepo.fetch_candidate_by_token(candidate_token)
         assert candidate.email == 'candidate@domain.com'
 

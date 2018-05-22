@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from functools import wraps
 
-from flask import request, json, jsonify
+from flask import request, jsonify, url_for
 from flask_jwt import current_identity
 from flask_mail import Message
 
@@ -11,6 +11,7 @@ from http_quiz.quiz.model import Candidate, CandidateStatus
 from http_quiz.quiz.repo import CandidateRepo
 from http_quiz.quiz.translations import get_text
 from http_quiz.user.model import User
+from http_quiz.utilities import load_template
 
 
 def create_new_candidate_token():
@@ -30,10 +31,11 @@ def create_new_candidate_token():
     mail.send(Message(
         get_text('candidate_token_mail_subject'),
         recipients=[user.email, candidate.email],
-        body=json.dumps({
-            'message': get_text('candidate_token_mail_body'),
+        body=load_template('candidate_token.html', {
             'token': token,
-        })
+            'candidate_name': candidate.name,
+            'quiz_url': url_for(candidate.quiz_name + '_quiz.problem_statement'),
+        }),
     ))
 
 
