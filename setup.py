@@ -18,6 +18,6 @@ setup(
         'Flask-Bcrypt==0.7.1',
         'cerberus==1.2',
         'psycopg2-binary==2.7.4',
-        'coveralls==1.3.0'
+        'coveralls==1.3.0',
     ],
 )
