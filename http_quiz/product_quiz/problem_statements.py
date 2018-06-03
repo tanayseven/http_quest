@@ -26,8 +26,8 @@ class Product:
     start_date: datetime = datetime.now()
     end_date: datetime = datetime.now()
 
-    def __init__(self, id: int=0):
-        self.name = list(name_with_categories.keys())[id]
+    def __init__(self, id_: int=0):
+        self.name = list(name_with_categories.keys())[id_]
         self.category = name_with_categories[self.name]
         self.price = random.randrange(100, 10000)
 
