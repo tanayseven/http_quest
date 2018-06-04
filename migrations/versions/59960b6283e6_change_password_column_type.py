@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 from http_quiz.app import app
-from http_quiz.extensions import db
+from http_quiz.ext import db
 from http_quiz.user.model import User
 from http_quiz.user.user import _reset_password_for_user
 

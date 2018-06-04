@@ -3,7 +3,8 @@ import os
 import click
 from flask import Flask
 
-from http_quiz.extensions import db, jwt, migrate, mail
+from http_quiz.extensions import jwt, migrate, mail
+from http_quiz.ext import db
 from http_quiz.product_quiz.view import products_view
 from http_quiz.quiz.view import quiz_view
 from http_quiz.user.user import identity, bcrypt_auth

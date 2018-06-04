@@ -7,7 +7,8 @@ from flask.testing import FlaskClient
 from injector import inject
 
 from http_quiz.app import app
-from http_quiz.extensions import db, mail
+from http_quiz.extensions import mail
+from http_quiz.ext import db
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.user import bcrypt_auth

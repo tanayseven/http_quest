@@ -1,6 +1,6 @@
 from typing import Union
 
-from http_quiz.extensions import db
+from http_quiz.ext import db
 from http_quiz.quiz.model import Candidate
 
 

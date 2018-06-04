@@ -1,4 +1,4 @@
-from http_quiz.extensions import db
+from http_quiz.ext import db
 
 
 class User(db.Model):
