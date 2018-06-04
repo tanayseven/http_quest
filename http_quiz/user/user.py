@@ -3,9 +3,9 @@ from typing import Tuple, Union
 
 from flask_bcrypt import Bcrypt
 from flask_mail import Message
-from injector import inject, Injector
+from injector import inject
 
-from http_quiz.config import injector
+from http_quiz.di import injector
 from http_quiz.extensions import mail
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo

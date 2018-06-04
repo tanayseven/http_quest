@@ -1,5 +1,5 @@
-from flask import json
 import pytest
+from flask import json
 
 from test.base import ApiTestBase
 

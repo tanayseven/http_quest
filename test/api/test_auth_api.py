@@ -1,4 +1,3 @@
-import pytest
 from flask import json
 
 from http_quiz.user.repo import UserRepo

@@ -64,18 +64,10 @@ class ApiTestBase(DatabaseTest):
         with mail.record_messages() as outbox:
             yield outbox
 
-    # # TODO move this to a dependency injection
-    # @staticmethod
-    # def mask_bcrypt_to_use_plain_text():
-    #     if os.environ.get('FAST_TESTS'):  # TODO Don't use this env var
-    #         bcrypt.generate_password_hash = lambda x: x.encode()
-    #         bcrypt.check_password_hash = lambda x, y: x == y
-
     @pytest.fixture(autouse=True)
     def api_setup(self, mail_outbox):
         self.app_test = self.create_app()
         self.mail_outbox = mail_outbox
-        # self.mask_bcrypt_to_use_plain_text()
         self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)
 
