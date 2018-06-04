@@ -18,7 +18,7 @@ before_script:
 
 script:
   - ./create_test_database
-  - ./app_exec pytest --cov http_quiz --cov test test/
+  - ./pytest_exec --cov http_quiz --cov test test/
 
 after_script:
   - ./app_exec coveralls

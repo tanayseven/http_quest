@@ -1,16 +1,16 @@
-import os
 import re
 from types import MethodType
 
 import pytest
 from flask import json
 from flask.testing import FlaskClient
+from injector import inject
 
-from http_quiz.app import test_app as app
-from http_quiz.extensions import db, mail, bcrypt
+from http_quiz.app import app
+from http_quiz.extensions import db, mail
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
-from http_quiz.user.user import create_user
+from http_quiz.user.user import bcrypt_auth
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):
@@ -25,16 +25,15 @@ def _post_json(self, url: str = '/', body=None, headers=None):
 
 
 class DatabaseTest:
-    @staticmethod
-    def new_user(email: str = None, password: str = None):
+    @inject
+    def new_user(self, email: str = None, password: str = None):
         return User(
             email=email or 'user@domain.com',
-            password=bcrypt.generate_password_hash(password or 'password').decode(),
+            password=(password or b'password'.decode()),
         )
 
     @pytest.fixture(autouse=True)
     def database_setup(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('TEST_DATABASE_URI')
         self._ctx = app.test_request_context()
         self._ctx.push()
         db.session.remove()
@@ -47,7 +46,7 @@ class DatabaseTest:
 
 class ApiTestBase(DatabaseTest):
     def create_user(self):
-        create_user('user@domain.com', 'password')
+        bcrypt_auth.create_user('user@domain.com', 'password')
         self.mail_outbox.pop()
         return UserRepo.fetch_user_by_email('user@domain.com')
 
@@ -56,9 +55,6 @@ class ApiTestBase(DatabaseTest):
 
     @staticmethod
     def create_app() -> FlaskClient:
-        app.config['DEBUG'] = True
-        app.config['TESTING'] = True
-        app.config['MAIL_SUPPRESS_SEND'] = True
         mail.init_app(app)
         with app.app_context():
             return app.test_client()
@@ -68,17 +64,18 @@ class ApiTestBase(DatabaseTest):
         with mail.record_messages() as outbox:
             yield outbox
 
-    @staticmethod
-    def mask_bcrypt_to_use_plain_text():
-        if os.environ.get('FAST_TESTS'):
-            bcrypt.generate_password_hash = lambda x: x.encode()
-            bcrypt.check_password_hash = lambda x, y: x == y
+    # # TODO move this to a dependency injection
+    # @staticmethod
+    # def mask_bcrypt_to_use_plain_text():
+    #     if os.environ.get('FAST_TESTS'):  # TODO Don't use this env var
+    #         bcrypt.generate_password_hash = lambda x: x.encode()
+    #         bcrypt.check_password_hash = lambda x, y: x == y
 
     @pytest.fixture(autouse=True)
     def api_setup(self, mail_outbox):
         self.app_test = self.create_app()
         self.mail_outbox = mail_outbox
-        self.mask_bcrypt_to_use_plain_text()
+        # self.mask_bcrypt_to_use_plain_text()
         self.app_test.post()
         self.app_test.post_json = MethodType(_post_json, self.app_test)
 

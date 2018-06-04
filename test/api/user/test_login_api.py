@@ -2,7 +2,7 @@ from flask import json
 
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.translations import get_text
-from http_quiz.user.user import create_user
+from http_quiz.user.user import bcrypt_auth
 from test.base import ApiTestBase
 
 
@@ -49,7 +49,7 @@ class TestLoginApi(ApiTestBase):
 
     def test_that_new_user_should_not_be_created_if_it_already_exists(self):
         token = self.request_login_token(self.app_test, self.create_user())
-        create_user('someuser@somedomain.com', 'password')
+        bcrypt_auth.create_user('someuser@somedomain.com', 'password')
         response = self.app_test.post_json(
             url='/user/create_new',
             body={'email': 'someuser@somedomain.com'},

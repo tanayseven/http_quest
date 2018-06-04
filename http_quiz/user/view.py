@@ -3,7 +3,7 @@ from flask_jwt import jwt_required
 
 from http_quiz.user.schema import new_password_schema, create_new_schema, password_reset_schema
 from http_quiz.user.translations import get_text
-from http_quiz.user.user import reset_password_for_user_having_email, create_user, update_password_for_token
+from http_quiz.user.user import reset_password_for_user_having_email, bcrypt_auth
 from http_quiz.utilities import validate_json
 
 user_view = Blueprint('user', __name__)
@@ -34,7 +34,7 @@ def create_new():
     success_data = {
         'message': get_text('user_created'),
     }
-    success = create_user(request.json.get('email'), request.json.get('password'))
+    success = bcrypt_auth.create_user(request.json.get('email'), request.json.get('password'))
     if success:
         return jsonify(success_data)
     return jsonify({'message': get_text('user_already_exists')}), 400
@@ -46,7 +46,7 @@ def new_password(reset_token: str):
     success_response = {
         'message': get_text('password_successfully_reset')
     }
-    success = update_password_for_token(reset_token, request.json.get('new_password'))
+    success = bcrypt_auth.update_password_for_token(reset_token, request.json.get('new_password'))
     if success:
         return jsonify(success_response), 200
     return jsonify({'message': get_text('invalid_password_token')}), 400

@@ -1,6 +1,8 @@
 import random
-from datetime import datetime
+import datetime
 from typing import List
+
+from injector import inject
 
 name_with_categories = {
     'Mobile Phone': 'Electronics',
@@ -23,13 +25,15 @@ class Product:
     name: str = ''
     category: str = ''
     price: int = 0
-    start_date: datetime = datetime.now()
-    end_date: datetime = datetime.now()
+    start_date: datetime.datetime = None
+    end_date: datetime.datetime = None
 
-    def __init__(self, id_: int=0):
+    @inject
+    def __init__(self, id_: int=0, random: random=random):
         self.name = list(name_with_categories.keys())[id_]
         self.category = name_with_categories[self.name]
         self.price = random.randrange(100, 10000)
+        # start_date = datetime.datetime.now() - datetime.timedelta.days
 
 
 class ProductCollection:
