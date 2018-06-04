@@ -43,7 +43,6 @@ init_ext(test_app)
 
 
 @app.cli.command()
-@test_app.cli.command()
 @click.argument('email')
 def create_new_admin(email):  # pragma: no cover
     """Creates a new admin with the given username"""
