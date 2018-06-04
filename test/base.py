@@ -5,11 +5,8 @@ from types import MethodType
 import pytest
 from flask import json
 from flask.testing import FlaskClient
-from flask_injector import FlaskInjector
-from injector import Injector
 
 from http_quiz.app import test_app as app
-from http_quiz.config import configure_test
 from http_quiz.extensions import db, mail, bcrypt
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo

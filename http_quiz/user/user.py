@@ -31,7 +31,7 @@ def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:
 
 
 def create_user(email: str, password: str=None) -> bool:
-    hashed_password, success = _generate_hashed_password_if_user_email_exists(email, password)
+    hashed_password, success = _generate_hashed_password_if_user_email_does_not_exist(email, password)
     if not success:
         return success
     user = UserRepo.add(User(email=email, password=hashed_password))
@@ -65,7 +65,7 @@ def _create_password_reset_token(user: User) -> str:
     return token
 
 
-def _generate_hashed_password_if_user_email_exists(email, password):
+def _generate_hashed_password_if_user_email_does_not_exist(email, password):
     success = True
     hashed_password = None
     existing_user = UserRepo.fetch_user_by_email(email)
