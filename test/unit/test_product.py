@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 from http_quiz.di import injector
-from http_quiz.product_quiz.problem_statements import ProductFactory
+from http_quiz.product_quiz.problem_statements import ProductFactory, name_with_categories
 from test.fakes import FakeRandom, FakeDatetime
 
 
@@ -21,6 +21,11 @@ class TestProduct:
     def test_product_is_generated_correctly(self):
         product = self.product_factory.new_product(0)
         assert product.price == 300
+        assert product.start_date == datetime(year=2018, month=2, day=10)
+        assert product.end_date == datetime(year=2018, month=2, day=15)
+        selected_key = list(name_with_categories.keys())[0]
+        assert product.name == selected_key
+        assert product.category == name_with_categories[selected_key]
 
     def test_product_collection_is_generated_correctly(self):
         pass
