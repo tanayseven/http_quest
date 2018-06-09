@@ -91,13 +91,12 @@ To run the whole application as containers using ``docker-compose``
 
     docker-compose up
 
-
 To run all the tests in the application run
 
 .. code-block:: bash
 
-    ./app_exec pytest # Just run the tests
-    ./app_exec pytest --cov http_quiz test/ # Run tests with coverage
+    ./pytest_exec # Just run the tests
+    ./pytest_exec --cov http_quiz test/ # Run tests with coverage
 
 To perform migrations run
 
@@ -113,6 +112,11 @@ For Linux only: files created by a container (like migration files) are owned by
 .. code-block:: bash
 
     ./reset_ownership # needs sudo password, will change the owner to yourself
+
+.. code-block:: bash
+
+    ./app_exec flask create_new_admin yourname@yourmail.com # Create a new admin on server from the commandline
+
 
 LICENSE
 =======
