@@ -1,8 +1,9 @@
-import random
 import datetime
 from typing import List
 
 from injector import inject
+
+from http_quiz.utilities import RandomWrapper
 
 name_with_categories = {
     'Mobile Phone': 'Electronics',
@@ -29,7 +30,7 @@ class Product:
     end_date: datetime.datetime = None
 
     @inject
-    def __init__(self, id_: int=0, random: random=random):
+    def __init__(self, id_: int=0, random: RandomWrapper=RandomWrapper()):
         self.name = list(name_with_categories.keys())[id_]
         self.category = name_with_categories[self.name]
         self.price = random.randrange(100, 10000)

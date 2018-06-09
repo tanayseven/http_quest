@@ -1,4 +1,5 @@
 import os
+import random
 from functools import wraps
 
 from cerberus import Validator
@@ -31,3 +32,8 @@ def validate_json(schema):
         return decorated_function
 
     return decorator
+
+
+class RandomWrapper:
+    def randrange(self, start, stop, step=1):
+        return random.randrange(start, stop, step)
