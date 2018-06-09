@@ -12,16 +12,19 @@ class FakeDatetime:
 
 class FakeRandom:
     _randrange = []
+    _count = 0
 
     @staticmethod
     def set_randrange(rand_range: list = None):
         if rand_range is None:
             rand_range = []
+        FakeRandom._count = 0
         FakeRandom._randrange = rand_range
 
     @staticmethod
-    def randrange():
-        return FakeRandom._randrange
+    def randrange(*args, **kwargs):
+        FakeRandom._count += 1
+        return FakeRandom._randrange[FakeRandom._count - 1]
 
 
 class FakeBcrypt:

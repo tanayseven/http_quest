@@ -1,4 +1,6 @@
 import datetime
+from copy import deepcopy
+from datetime import timedelta
 from typing import List
 
 from injector import inject
@@ -22,7 +24,7 @@ name_with_categories = {
 }
 
 
-class Product:
+class ProductFactory:
     name: str = ''
     category: str = ''
     price: int = 0
@@ -30,11 +32,17 @@ class Product:
     end_date: datetime.datetime = None
 
     @inject
-    def __init__(self, id_: int=0, random: RandomWrapper=RandomWrapper()):
+    def __init__(self, random: RandomWrapper=RandomWrapper(), datetime: datetime.datetime=datetime.datetime):
+        self._random = random
+        self._datetime = datetime
+
+    def new_product(self, id_: int):
         self.name = list(name_with_categories.keys())[id_]
         self.category = name_with_categories[self.name]
-        self.price = random.randrange(100, 10000)
-        # start_date = datetime.datetime.now() - datetime.timedelta.days
+        self.price = self._random.randrange(100, 10000)
+        self.start_date = self._datetime.now() - timedelta(days=self._random.randrange(2, 9))
+        self.end_date = self._datetime.now() + timedelta(days=self._random.randrange(2, 9))
+        return deepcopy(self)
 
 
 class ProductCollection:
@@ -42,7 +50,7 @@ class ProductCollection:
         self._products = self.generate_products(count)
 
     @staticmethod
-    def generate_products(count: int) -> List[Product]:
+    def generate_products(count: int) -> List[ProductFactory]:
         return [
-            Product(x) for x in range(count)
+            ProductFactory(x) for x in range(count)
         ]
