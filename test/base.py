@@ -4,11 +4,10 @@ from types import MethodType
 import pytest
 from flask import json
 from flask.testing import FlaskClient
-from injector import inject
 
 from http_quiz.app import app
-from http_quiz.extensions import mail
 from http_quiz.ext import db
+from http_quiz.extensions import mail
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.user import bcrypt_auth
@@ -26,7 +25,6 @@ def _post_json(self, url: str = '/', body=None, headers=None):
 
 
 class DatabaseTest:
-    @inject
     def new_user(self, email: str = None, password: str = None):
         return User(
             email=email or 'user@domain.com',

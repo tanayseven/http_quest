@@ -3,11 +3,11 @@ import os
 import click
 from flask import Flask
 
-from http_quiz.extensions import jwt, migrate, mail
 from http_quiz.ext import db
+from http_quiz.extensions import jwt, migrate, mail, bcrypt
 from http_quiz.product_quiz.view import products_view
 from http_quiz.quiz.view import quiz_view
-from http_quiz.user.user import identity, bcrypt_auth
+from http_quiz.user.user import identity, bcrypt_auth, BcryptAuth
 from http_quiz.user.view import user_view
 from http_quiz.view import root_view
 
@@ -18,8 +18,7 @@ if os.environ['APP_ENVIRONMENT'] == 'dev':
 elif os.environ['APP_ENVIRONMENT'] == 'test':
     app.config.from_object('http_quiz.config.TestConfig')
 
-
-# Perform migrations on the dataAPP_ENVIRONEMENTbase
+# Perform migrations on the data
 db.init_app(app)
 migrate.init_app(app)
 
@@ -29,6 +28,8 @@ jwt.authentication_handler(bcrypt_auth.authenticate)
 jwt.init_app(app)
 
 mail.init_app(app)
+
+bcrypt.init_app(app)
 
 app.register_blueprint(products_view)
 app.register_blueprint(user_view)

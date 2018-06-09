@@ -6,7 +6,7 @@ from flask_mail import Message
 from injector import inject
 
 from http_quiz.di import injector
-from http_quiz.extensions import mail
+from http_quiz.extensions import mail, bcrypt
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.translations import get_text
@@ -15,7 +15,7 @@ from http_quiz.utilities import load_template
 
 class BcryptAuth:
     @inject
-    def __init__(self, bcrypt: Bcrypt):
+    def __init__(self, bcrypt: Bcrypt=bcrypt):
         self.bcrypt = bcrypt
 
     def authenticate(self, email: str, password: str) -> Union[User, None]:
