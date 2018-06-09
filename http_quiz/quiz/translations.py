@@ -13,9 +13,8 @@ hi_IN = {
 }
 
 strings = {
-    'hi-IN': en_IN,
-    'en-US': en_IN,
-    'hi-IN-': hi_IN,
+    'en': en_IN,
+    'hi': hi_IN,
 }
 
 

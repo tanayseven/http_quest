@@ -16,7 +16,7 @@ services:
   app:
     environment:
       - APP_ENVIRONMENT=dev
-      - APP_LOCALE=hi-IN
+      - APP_LOCALE=hi
       - DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz
       - TEST_DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz_test
       - FLASK_DEBUG=true

@@ -10,6 +10,7 @@ class Config(object):
     JWT_AUTH_USERNAME_KEY = 'email'
     JWT_AUTH_PASSWORD_KEY = 'password'
     JWT_AUTH_URL_RULE = '/user/login'
+    SECRET_KEY = 'secret'
     MAIL_DEFAULT_SENDER = 'noreply@resttest.com'
 
 
@@ -24,5 +25,4 @@ class TestConfig(Config):
     DATABASE_URI = os.environ.get('TEST_DATABASE_URI')
     FLASK_DEBUG = True
     TESTING = True
-    SECRET_KEY = 'secret'
     MAIL_SUPPRESS_SEND = True
