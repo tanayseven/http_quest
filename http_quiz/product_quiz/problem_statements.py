@@ -1,7 +1,7 @@
 import datetime
 from copy import deepcopy
 from datetime import timedelta
-from typing import List
+from typing import List, Dict
 
 from injector import inject
 
@@ -40,12 +40,42 @@ class Product:
         self.start_date = start_date
         self.end_date = end_date
 
+    def is_active(self):
+        return self.start_date <= product_factory.get_datetime_now() <= self.end_date
+
+    @classmethod
+    def solution_count(cls, product_list: List['Product']) -> Dict[str, int]:
+        return {
+            'count': len(product_list)
+        }
+
+    @classmethod
+    def solution_active_count(cls, product_list: List['Product']) -> Dict[str, int]:
+        active_count = len([x for x in product_list if x.is_active()])
+        return {
+            'count': active_count
+        }
+
+    @classmethod
+    def solution_active_date_count_categories(cls, product_list: List['Product']) -> Dict[str, int]:
+        result = {x.category: 0 for x in product_list}
+        for key in result.keys():
+            result[key] += 1
+        return result
+
+    @classmethod
+    def solution_total_value_for_active_date(cls, product_list: List['Product']) -> Dict[str, int]:
+        return {'total_value': sum([x.price for x in product_list if x.is_active()])}
+
 
 class ProductFactory:
     @inject
     def __init__(self, random: RandomWrapper = RandomWrapper(), datetime: datetime.datetime = datetime.datetime):
         self._random = random
         self._datetime = datetime
+
+    def get_datetime_now(self) -> datetime.datetime:
+        return self._datetime.now()
 
     def new_product(self, id_: int):
         name = list(name_with_categories.keys())[id_]
