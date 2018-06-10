@@ -62,9 +62,6 @@ product_factory = injector.get(ProductFactory)
 
 
 class ProductCollection:
-    def __init__(self, count: int):
-        self._products = self.generate_products(count)
-
     @staticmethod
     def generate_products(count: int) -> List[Product]:
         return [

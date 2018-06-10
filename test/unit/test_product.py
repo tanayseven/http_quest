@@ -1,25 +1,53 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 
-from http_quiz.di import injector
-from http_quiz.product_quiz.problem_statements import ProductFactory, name_with_categories
+from http_quiz.product_quiz.problem_statements import name_with_categories, product_factory, ProductCollection
 from test.fakes import FakeRandom, FakeDatetime
 
 
 class TestProduct:
     @pytest.fixture(autouse=True)
     def setup(self):
+        FakeRandom.reset()
+        self.product_factory = product_factory
+        self.datetime_now = datetime(year=2018, month=2, day=13)
+
+    def add_one_product_to_fakers(self):
+        self.setup_current_product1()
+        self.add_product_parameters_to_fakers()
+
+    def add_three_products_to_fakers(self):
+        self.add_one_product_to_fakers()
+        self.setup_current_product2()
+        self.add_product_parameters_to_fakers()
+        self.setup_current_product3()
+        self.add_product_parameters_to_fakers()
+
+    def add_product_parameters_to_fakers(self):
+        FakeRandom.append_next_randrange([self.price, self.start_date_delta, self.end_date_delta])
+        FakeDatetime.set_next_dattime(self.datetime_now)
+
+    def setup_current_product1(self):
+        self.id = 0
         self.price = 300
         self.start_date_delta = 3
         self.end_date_delta = 2
-        self.datetime_now = datetime(year=2018, month=2, day=13)
-        FakeRandom.reset()
-        FakeRandom.append_next_randrange([self.price, self.start_date_delta, self.end_date_delta])
-        FakeDatetime.append_next_datetime(self.datetime_now)
-        self.product_factory: ProductFactory = injector.get(ProductFactory)
+
+    def setup_current_product2(self):
+        self.id = 1
+        self.price = 500
+        self.start_date_delta = 1
+        self.end_date_delta = 7
+
+    def setup_current_product3(self):
+        self.id = 2
+        self.price = 700
+        self.start_date_delta = 4
+        self.end_date_delta = 2
 
     def test_product_is_generated_correctly(self):
+        self.add_one_product_to_fakers()
         product = self.product_factory.new_product(0)
         assert product.price == 300
         assert product.start_date == datetime(year=2018, month=2, day=10)
@@ -29,4 +57,21 @@ class TestProduct:
         assert product.category == name_with_categories[selected_key]
 
     def test_product_collection_is_generated_correctly(self):
-        pass
+        self.add_three_products_to_fakers()
+        products = ProductCollection.generate_products(3)
+        assert len(products) == 3
+        self.setup_current_product1()
+        self.assert_product(products, self.id)
+        self.setup_current_product2()
+        self.assert_product(products, self.id)
+        self.setup_current_product3()
+        self.assert_product(products, self.id)
+
+    def assert_product(self, products, id_):
+        product = products[id_]
+        assert product.price == self.price
+        assert product.start_date == self.datetime_now - timedelta(self.start_date_delta)
+        assert product.end_date == self.datetime_now + timedelta(self.end_date_delta)
+        selected_key = list(name_with_categories.keys())[id_]
+        assert product.name == selected_key
+        assert product.category == name_with_categories[selected_key]

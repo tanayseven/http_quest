@@ -3,20 +3,15 @@ from typing import Union
 
 
 class FakeDatetime:
-    _datetime = []
+    _datetime: datetime.datetime
 
     @staticmethod
-    def append_next_datetime(date_value: Union[datetime.datetime, list]):
-        if type(date_value) is datetime.datetime:
-            FakeDatetime._datetime.append(date_value)
-        elif type(date_value) is list:
-            FakeDatetime._datetime.extend(date_value)
+    def set_next_dattime(date_value: datetime.datetime):
+        FakeDatetime._datetime = date_value
 
     @staticmethod
     def now():
-        if len(FakeDatetime._datetime) == 1:
-            return FakeDatetime._datetime[0]
-        return FakeDatetime._datetime.pop(0)
+        return FakeDatetime._datetime
 
 
 class FakeRandom:
