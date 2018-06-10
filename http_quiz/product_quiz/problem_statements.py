@@ -1,5 +1,4 @@
 import datetime
-from copy import deepcopy
 from datetime import timedelta
 from typing import List, Dict
 
@@ -25,6 +24,19 @@ name_with_categories = {
 }
 
 
+class DateTime:
+    @inject
+    def __init__(self, datetime: datetime.datetime = datetime.datetime):
+        self._datetime = datetime
+
+    @property
+    def datetime(self):
+        return self._datetime
+
+
+injected_datetime = injector.get(DateTime)
+
+
 class Product:
     def __init__(
             self,
@@ -41,7 +53,7 @@ class Product:
         self.end_date = end_date
 
     def is_active(self):
-        return self.start_date <= product_factory.get_datetime_now() <= self.end_date
+        return self.start_date <= injected_datetime.datetime.now() <= self.end_date
 
     @classmethod
     def solution_count(cls, product_list: List['Product']) -> Dict[str, int]:
@@ -73,9 +85,6 @@ class ProductFactory:
     def __init__(self, random: RandomWrapper = RandomWrapper(), datetime: datetime.datetime = datetime.datetime):
         self._random = random
         self._datetime = datetime
-
-    def get_datetime_now(self) -> datetime.datetime:
-        return self._datetime.now()
 
     def new_product(self, id_: int):
         name = list(name_with_categories.keys())[id_]
