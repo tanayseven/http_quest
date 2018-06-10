@@ -14,8 +14,9 @@ class TestProduct:
         self.start_date_delta = 3
         self.end_date_delta = 2
         self.datetime_now = datetime(year=2018, month=2, day=13)
-        FakeRandom.set_randrange([self.price, self.start_date_delta, self.end_date_delta])
-        FakeDatetime.set_current_datetime(datetime_now=self.datetime_now)
+        FakeRandom.reset()
+        FakeRandom.append_next_randrange([self.price, self.start_date_delta, self.end_date_delta])
+        FakeDatetime.append_next_datetime(self.datetime_now)
         self.product_factory: ProductFactory = injector.get(ProductFactory)
 
     def test_product_is_generated_correctly(self):
