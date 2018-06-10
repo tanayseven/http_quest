@@ -5,6 +5,7 @@ from typing import List
 
 from injector import inject
 
+from http_quiz.di import injector
 from http_quiz.utilities import RandomWrapper
 
 name_with_categories = {
@@ -24,25 +25,40 @@ name_with_categories = {
 }
 
 
-class ProductFactory:
-    name: str = ''
-    category: str = ''
-    price: int = 0
-    start_date: datetime.datetime = None
-    end_date: datetime.datetime = None
+class Product:
+    def __init__(
+            self,
+            name: str,
+            category: str,
+            price: int,
+            start_date: datetime.datetime,
+            end_date: datetime.datetime,
+    ):
+        self.name = name
+        self.category = category
+        self.price = price
+        self.start_date = start_date
+        self.end_date = end_date
 
+
+class ProductFactory:
     @inject
-    def __init__(self, random: RandomWrapper=RandomWrapper(), datetime: datetime.datetime=datetime.datetime):
+    def __init__(self, random: RandomWrapper = RandomWrapper(), datetime: datetime.datetime = datetime.datetime):
         self._random = random
         self._datetime = datetime
 
     def new_product(self, id_: int):
-        self.name = list(name_with_categories.keys())[id_]
-        self.category = name_with_categories[self.name]
-        self.price = self._random.randrange(100, 10000)
-        self.start_date = self._datetime.now() - timedelta(days=self._random.randrange(2, 9))
-        self.end_date = self._datetime.now() + timedelta(days=self._random.randrange(2, 9))
-        return deepcopy(self)
+        name = list(name_with_categories.keys())[id_]
+        return Product(
+            name,
+            name_with_categories[name],
+            self._random.randrange(100, 10000),
+            self._datetime.now() - timedelta(days=self._random.randrange(2, 9)),
+            self._datetime.now() + timedelta(days=self._random.randrange(2, 9)),
+        )
+
+
+product_factory = injector.get(ProductFactory)
 
 
 class ProductCollection:
@@ -50,7 +66,7 @@ class ProductCollection:
         self._products = self.generate_products(count)
 
     @staticmethod
-    def generate_products(count: int) -> List[ProductFactory]:
+    def generate_products(count: int) -> List[Product]:
         return [
-            ProductFactory(x) for x in range(count)
+            product_factory.new_product(x) for x in range(count)
         ]

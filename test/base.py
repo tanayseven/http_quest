@@ -49,9 +49,6 @@ class ApiTestBase(DatabaseTest):
         self.mail_outbox.pop()
         return UserRepo.fetch_user_by_email('user@domain.com')
 
-    def create_candidate(self):
-        pass  # TODO add new candidate creation here
-
     @staticmethod
     def create_app() -> FlaskClient:
         mail.init_app(app)

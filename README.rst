@@ -96,7 +96,7 @@ To run all the tests in the application run
 .. code-block:: bash
 
     ./pytest_exec # Just run the tests
-    ./pytest_exec --cov http_quiz test/ # Run tests with coverage
+    ./pytest_exec --cov-report=html --cov http_quiz test/ # Run tests with coverage
 
 To perform migrations run
 
