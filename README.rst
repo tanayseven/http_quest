@@ -2,19 +2,19 @@
     :target: https://travis-ci.org/tanayseven/http_quiz
     :alt: tests
 
-.. image:: https://coveralls.io/repos/github/tanayseven/rest-test/badge.svg?branch=HEAD
+.. image:: https://coveralls.io/repos/github/tanayseven/http_quiz/badge.svg?branch=HEAD
     :target: https://coveralls.io/github/tanayseven/http_quiz?branch=HEAD
     :alt: test coverage
 
-.. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/maintainability
+.. image:: https://api.codeclimate.com/v1/badges/581fb314c868e6c41e90/maintainability
    :target: https://codeclimate.com/github/tanayseven/http_quiz/maintainability
    :alt: Maintainability
 
-.. image:: https://img.shields.io/github/license/tanayseven/rest-test.svg
+.. image:: https://img.shields.io/github/license/tanayseven/http_quiz.svg
     :target: https://github.com/tanayseven/http_quiz/blob/master/LICENSE.txt
     :alt: license
 
-.. image:: https://img.shields.io/github/repo-size/tanayseven/rest-test.svg
+.. image:: https://img.shields.io/github/repo-size/tanayseven/http_quiz.svg
     :target: https://travis-ci.org/tanayseven/http_quiz
     :alt: GitHub repo size in bytes
 
