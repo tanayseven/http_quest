@@ -3,15 +3,15 @@
     :alt: tests
 
 .. image:: https://coveralls.io/repos/github/tanayseven/rest-test/badge.svg?branch=HEAD
-    :target: https://coveralls.io/github/tanayseven/rest-test?branch=HEAD
+    :target: https://coveralls.io/github/tanayseven/http_quiz?branch=HEAD
     :alt: test coverage
 
 .. image:: https://api.codeclimate.com/v1/badges/15578546ce89e860fcc2/maintainability
-   :target: https://codeclimate.com/github/tanayseven/rest-test/maintainability
+   :target: https://codeclimate.com/github/tanayseven/http_quiz/maintainability
    :alt: Maintainability
 
 .. image:: https://img.shields.io/github/license/tanayseven/rest-test.svg
-    :target: https://github.com/tanayseven/rest-test/blob/master/LICENSE.txt
+    :target: https://github.com/tanayseven/http_quiz/blob/master/LICENSE.txt
     :alt: license
 
 .. image:: https://img.shields.io/github/repo-size/tanayseven/rest-test.svg
