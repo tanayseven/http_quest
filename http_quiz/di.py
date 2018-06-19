@@ -26,12 +26,12 @@ def bind_injections_test(binder: Binder):
     )
 
 
-def bind_injections_dev(binder: Binder):
+def bind_injections_dev(binder: Binder):  # pragma: no cover
     pass
 
 
 injector: Injector = None
 if os.environ['APP_ENVIRONMENT'] == 'test':
     injector = Injector([bind_injections_test])
-elif os.environ['APP_ENVIRONMENT'] == 'dev':
+elif os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
     injector = Injector([bind_injections_dev])

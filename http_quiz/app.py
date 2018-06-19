@@ -13,7 +13,7 @@ from http_quiz.view import root_view
 
 app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
-if os.environ['APP_ENVIRONMENT'] == 'dev':
+if os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
     app.config.from_object('http_quiz.config.DevelopmentConfig')
 elif os.environ['APP_ENVIRONMENT'] == 'test':
     app.config.from_object('http_quiz.config.TestConfig')
