@@ -8,6 +8,7 @@ from flask.testing import FlaskClient
 from http_quiz.app import app
 from http_quiz.ext import db
 from http_quiz.extensions import mail
+from http_quiz.quiz.model import QuizType
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.user import bcrypt_auth
@@ -48,6 +49,23 @@ class ApiTestBase(DatabaseTest):
         bcrypt_auth.create_user('user@domain.com', 'password')
         self.mail_outbox.pop()
         return UserRepo.fetch_user_by_email('user@domain.com')
+
+    @staticmethod
+    def sample_quiz_creation_body(quiz_type=str(QuizType.SEQUENTIAL), quiz_name='product'):
+        return {
+            'email': 'candidate@domain.com',
+            'name': 'Jane Doe',
+            'quiz_type': quiz_type,
+            'quiz_name': quiz_name,
+        }
+
+    def create_candidate(self, quiz_type=str(QuizType.SEQUENTIAL), quiz_name='product') -> str:
+        user = self.create_user()
+        token = self.request_login_token(self.app_test, user)
+        body = self.sample_quiz_creation_body(quiz_type=quiz_type, quiz_name=quiz_name)
+        headers = {'Authorization': token}
+        self.app_test.post_json(url='/quiz/new_candidate_token', body=body, headers=headers)
+        return self.mail_body_extract_token()
 
     @staticmethod
     def create_app() -> FlaskClient:

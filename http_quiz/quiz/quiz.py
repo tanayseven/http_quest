@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from functools import wraps
 
-from flask import request, jsonify, url_for
+from flask import request, jsonify, url_for, g
 from flask_jwt import current_identity
 from flask_mail import Message
 
@@ -45,6 +45,7 @@ def candidate_token_required(quiz_type: str, quiz_name: str):
         def decorated_function(*args, **kwargs):
             candidate = CandidateRepo.fetch_candidate_by_token(request.headers.get('Authorization'))
             if candidate.quiz_type == quiz_type and candidate.quiz_name == quiz_name:
+                g.candidate = candidate
                 return f(*args, **kwargs)
             return jsonify({'message': 'Invalid Authorization Token'}), 401
 
