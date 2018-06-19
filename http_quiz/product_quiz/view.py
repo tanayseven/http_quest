@@ -31,8 +31,25 @@ first_problem = {
     'message': ' '.join((
         welcome_message,
         this_stage_number_is.format(1),
-        problem_statement[1],
+        problem_statement[0],
         the_input_output_url_is.format(1),
+        example_included_here,
+    )),
+    'example': {
+        'input': {
+            'end_date': '',
+        },
+        'output': {
+            'end_date': '',
+        }
+    }
+}
+
+second_problem = {
+    'message': ' '.join((
+        this_stage_number_is.format(2),
+        problem_statement[1],
+        the_input_output_url_is.format(2),
         example_included_here,
     )),
     'example': {
@@ -49,7 +66,7 @@ first_problem = {
 @products_view.route('/product_quiz/problem_statement', methods=('GET',))
 @candidate_token_required('sequential', 'product')
 def problem_statement():
-    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) is None:
+    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) in (0, None):
         return jsonify({'message': first_problem['message']}), 200
     data = {'message': ''}
     return jsonify(data), 200
@@ -58,7 +75,11 @@ def problem_statement():
 @products_view.route('/product_quiz/<int:problem_number>/input', methods=('GET',))
 @candidate_token_required('sequential', 'product')
 def problem_input(problem_number):
-    pass
+    input_ = {}
+    output = {}
+    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) in (0, None):
+        QuizRepo.add_or_update_problem_input_output(input_, output, g.candidate, problem_number)
+        return jsonify(input_)
 
 
 @products_view.route('/product_quiz/<int:problem_number>/output', methods=('POST',))

@@ -13,6 +13,13 @@ class CandidateStatus(Enum):
         return self.value
 
 
+class QuestionStatus(Enum):
+    PENDING = 'pending'
+    CORRECT = 'correct'
+    WRONG = 'wrong'
+    TIME_EXPIRED = 'time_expired'
+
+
 class QuizType(Enum):
     SEQUENTIAL = 'sequential'
 

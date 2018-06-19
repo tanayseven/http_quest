@@ -1,6 +1,7 @@
 import pytest
-from flask import json
+from flask import json, Response
 
+from http_quiz.quiz.repo import QuizRepo
 from test.base import ApiTestBase
 
 
@@ -17,3 +18,13 @@ class TestProductApi(ApiTestBase):
         assert response.status_code == 200
         assert 'message' in json.loads(response.data)
         assert 'This problem number is 1' in response.data.decode()
+        input_response = self.response_for_input(problem_number=1, auth_token=token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert input_response.status_code == 200
+        assert problem_input_output[1].input == json.loads(input_response.data)
+
+    def response_for_input(self, problem_number: int, auth_token) -> Response:
+        return self.app_test.get(
+            'product_quiz/{0}/input'.format(problem_number),
+            headers={'Authorization': auth_token}
+        )
