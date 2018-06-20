@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify, g
+from flask import Blueprint, jsonify, g, request
 from injector import inject
 
 from http_quiz.product_quiz.problem_statements import ProductCollection, Product
 from http_quiz.product_quiz.translations import _
+from http_quiz.quiz.model import QuestionStatus
 from http_quiz.quiz.quiz import candidate_token_required
 from http_quiz.quiz.repo import QuizRepo
 from http_quiz.utilities import RandomWrapper
@@ -21,14 +22,16 @@ welcome_message = _('Welcome to the  product quiz.')
 this_stage_number_is = _('This problem number is {0}.')
 problem_statement = [
     _('Compute the count for the total number of products in the list given via input'),
-    _('Active products are those for which current date time fall within start and end date of the current date. '
-      'Compute the count of all such products')
+    _('Awesome, you\'ve solved the first problem. This problem number is 2. Active products are those for which '
+      'current date time fall within start and end date of the current date. Compute the count of all such products')
 ]
 the_input_output_url_is = _(
     'The input url for getting the test data is GET on /product/{0}/input/ and the data will '
     'be in JSON. And you will have to respond with the output on the URL by doing a POST on /product_quiz/{0}/output/.'
 )
 example_included_here = _('The examples for the sample input and output are included here.')
+
+solved_successfully = _('You\'ve solved this problem successfully.')
 
 first_problem = {
     'message': ' '.join((
@@ -81,7 +84,7 @@ def problem_statement():
 def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
     input_ = ProductCollection.generate_products(random.randrange(1, 20))
     input_dict = ProductCollection.to_dict(input_)
-    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) in (0, None):
+    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) is None:
         output = Product.solution_count(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
         return jsonify(input_dict)
@@ -90,4 +93,11 @@ def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
 @products_view.route('/product_quiz/<int:problem_number>/output', methods=('POST',))
 @candidate_token_required('sequential', 'product')
 def problem_output(problem_number):
-    pass
+    latest_answer_by_candidate = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
+    if latest_answer_by_candidate is None:
+        return jsonify({'message': 'Could not find your previous attempt to fetch input'}), 404
+    elif latest_answer_by_candidate[1].problem_number == problem_number \
+            and latest_answer_by_candidate[1].status == str(QuestionStatus.PENDING)\
+            and latest_answer_by_candidate[1].output == request.get_json():
+        return jsonify({'message': solved_successfully}), 200
+    return jsonify({'message': 'We could not process your request'}), 400

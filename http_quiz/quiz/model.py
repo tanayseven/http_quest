@@ -19,6 +19,9 @@ class QuestionStatus(Enum):
     WRONG = 'wrong'
     TIME_EXPIRED = 'time_expired'
 
+    def __str__(self) -> str:
+        return self.value
+
 
 class QuizType(Enum):
     SEQUENTIAL = 'sequential'
