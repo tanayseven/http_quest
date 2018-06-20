@@ -44,30 +44,32 @@ class TestProductApi(ApiTestBase):
         assert input_response.status_code == 200
         assert problem_input_output[1].input == json.loads(input_response.data)
 
-    def test_answer_to_first_problem_if_correct_should_be_reflected_in_the_db(self):
-        token = self.create_candidate()
-        self.response_for_input(problem_number=1, auth_token=token)
+    def answer_first_question(self, answer_correct_solution=True):
+        self.candidate_token = self.create_candidate()
+        self.response_for_input(problem_number=1, auth_token=self.candidate_token)
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
-        solution = Product.solution_count(problem_input_output[1].input)
-        response = self.response_for_output(1, auth_token=token, body=solution)
+        if answer_correct_solution:
+            solution = Product.solution_count(problem_input_output[1].input)
+        else:
+            solution = {}
+        response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
+        return response, problem_input_output
+
+    def test_answer_to_first_problem_if_correct_should_be_reflected_in_the_db(self):
+        response, _ = self.answer_first_question()
         assert response.status_code == 200
         assert 'You\'ve solved this problem successfully.' in response.data.decode()
 
     def test_answer_to_first_problem_if_wrong_should_be_return_appropriate_response(self):
-        token = self.create_candidate()
-        self.response_for_input(problem_number=1, auth_token=token)
-        solution = {}
-        response = self.response_for_output(1, auth_token=token, body=solution)
+        response, _ = self.answer_first_question(answer_correct_solution=False)
         assert response.status_code == 400
         assert 'Wrong solution.' in response.data.decode()
 
     def test_answer_to_the_first_problem_if_wrong_should_ask_to_fetch_new_input(self):
-        token = self.create_candidate()
-        self.response_for_input(problem_number=1, auth_token=token)
-        self.response_for_output(1, auth_token=token, body={})
+        self.answer_first_question(answer_correct_solution=False)
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         solution = Product.solution_count(problem_input_output[1].input)
-        response = self.response_for_output(1, auth_token=token, body=solution)
+        response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
         assert 'already attempted' in response.data.decode()
 
     @pytest.mark.skip()
