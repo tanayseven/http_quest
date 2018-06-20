@@ -1,11 +1,29 @@
+from datetime import datetime
+
 import pytest
 from flask import json, Response
 
 from http_quiz.quiz.repo import QuizRepo
 from test.base import ApiTestBase
+from test.fakes import FakeRandom, FakeDatetime
 
 
 class TestProductApi(ApiTestBase):
+    @pytest.fixture(autouse=True)
+    def setup_random(self):
+        FakeRandom.reset()
+        self.input_range = 2
+        FakeRandom.append_next_randrange(self.input_range)
+        self.price = 10
+        self.start_date_delta = 2
+        self.end_date_delta = 2
+        self.datetime_now = datetime(year=2018, month=2, day=13)
+        self.add_product_parameters_to_fakers()
+        self.add_product_parameters_to_fakers()
+
+    def add_product_parameters_to_fakers(self):
+        FakeRandom.append_next_randrange([self.price, self.start_date_delta, self.end_date_delta])
+        FakeDatetime.set_next_dattime(self.datetime_now)
 
     def test_that_the_get_at_root_of_products_returns_correct_value(self):
         response = self.app_test.get('product_quiz/')

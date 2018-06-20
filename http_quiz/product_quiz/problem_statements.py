@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from json import JSONEncoder
 from typing import List, Dict
 
 from injector import inject
@@ -38,19 +39,21 @@ injected_datetime = injector.get(DateTime)
 
 
 class Product:
-    def __init__(
-            self,
-            name: str,
-            category: str,
-            price: int,
-            start_date: datetime.datetime,
-            end_date: datetime.datetime,
-    ):
+    def __init__(self, name: str, category: str, price: int, start_date: datetime.datetime,
+                 end_date: datetime.datetime):
         self.name = name
         self.category = category
         self.price = price
         self.start_date = start_date
         self.end_date = end_date
+
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'price': self.price,
+            'start_date': self.start_date.isoformat(),
+            'end_date': self.end_date.isoformat(),
+        }
 
     def is_active(self):
         return self.start_date <= injected_datetime.datetime.now() <= self.end_date
@@ -86,7 +89,7 @@ class ProductFactory:
         self._random = random
         self._datetime = datetime
 
-    def new_product(self, id_: int):
+    def new_product(self, id_: int) -> Product:
         name = list(name_with_categories.keys())[id_]
         return Product(
             name,
@@ -97,7 +100,7 @@ class ProductFactory:
         )
 
 
-product_factory = injector.get(ProductFactory)
+product_factory: ProductFactory = injector.get(ProductFactory)
 
 
 class ProductCollection:
@@ -105,4 +108,10 @@ class ProductCollection:
     def generate_products(count: int) -> List[Product]:
         return [
             product_factory.new_product(x) for x in range(count)
+        ]
+
+    @staticmethod
+    def to_dict(products: List['Product']) -> List[dict]:
+        return [
+            product.to_dict() for product in products
         ]

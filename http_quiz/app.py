@@ -2,7 +2,9 @@ import os
 
 import click
 from flask import Flask
+from flask_injector import FlaskInjector
 
+from http_quiz.di import bind_injections_test, injector
 from http_quiz.ext import db
 from http_quiz.extensions import jwt, migrate, mail, bcrypt
 from http_quiz.product_quiz.view import products_view
@@ -35,6 +37,9 @@ app.register_blueprint(products_view)
 app.register_blueprint(user_view)
 app.register_blueprint(root_view)
 app.register_blueprint(quiz_view)
+
+if os.environ['APP_ENVIRONMENT'] == 'test':
+    FlaskInjector(app=app, modules=[bind_injections_test], injector=injector)
 
 
 @app.cli.command()

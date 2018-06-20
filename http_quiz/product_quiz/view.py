@@ -1,8 +1,11 @@
 from flask import Blueprint, jsonify, g
+from injector import inject
 
+from http_quiz.product_quiz.problem_statements import ProductCollection, Product
 from http_quiz.product_quiz.translations import _
 from http_quiz.quiz.quiz import candidate_token_required
 from http_quiz.quiz.repo import QuizRepo
+from http_quiz.utilities import RandomWrapper
 
 products_view = Blueprint('product_quiz', __name__)
 
@@ -74,12 +77,14 @@ def problem_statement():
 
 @products_view.route('/product_quiz/<int:problem_number>/input', methods=('GET',))
 @candidate_token_required('sequential', 'product')
-def problem_input(problem_number):
-    input_ = {}
-    output = {}
+@inject
+def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
+    input_ = ProductCollection.generate_products(random.randrange(1, 20))
+    input_dict = ProductCollection.to_dict(input_)
     if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) in (0, None):
-        QuizRepo.add_or_update_problem_input_output(input_, output, g.candidate, problem_number)
-        return jsonify(input_)
+        output = Product.solution_count(input_)
+        QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
+        return jsonify(input_dict)
 
 
 @products_view.route('/product_quiz/<int:problem_number>/output', methods=('POST',))

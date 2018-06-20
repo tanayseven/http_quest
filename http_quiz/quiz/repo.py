@@ -28,9 +28,9 @@ class QuizRepo:
         return sql.one_or_none()
 
     @staticmethod
-    def add_or_update_problem_input_output(input_: dict, output: dict, candidate: Candidate, problem_number: int):
-        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(candidate)
-        if problem_input_output is None:
+    def add_or_update_problem_input_output(input_: list, output: dict, candidate: Candidate, problem_number: int):
+        result = QuizRepo.fetch_latest_answer_by_candidate(candidate)
+        if result is None:
             db.session.add(SequentialQuiz(
                 candidate_id=candidate.id,
                 problem_number=problem_number,
@@ -40,9 +40,10 @@ class QuizRepo:
                 status=str(QuestionStatus.PENDING),
             ))
         else:
-            problem_input_output.input = input_
-            problem_input_output.output = output
-            problem_input_output.attempts += 1
-            problem_input_output.status = str(QuestionStatus.PENDING),
-            db.session.add(problem_input_output)
+            candidate, sequential_quiz = result
+            sequential_quiz.input = input_
+            sequential_quiz.output = output
+            sequential_quiz.attempts += 1
+            sequential_quiz.status = str(QuestionStatus.PENDING),
+            db.session.add(sequential_quiz)
         db.session.commit()
