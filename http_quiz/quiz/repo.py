@@ -47,3 +47,9 @@ class QuizRepo:
             sequential_quiz.status = str(QuestionStatus.PENDING),
             db.session.add(sequential_quiz)
         db.session.commit()
+
+    @staticmethod
+    def set_status_to(status: QuestionStatus, question_attempt: SequentialQuiz):
+        question_attempt.status = str(status)
+        db.session.add(question_attempt)
+        db.session.commit()

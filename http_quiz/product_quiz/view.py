@@ -32,6 +32,8 @@ the_input_output_url_is = _(
 example_included_here = _('The examples for the sample input and output are included here.')
 
 solved_successfully = _('You\'ve solved this problem successfully.')
+wrong_solution = _('Wrong solution. Please attempt again with a new input.')
+already_attempted = _('You\'ve already attempted this problem, please fetch a new input from the input URL.')
 
 first_problem = {
     'message': ' '.join((
@@ -96,8 +98,11 @@ def problem_output(problem_number):
     latest_answer_by_candidate = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
     if latest_answer_by_candidate is None:
         return jsonify({'message': 'Could not find your previous attempt to fetch input'}), 404
+    elif latest_answer_by_candidate[1].status == str(QuestionStatus.WRONG):
+        return jsonify({'message': already_attempted}), 400
     elif latest_answer_by_candidate[1].problem_number == problem_number \
             and latest_answer_by_candidate[1].status == str(QuestionStatus.PENDING)\
             and latest_answer_by_candidate[1].output == request.get_json():
         return jsonify({'message': solved_successfully}), 200
-    return jsonify({'message': 'We could not process your request'}), 400
+    QuizRepo.set_status_to(QuestionStatus.WRONG, latest_answer_by_candidate[1])
+    return jsonify({'message': wrong_solution}), 400

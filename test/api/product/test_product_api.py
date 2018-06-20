@@ -1,9 +1,11 @@
 from datetime import datetime
+from typing import Tuple
 
 import pytest
 from flask import json, Response
 
 from http_quiz.product_quiz.problem_statements import Product
+from http_quiz.quiz.model import Candidate, SequentialQuiz
 from http_quiz.quiz.repo import QuizRepo
 from test.base import ApiTestBase
 from test.fakes import FakeRandom, FakeDatetime
@@ -51,13 +53,22 @@ class TestProductApi(ApiTestBase):
         assert response.status_code == 200
         assert 'You\'ve solved this problem successfully.' in response.data.decode()
 
-    @pytest.mark.skip()
-    def test_answer_to_the_first_problem_if_wrong_should_ask_to_fetch_new_input(self):
-        pass
-
-    @pytest.mark.skip()
     def test_answer_to_first_problem_if_wrong_should_be_return_appropriate_response(self):
-        pass
+        token = self.create_candidate()
+        self.response_for_input(problem_number=1, auth_token=token)
+        solution = {}
+        response = self.response_for_output(1, auth_token=token, body=solution)
+        assert response.status_code == 400
+        assert 'Wrong solution.' in response.data.decode()
+
+    def test_answer_to_the_first_problem_if_wrong_should_ask_to_fetch_new_input(self):
+        token = self.create_candidate()
+        self.response_for_input(problem_number=1, auth_token=token)
+        self.response_for_output(1, auth_token=token, body={})
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        solution = Product.solution_count(problem_input_output[1].input)
+        response = self.response_for_output(1, auth_token=token, body=solution)
+        assert 'already attempted' in response.data.decode()
 
     @pytest.mark.skip()
     def test_that_the_get_problem_statement_after_answering_first_problem_shows_second_problem(self):
