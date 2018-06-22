@@ -23,7 +23,8 @@ this_stage_number_is = _('This problem number is {0}.')
 problem_statement = [
     _('Compute the count for the total number of products in the list given via input'),
     _('Awesome, you\'ve solved the first problem. Active products are those for which '
-      'current date time fall within start and end date of the current date. Compute the count of all such products')
+      'current date time fall within start and end date of the current date. Compute the count of all such products'),
+    _('You\'re going good!. For your next problem, you have to compute the count of the products for every category.'),
 ]
 the_input_output_url_is = _(
     'The input url for getting the test data is GET on /product/{0}/input/ and the data will '
@@ -70,6 +71,23 @@ second_problem = {
     }
 }
 
+third_problem = {
+    'message': ' '.join((
+        this_stage_number_is.format(3),
+        problem_statement[2],
+        the_input_output_url_is.format(3),
+        example_included_here,
+    )),
+    'example': {
+        'input': {
+            'end_date': '',
+        },
+        'output': {
+            'end_date': '',
+        }
+    }
+}
+
 
 @products_view.route('/product_quiz/problem_statement', methods=('GET',))
 @candidate_token_required('sequential', 'product')
@@ -79,6 +97,8 @@ def problem_statement():
         return jsonify({'message': first_problem['message']}), 200
     elif latest_problem_attempt.has_been_solved(problem_no=1):
         return jsonify({'message': second_problem['message']}), 200
+    elif latest_problem_attempt.has_been_solved(problem_no=2):
+        return jsonify({'message': third_problem['message']}), 200
     data = {'message': 'Something went wrong'}
     return jsonify(data), 500
 
@@ -93,7 +113,7 @@ def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
     if latest_answer_by_candidate is None:
         output = Product.solution_count(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
-    elif latest_answer_by_candidate.has_been_solved(problem_no=problem_number-1):
+    elif latest_answer_by_candidate.has_been_solved(problem_no=problem_number - 1):
         output = Product.solution_active_count(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
     return jsonify(input_dict), 200
@@ -108,7 +128,7 @@ def problem_output(problem_number):
     elif latest_problem_attempt.status == str(QuestionStatus.WRONG):
         return jsonify({'message': already_attempted}), 400
     elif latest_problem_attempt.problem_number == problem_number \
-            and latest_problem_attempt.status == str(QuestionStatus.PENDING)\
+            and latest_problem_attempt.status == str(QuestionStatus.PENDING) \
             and latest_problem_attempt.output == request.get_json():
         QuizRepo.set_status_to(QuestionStatus.CORRECT, latest_problem_attempt)
         return jsonify({'message': solved_successfully}), 200

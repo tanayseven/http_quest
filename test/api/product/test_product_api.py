@@ -35,7 +35,7 @@ class TestProductApi(ApiTestBase):
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         solution = {} if not answer_correct_solution else Product.solution_count(problem_input_output.input)
         response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
-        return response, problem_input_output
+        return response
 
     def answer_second_question(self, answer_correct_solution=True):
         self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
@@ -63,14 +63,14 @@ class TestProductApi(ApiTestBase):
         assert problem_input_output.input == json.loads(input_response.data)
 
     def test_answer_to_first_problem_if_correct_should_be_reflected_in_the_db(self):
-        response, _ = self.answer_first_question()
+        response = self.answer_first_question()
         assert response.status_code == 200
         assert 'You\'ve solved this problem successfully.' in response.data.decode()
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         assert problem_input_output.has_been_solved(1)
 
     def test_answer_to_first_problem_if_wrong_should_be_return_appropriate_response(self):
-        response, _ = self.answer_first_question(answer_correct_solution=False)
+        response = self.answer_first_question(answer_correct_solution=False)
         assert response.status_code == 400
         assert 'Wrong solution.' in response.data.decode()
 
@@ -100,13 +100,23 @@ class TestProductApi(ApiTestBase):
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         assert problem_input_output.has_been_solved(2)
 
-    @pytest.mark.skip()
     def test_answer_to_second_problem_if_wrong_should_be_return_appropriate_response(self):
-        pass
+        self.answer_first_question()
+        response = self.answer_second_question(answer_correct_solution=False)
+        assert response.status_code == 400
+        assert 'Wrong solution.' in response.data.decode()
 
-    @pytest.mark.skip()
     def test_that_the_get_problem_statement_after_answering_second_problem_shows_third_problem(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        response = self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
+        assert 'message' in json.loads(response.data)
+        assert 'This problem number is 3' in response.data.decode()
+        self.init_faker_for_input_api_call()
+        input_response = self.response_for_input(problem_number=3, auth_token=self.candidate_token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert input_response.status_code == 200
+        assert problem_input_output.input == json.loads(input_response.data)
 
     @pytest.mark.skip()
     def test_answer_to_third_problem_if_correct_should_be_reflected_in_the_db(self):
