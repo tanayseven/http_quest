@@ -129,14 +129,8 @@ def problem_statement():
     latest_problem_attempt = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
     if latest_problem_attempt is None or latest_problem_attempt.pending(1):
         return jsonify({'message': problems[0]['message']}), 200
-    elif latest_problem_attempt.has_been_solved(problem_no=1):
-        return jsonify({'message': problems[1]['message']}), 200
-    elif latest_problem_attempt.has_been_solved(problem_no=2):
-        return jsonify({'message': problems[2]['message']}), 200
-    elif latest_problem_attempt.has_been_solved(problem_no=3):
-        return jsonify({'message': problems[3]['message']}), 200
-    elif latest_problem_attempt.has_been_solved(problem_no=4):
-        return jsonify({'message': problems[4]['message']}), 200
+    elif latest_problem_attempt.has_been_solved(latest_problem_attempt.problem_number):
+        return jsonify({'message': problems[latest_problem_attempt.problem_number]['message']}), 200
     data = {'message': 'Something went wrong'}
     return jsonify(data), 500
 
