@@ -51,6 +51,9 @@ class SequentialQuiz(db.Model):
     attempts = db.Column(db.Integer, default=1)
     status = db.Column(db.String(64))
 
+    def pending(self, problem_no: int) -> bool:
+        return self.problem_number == problem_no and self.status == str(QuestionStatus.PENDING)
+
     def pending_or_wrong(self, problem_no: int) -> bool:
         return self.problem_number == problem_no \
                and (self.status == str(QuestionStatus.PENDING) or self.status == str(QuestionStatus.WRONG))

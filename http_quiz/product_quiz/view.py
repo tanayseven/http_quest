@@ -26,6 +26,7 @@ problem_statement = [
       'current date time fall within start and end date of the current date. Compute the count of all such products'),
     _('You\'re going good!. For your next problem, you have to compute the count of the products for every category.'),
     _('Congratulations! You\'ve solved the  problem, for the fourth problem, you have completed all the problems!'),
+    _('Congratulations! You\'ve solved the  problem, for the fourth problem, you have completed all the problems!'),
 ]
 the_input_output_url_is = _(
     'The input url for getting the test data is GET on /product/{0}/input/ and the data will '
@@ -37,90 +38,105 @@ solved_successfully = _('You\'ve solved this problem successfully.')
 wrong_solution = _('Wrong solution. Please attempt again with a new input.')
 already_attempted = _('You\'ve already attempted this problem, please fetch a new input from the input URL.')
 
-first_problem = {
-    'message': ' '.join((
-        welcome_message,
-        this_stage_number_is.format(1),
-        problem_statement[0],
-        the_input_output_url_is.format(1),
-        example_included_here,
-    )),
-    'example': {
-        'input': {
-            'end_date': '',
-        },
-        'output': {
-            'end_date': '',
+problems = [
+    {
+        'message': ' '.join((
+            welcome_message,
+            this_stage_number_is.format(1),
+            problem_statement[0],
+            the_input_output_url_is.format(1),
+            example_included_here,
+        )),
+        'example': {
+            'input': {
+                'end_date': '',
+            },
+            'output': {
+                'end_date': '',
+            }
         }
-    }
-}
-
-second_problem = {
-    'message': ' '.join((
-        this_stage_number_is.format(2),
-        problem_statement[1],
-        the_input_output_url_is.format(2),
-        example_included_here,
-    )),
-    'example': {
-        'input': {
-            'end_date': '',
-        },
-        'output': {
-            'end_date': '',
+    },
+    {
+        'message': ' '.join((
+            this_stage_number_is.format(2),
+            problem_statement[1],
+            the_input_output_url_is.format(2),
+            example_included_here,
+        )),
+        'example': {
+            'input': {
+                'end_date': '',
+            },
+            'output': {
+                'end_date': '',
+            }
         }
-    }
-}
-
-third_problem = {
-    'message': ' '.join((
-        this_stage_number_is.format(3),
-        problem_statement[2],
-        the_input_output_url_is.format(3),
-        example_included_here,
-    )),
-    'example': {
-        'input': {
-            'end_date': '',
-        },
-        'output': {
-            'end_date': '',
+    },
+    {
+        'message': ' '.join((
+            this_stage_number_is.format(3),
+            problem_statement[2],
+            the_input_output_url_is.format(3),
+            example_included_here,
+        )),
+        'example': {
+            'input': {
+                'end_date': '',
+            },
+            'output': {
+                'end_date': '',
+            }
         }
-    }
-}
-
-fourth_problem = {
-    'message': ' '.join((
-        this_stage_number_is.format(4),
-        problem_statement[3],
-        the_input_output_url_is.format(4),
-        example_included_here,
-    )),
-    'example': {
-        'input': {
-            'end_date': '',
-        },
-        'output': {
-            'end_date': '',
+    },
+    {
+        'message': ' '.join((
+            this_stage_number_is.format(4),
+            problem_statement[3],
+            the_input_output_url_is.format(4),
+            example_included_here,
+        )),
+        'example': {
+            'input': {
+                'end_date': '',
+            },
+            'output': {
+                'end_date': '',
+            }
         }
-    }
-}
+    },
+    {
+        'message': ' '.join((
+            this_stage_number_is.format(4),
+            problem_statement[3],
+            the_input_output_url_is.format(4),
+            example_included_here,
+        )),
+        'example': {
+            'input': {
+                'end_date': '',
+            },
+            'output': {
+                'end_date': '',
+            }
+        }
+    },
+]
 
 
 @products_view.route('/product_quiz/problem_statement', methods=('GET',))
 @candidate_token_required('sequential', 'product')
 def problem_statement():
     latest_problem_attempt = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
-    if latest_problem_attempt is None or latest_problem_attempt.pending_or_wrong(problem_no=1):
-        return jsonify({'message': first_problem['message']}), 200
+    if latest_problem_attempt is None or latest_problem_attempt.pending(1):
+        return jsonify({'message': problems[0]['message']}), 200
     elif latest_problem_attempt.has_been_solved(problem_no=1):
-        return jsonify({'message': second_problem['message']}), 200
+        return jsonify({'message': problems[1]['message']}), 200
     elif latest_problem_attempt.has_been_solved(problem_no=2):
-        return jsonify({'message': third_problem['message']}), 200
+        return jsonify({'message': problems[2]['message']}), 200
     elif latest_problem_attempt.has_been_solved(problem_no=3):
-        return jsonify({'message': fourth_problem['message']}), 200
+        return jsonify({'message': problems[3]['message']}), 200
     elif latest_problem_attempt.has_been_solved(problem_no=4):
-        return jsonify({'message': fourth_problem['message']}), 200
+        return jsonify({'message': problems[4]['message']}), 200
     data = {'message': 'Something went wrong'}
     return jsonify(data), 500
 
@@ -149,9 +165,7 @@ def problem_output(problem_number):
         return jsonify({'message': 'Could not find your previous attempt to fetch input'}), 404
     elif latest_problem_attempt.status == str(QuestionStatus.WRONG):
         return jsonify({'message': already_attempted}), 400
-    elif latest_problem_attempt.problem_number == problem_number \
-            and latest_problem_attempt.status == str(QuestionStatus.PENDING) \
-            and latest_problem_attempt.output == request.get_json():
+    elif latest_problem_attempt.pending(problem_number) and latest_problem_attempt.output == request.get_json():
         QuizRepo.set_status_to(QuestionStatus.CORRECT, latest_problem_attempt)
         return jsonify({'message': solved_successfully}), 200
     QuizRepo.set_status_to(QuestionStatus.WRONG, latest_problem_attempt)
