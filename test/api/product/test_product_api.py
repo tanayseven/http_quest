@@ -55,6 +55,15 @@ class TestProductApi(ApiTestBase):
         response = self.response_for_output(3, auth_token=self.candidate_token, body=solution)
         return response
 
+    def answer_fourth_question(self, answer_correct_solution=True):
+        self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
+        self.init_faker_for_input_api_call()
+        self.response_for_input(problem_number=4, auth_token=self.candidate_token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        solution = {} if not answer_correct_solution else problem_input_output.output
+        response = self.response_for_output(4, auth_token=self.candidate_token, body=solution)
+        return response
+
     def test_that_the_get_at_root_of_products_returns_correct_value(self):
         response = self.app_test.get('product_quiz/')
         assert response.status_code == 200
@@ -148,21 +157,46 @@ class TestProductApi(ApiTestBase):
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         assert not problem_input_output.has_been_solved(3)
 
-    @pytest.mark.skip()
     def test_that_the_get_problem_statement_after_answering_third_problem_shows_fourth_problem(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        self.answer_third_question()
+        response = self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
+        assert 'message' in json.loads(response.data)
+        assert 'This problem number is 4' in response.data.decode()
+        self.init_faker_for_input_api_call()
+        input_response = self.response_for_input(problem_number=4, auth_token=self.candidate_token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert input_response.status_code == 200
+        assert problem_input_output.input == json.loads(input_response.data)
 
-    @pytest.mark.skip()
     def test_answer_to_fourth_problem_if_correct_should_be_reflected_in_the_db(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        self.answer_third_question()
+        response = self.answer_fourth_question()
+        assert response.status_code == 200
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert problem_input_output.has_been_solved(4)
 
-    @pytest.mark.skip()
     def test_answer_to_fourth_problem_if_wrong_should_be_return_appropriate_response(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        self.answer_third_question()
+        response = self.answer_fourth_question(answer_correct_solution=False)
+        assert response.status_code == 400
+        assert 'Wrong solution.' in response.data.decode()
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert not problem_input_output.has_been_solved(4)
 
-    @pytest.mark.skip()
     def test_that_the_get_problem_statement_after_answering_fourth_problem_shows_completion(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        self.answer_third_question()
+        self.answer_fourth_question()
+        response = self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
+        assert 'message' in json.loads(response.data)
+        assert 'Congratulations' in response.data.decode()
 
     def response_for_input(self, problem_number: int, auth_token) -> Response:
         return self.app_test.get(

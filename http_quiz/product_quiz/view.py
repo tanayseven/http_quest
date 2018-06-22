@@ -25,6 +25,7 @@ problem_statement = [
     _('Awesome, you\'ve solved the first problem. Active products are those for which '
       'current date time fall within start and end date of the current date. Compute the count of all such products'),
     _('You\'re going good!. For your next problem, you have to compute the count of the products for every category.'),
+    _('Congratulations! You\'ve solved the  problem, for the fourth problem, you have completed all the problems!'),
 ]
 the_input_output_url_is = _(
     'The input url for getting the test data is GET on /product/{0}/input/ and the data will '
@@ -88,6 +89,23 @@ third_problem = {
     }
 }
 
+fourth_problem = {
+    'message': ' '.join((
+        this_stage_number_is.format(4),
+        problem_statement[3],
+        the_input_output_url_is.format(4),
+        example_included_here,
+    )),
+    'example': {
+        'input': {
+            'end_date': '',
+        },
+        'output': {
+            'end_date': '',
+        }
+    }
+}
+
 
 @products_view.route('/product_quiz/problem_statement', methods=('GET',))
 @candidate_token_required('sequential', 'product')
@@ -99,6 +117,10 @@ def problem_statement():
         return jsonify({'message': second_problem['message']}), 200
     elif latest_problem_attempt.has_been_solved(problem_no=2):
         return jsonify({'message': third_problem['message']}), 200
+    elif latest_problem_attempt.has_been_solved(problem_no=3):
+        return jsonify({'message': fourth_problem['message']}), 200
+    elif latest_problem_attempt.has_been_solved(problem_no=4):
+        return jsonify({'message': fourth_problem['message']}), 200
     data = {'message': 'Something went wrong'}
     return jsonify(data), 500
 
@@ -114,7 +136,7 @@ def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
         output = Product.solution_count(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
     elif latest_answer_by_candidate.has_been_solved(problem_no=problem_number - 1):
-        output = Product.fn_for_solution(problem_number-1)(input_)
+        output = Product.fn_for_solution(problem_number - 1)(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
     return jsonify(input_dict), 200
 
