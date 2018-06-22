@@ -1,4 +1,4 @@
-from typing import Union, Tuple
+from typing import Union
 
 from sqlalchemy import desc, join
 
@@ -31,7 +31,7 @@ class QuizRepo:
     @staticmethod
     def add_or_update_problem_input_output(input_: list, output: dict, candidate: Candidate, problem_number: int):
         quiz_repo = QuizRepo.fetch_latest_answer_by_candidate(candidate)
-        if quiz_repo is None:
+        if quiz_repo is None or quiz_repo.problem_number+1 == problem_number:
             db.session.add(SequentialQuiz(
                 candidate_id=candidate.id,
                 problem_number=problem_number,
