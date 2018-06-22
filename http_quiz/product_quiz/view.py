@@ -114,7 +114,7 @@ def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
         output = Product.solution_count(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
     elif latest_answer_by_candidate.has_been_solved(problem_no=problem_number - 1):
-        output = Product.solution_active_count(input_)
+        output = Product.fn_for_solution(problem_number-1)(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
     return jsonify(input_dict), 200
 

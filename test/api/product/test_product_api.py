@@ -33,7 +33,7 @@ class TestProductApi(ApiTestBase):
         self.candidate_token = self.create_candidate()
         self.response_for_input(problem_number=1, auth_token=self.candidate_token)
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
-        solution = {} if not answer_correct_solution else Product.solution_count(problem_input_output.input)
+        solution = {} if not answer_correct_solution else problem_input_output.output
         response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
         return response
 
@@ -42,8 +42,17 @@ class TestProductApi(ApiTestBase):
         self.init_faker_for_input_api_call()
         self.response_for_input(problem_number=2, auth_token=self.candidate_token)
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
-        solution = {} if not answer_correct_solution else Product.solution_count(problem_input_output.input)
+        solution = {} if not answer_correct_solution else problem_input_output.output
         response = self.response_for_output(2, auth_token=self.candidate_token, body=solution)
+        return response
+
+    def answer_third_question(self, answer_correct_solution=True):
+        self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
+        self.init_faker_for_input_api_call()
+        self.response_for_input(problem_number=3, auth_token=self.candidate_token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        solution = {} if not answer_correct_solution else problem_input_output.output
+        response = self.response_for_output(3, auth_token=self.candidate_token, body=solution)
         return response
 
     def test_that_the_get_at_root_of_products_returns_correct_value(self):
@@ -118,9 +127,13 @@ class TestProductApi(ApiTestBase):
         assert input_response.status_code == 200
         assert problem_input_output.input == json.loads(input_response.data)
 
-    @pytest.mark.skip()
     def test_answer_to_third_problem_if_correct_should_be_reflected_in_the_db(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        response = self.answer_third_question()
+        assert response.status_code == 200
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert problem_input_output.has_been_solved(3)
 
     @pytest.mark.skip()
     def test_answer_to_third_problem_if_wrong_should_be_return_appropriate_response(self):

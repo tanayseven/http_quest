@@ -1,7 +1,7 @@
 import datetime
 from datetime import timedelta
 from json import JSONEncoder
-from typing import List, Dict
+from typing import List, Dict, Union
 
 from injector import inject
 
@@ -81,6 +81,18 @@ class Product:
     @classmethod
     def solution_total_value_for_active_date(cls, product_list: List['Product']) -> Dict[str, int]:
         return {'total_value': sum([x.price for x in product_list if x.is_active()])}
+
+    @staticmethod
+    def fn_for_solution(problem_number: int) -> Union['function', None]:
+        try:
+            return [
+                Product.solution_count,
+                Product.solution_active_count,
+                Product.solution_active_date_count_categories,
+                Product.solution_total_value_for_active_date,
+            ][problem_number]
+        except IndexError:
+            return None
 
 
 class ProductFactory:
