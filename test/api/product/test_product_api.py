@@ -1,11 +1,9 @@
 from datetime import datetime
-from typing import Tuple
 
 import pytest
 from flask import json, Response
 
 from http_quiz.product_quiz.problem_statements import Product
-from http_quiz.quiz.model import Candidate, SequentialQuiz
 from http_quiz.quiz.repo import QuizRepo
 from test.base import ApiTestBase
 from test.fakes import FakeRandom, FakeDatetime
@@ -15,6 +13,9 @@ class TestProductApi(ApiTestBase):
     @pytest.fixture(autouse=True)
     def setup_random(self):
         FakeRandom.reset()
+        self.init_faker_for_input_api_call()
+
+    def init_faker_for_input_api_call(self):
         self.input_range = 2
         FakeRandom.append_next_randrange(self.input_range)
         self.price = 10
@@ -27,6 +28,17 @@ class TestProductApi(ApiTestBase):
     def add_product_parameters_to_fakers(self):
         FakeRandom.append_next_randrange([self.price, self.start_date_delta, self.end_date_delta])
         FakeDatetime.set_next_dattime(self.datetime_now)
+
+    def answer_first_question(self, answer_correct_solution=True):
+        self.candidate_token = self.create_candidate()
+        self.response_for_input(problem_number=1, auth_token=self.candidate_token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        if answer_correct_solution:
+            solution = Product.solution_count(problem_input_output.input)
+        else:
+            solution = {}
+        response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
+        return response, problem_input_output
 
     def test_that_the_get_at_root_of_products_returns_correct_value(self):
         response = self.app_test.get('product_quiz/')
@@ -42,23 +54,14 @@ class TestProductApi(ApiTestBase):
         input_response = self.response_for_input(problem_number=1, auth_token=token)
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         assert input_response.status_code == 200
-        assert problem_input_output[1].input == json.loads(input_response.data)
-
-    def answer_first_question(self, answer_correct_solution=True):
-        self.candidate_token = self.create_candidate()
-        self.response_for_input(problem_number=1, auth_token=self.candidate_token)
-        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
-        if answer_correct_solution:
-            solution = Product.solution_count(problem_input_output[1].input)
-        else:
-            solution = {}
-        response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
-        return response, problem_input_output
+        assert problem_input_output.input == json.loads(input_response.data)
 
     def test_answer_to_first_problem_if_correct_should_be_reflected_in_the_db(self):
         response, _ = self.answer_first_question()
         assert response.status_code == 200
         assert 'You\'ve solved this problem successfully.' in response.data.decode()
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert problem_input_output.has_been_solved(1)
 
     def test_answer_to_first_problem_if_wrong_should_be_return_appropriate_response(self):
         response, _ = self.answer_first_question(answer_correct_solution=False)
@@ -68,13 +71,21 @@ class TestProductApi(ApiTestBase):
     def test_answer_to_the_first_problem_if_wrong_should_ask_to_fetch_new_input(self):
         self.answer_first_question(answer_correct_solution=False)
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
-        solution = Product.solution_count(problem_input_output[1].input)
+        solution = Product.solution_count(problem_input_output.input)
         response = self.response_for_output(1, auth_token=self.candidate_token, body=solution)
         assert 'already attempted' in response.data.decode()
 
-    @pytest.mark.skip()
     def test_that_the_get_problem_statement_after_answering_first_problem_shows_second_problem(self):
-        pass
+        self.answer_first_question()
+        response = self.app_test.get('product_quiz/problem_statement', headers={'Authorization': self.candidate_token})
+        assert response.status_code == 200
+        assert 'message' in json.loads(response.data)
+        assert 'This problem number is 2' in response.data.decode()
+        self.init_faker_for_input_api_call()
+        input_response = self.response_for_input(problem_number=2, auth_token=self.candidate_token)
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert input_response.status_code == 200
+        assert problem_input_output.input == json.loads(input_response.data)
 
     @pytest.mark.skip()
     def test_answer_to_second_problem_if_correct_should_be_reflected_in_the_db(self):

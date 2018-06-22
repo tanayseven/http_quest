@@ -22,7 +22,7 @@ welcome_message = _('Welcome to the  product quiz.')
 this_stage_number_is = _('This problem number is {0}.')
 problem_statement = [
     _('Compute the count for the total number of products in the list given via input'),
-    _('Awesome, you\'ve solved the first problem. This problem number is 2. Active products are those for which '
+    _('Awesome, you\'ve solved the first problem. Active products are those for which '
       'current date time fall within start and end date of the current date. Compute the count of all such products')
 ]
 the_input_output_url_is = _(
@@ -74,10 +74,13 @@ second_problem = {
 @products_view.route('/product_quiz/problem_statement', methods=('GET',))
 @candidate_token_required('sequential', 'product')
 def problem_statement():
-    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) in (0, None):
+    latest_problem_attempt = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
+    if latest_problem_attempt is None or latest_problem_attempt.pending_or_wrong(problem_no=1):
         return jsonify({'message': first_problem['message']}), 200
-    data = {'message': ''}
-    return jsonify(data), 200
+    elif latest_problem_attempt.has_been_solved(problem_no=1):
+        return jsonify({'message': second_problem['message']}), 200
+    data = {'message': 'Something went wrong'}
+    return jsonify(data), 500
 
 
 @products_view.route('/product_quiz/<int:problem_number>/input', methods=('GET',))
@@ -86,23 +89,28 @@ def problem_statement():
 def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
     input_ = ProductCollection.generate_products(random.randrange(1, 20))
     input_dict = ProductCollection.to_dict(input_)
-    if QuizRepo.fetch_latest_answer_by_candidate(g.candidate) is None:
+    latest_answer_by_candidate = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
+    if latest_answer_by_candidate is None:
         output = Product.solution_count(input_)
         QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
-        return jsonify(input_dict)
+    elif latest_answer_by_candidate.has_been_solved(problem_no=problem_number-1):
+        output = Product.solution_active_count(input_)
+        QuizRepo.add_or_update_problem_input_output(input_dict, output, g.candidate, problem_number)
+    return jsonify(input_dict), 200
 
 
 @products_view.route('/product_quiz/<int:problem_number>/output', methods=('POST',))
 @candidate_token_required('sequential', 'product')
 def problem_output(problem_number):
-    latest_answer_by_candidate = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
-    if latest_answer_by_candidate is None:
+    latest_problem_attempt = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)
+    if latest_problem_attempt is None:
         return jsonify({'message': 'Could not find your previous attempt to fetch input'}), 404
-    elif latest_answer_by_candidate[1].status == str(QuestionStatus.WRONG):
+    elif latest_problem_attempt.status == str(QuestionStatus.WRONG):
         return jsonify({'message': already_attempted}), 400
-    elif latest_answer_by_candidate[1].problem_number == problem_number \
-            and latest_answer_by_candidate[1].status == str(QuestionStatus.PENDING)\
-            and latest_answer_by_candidate[1].output == request.get_json():
+    elif latest_problem_attempt.problem_number == problem_number \
+            and latest_problem_attempt.status == str(QuestionStatus.PENDING)\
+            and latest_problem_attempt.output == request.get_json():
+        QuizRepo.set_status_to(QuestionStatus.CORRECT, latest_problem_attempt)
         return jsonify({'message': solved_successfully}), 200
-    QuizRepo.set_status_to(QuestionStatus.WRONG, latest_answer_by_candidate[1])
+    QuizRepo.set_status_to(QuestionStatus.WRONG, latest_problem_attempt)
     return jsonify({'message': wrong_solution}), 400

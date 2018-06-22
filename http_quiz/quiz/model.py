@@ -50,3 +50,10 @@ class SequentialQuiz(db.Model):
     output = db.Column(JSONB)
     attempts = db.Column(db.Integer, default=1)
     status = db.Column(db.String(64))
+
+    def pending_or_wrong(self, problem_no: int) -> bool:
+        return self.problem_number == problem_no \
+               and (self.status == str(QuestionStatus.PENDING) or self.status == str(QuestionStatus.WRONG))
+
+    def has_been_solved(self, problem_no: int) -> bool:
+        return self.problem_number == problem_no and self.status == str(QuestionStatus.CORRECT)
