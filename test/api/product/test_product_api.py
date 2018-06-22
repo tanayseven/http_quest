@@ -82,6 +82,8 @@ class TestProductApi(ApiTestBase):
         response = self.answer_first_question(answer_correct_solution=False)
         assert response.status_code == 400
         assert 'Wrong solution.' in response.data.decode()
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert not problem_input_output.has_been_solved(1)
 
     def test_answer_to_the_first_problem_if_wrong_should_ask_to_fetch_new_input(self):
         self.answer_first_question(answer_correct_solution=False)
@@ -114,6 +116,8 @@ class TestProductApi(ApiTestBase):
         response = self.answer_second_question(answer_correct_solution=False)
         assert response.status_code == 400
         assert 'Wrong solution.' in response.data.decode()
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert not problem_input_output.has_been_solved(2)
 
     def test_that_the_get_problem_statement_after_answering_second_problem_shows_third_problem(self):
         self.answer_first_question()
@@ -135,9 +139,14 @@ class TestProductApi(ApiTestBase):
         problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
         assert problem_input_output.has_been_solved(3)
 
-    @pytest.mark.skip()
     def test_answer_to_third_problem_if_wrong_should_be_return_appropriate_response(self):
-        pass
+        self.answer_first_question()
+        self.answer_second_question()
+        response = self.answer_third_question(answer_correct_solution=False)
+        assert response.status_code == 400
+        assert 'Wrong solution.' in response.data.decode()
+        problem_input_output = QuizRepo.fetch_latest_answer_by_candidate(self.candidate)
+        assert not problem_input_output.has_been_solved(3)
 
     @pytest.mark.skip()
     def test_that_the_get_problem_statement_after_answering_third_problem_shows_fourth_problem(self):
