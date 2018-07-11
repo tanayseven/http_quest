@@ -19,6 +19,7 @@ before_script:
 script:
   - ./create_test_database
   - ./pytest_exec --cov http_quiz --cov test test/
+  - ./behave_exec
 
 after_script:
   - ./app_exec coveralls
