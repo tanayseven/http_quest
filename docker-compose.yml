@@ -22,6 +22,7 @@ services:
       - DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz
       - TEST_DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz_test
       - FLASK_DEBUG=true
+      - HEADLESS=true
       - SECRET_KEY=some_secret
       - COVERALLS_REPO_TOKEN
     build:
