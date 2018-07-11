@@ -8,11 +8,13 @@ services:
       context: .
       dockerfile: Database.Dockerfile
     tmpfs: /pgtmpfs
+    container_name: http_quiz_database
   mailcatcher:
     image: "schickling/mailcatcher"
     ports:
       - '1080:1080'
       - '1025:1025'
+    container_name: http_quiz_mailcatcher
   app:
     environment:
       - APP_ENVIRONMENT=dev
@@ -30,6 +32,7 @@ services:
     working_dir: /app
     ports:
       - '80:5000'
+    container_name: http_quiz_app
     depends_on:
       - database
       - mailcatcher
