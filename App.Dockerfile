@@ -1,17 +1,21 @@
-FROM python:3.6
+FROM python:3.6-jessie
 
 WORKDIR /app
 
 ADD . /app
 
 # Install Chrome for Selenium
-RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
-RUN dpkg -i /chrome.deb || apt-get install -yf
-RUN rm /chrome.deb
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
+    && apt-get update -y \
+    && apt-get install -y google-chrome-stable
 
 # Install chromedriver for Selenium
-RUN curl https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip -o /usr/local/bin/chromedriver
-RUN chmod +x /usr/local/bin/chromedriver
+RUN curl https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip -o chromedriver_linux64.zip \ 
+    && apt-get update \
+    && apt-get install unzip -y \
+    && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/chromedriver
 
 RUN pip install -e .
 
