@@ -21,5 +21,8 @@ setup(
         'cerberus==1.2',
         'psycopg2-binary==2.7.4',
         'coveralls==1.3.0',
+        'doubles==1.5.0',
+        'behave==1.2.6',
+        'selenium==3.13.0',
     ],
 )
