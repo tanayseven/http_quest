@@ -1,37 +1,24 @@
 import datetime
+import random
 import os
 
+from flask import Flask, g
 from flask_bcrypt import Bcrypt
-from injector import singleton, Binder, Injector
 
 from http_quiz.utilities import RandomWrapper
+from http_quiz.ext import bcrypt
 from test.fakes import FakeDatetime, FakeRandom, FakeBcrypt
 
 
-def bind_injections_test(binder: Binder):
-    binder.bind(
-        Bcrypt,
-        to=FakeBcrypt(),
-        scope=singleton,
-    )
-    binder.bind(
-        datetime.datetime,
-        to=FakeDatetime(),
-        scope=singleton,
-    )
-    binder.bind(
-        RandomWrapper,
-        to=FakeRandom(),
-        scope=singleton,
-    )
+def bind_injections_test(app: Flask):
+    with app.app_context():
+        g.bcrypt = FakeBcrypt()
+        g.datetime = FakeDatetime()
+        g.random = FakeRandom()
 
 
-def bind_injections_dev(binder: Binder):  # pragma: no cover
-    pass
-
-
-injector: Injector = None
-if os.environ['APP_ENVIRONMENT'] == 'test':
-    injector = Injector([bind_injections_test])
-elif os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
-    injector = Injector([bind_injections_dev])
+def bind_injections_dev(app: Flask):  # pragma: no cover
+    with app.app_context():
+        g.bcrypt = bcrypt
+        g.datetime = datetime.datetime
+        g.random = random

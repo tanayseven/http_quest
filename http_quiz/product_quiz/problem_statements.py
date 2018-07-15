@@ -4,8 +4,8 @@ from json import JSONEncoder
 from typing import List, Dict, Union
 
 from injector import inject
+from flask import g
 
-from http_quiz.di import injector
 from http_quiz.utilities import RandomWrapper
 
 name_with_categories = {
@@ -25,27 +25,29 @@ name_with_categories = {
 }
 
 
-class DateTime:
-    @inject
-    def __init__(self, datetime: datetime.datetime = datetime.datetime):
-        self._datetime = datetime
+# class DateTime:
+#     @inject
+#     def __init__(self, datetime: datetime.datetime = datetime.datetime):
+#         self._datetime = datetime
 
-    @property
-    def datetime(self):
-        return self._datetime
+#     @property
+#     def datetime(self):
+#         return self._datetime
 
 
-injected_datetime = injector.get(DateTime)
+# injected_datetime = injector.get(DateTime)
 
 
 class Product:
     def __init__(self, name: str, category: str, price: int, start_date: datetime.datetime,
-                 end_date: datetime.datetime):
+                 end_date: datetime.datetime, datetime_: g.datetime):
+
         self.name = name
         self.category = category
         self.price = price
         self.start_date = start_date
         self.end_date = end_date
+        self.datetime_ = datetime_
 
     def to_dict(self) -> dict:
         return {
@@ -56,7 +58,7 @@ class Product:
         }
 
     def is_active(self):
-        return self.start_date <= injected_datetime.datetime.now() <= self.end_date
+        return self.start_date <= self.datetime_.now() <= self.end_date
 
     @classmethod
     def solution_count(cls, product_list: List['Product']) -> Dict[str, int]:
@@ -96,8 +98,7 @@ class Product:
 
 
 class ProductFactory:
-    @inject
-    def __init__(self, random: RandomWrapper = RandomWrapper(), datetime: datetime.datetime = datetime.datetime):
+    def __init__(self, random: RandomWrapper = g.random, datetime: datetime.datetime = g.datetime):
         self._random = random
         self._datetime = datetime
 
@@ -109,10 +110,11 @@ class ProductFactory:
             self._random.randrange(100, 10000),
             self._datetime.now() - timedelta(days=self._random.randrange(2, 9)),
             self._datetime.now() + timedelta(days=self._random.randrange(2, 9)),
+            self._datetime,
         )
 
 
-product_factory: ProductFactory = injector.get(ProductFactory)
+product_factory: ProductFactory = ProductFactory()
 
 
 class ProductCollection:

@@ -2,11 +2,9 @@ import os
 
 import click
 from flask import Flask
-from flask_injector import FlaskInjector
 
-from http_quiz.di import bind_injections_test, injector
-from http_quiz.ext import db
-from http_quiz.extensions import jwt, migrate, mail, bcrypt
+from http_quiz.di import bind_injections_test, bind_injections_dev
+from http_quiz.ext import jwt, migrate, mail, bcrypt, db
 from http_quiz.product_quiz.view import products_view
 from http_quiz.quiz.view import quiz_view
 from http_quiz.user.user import identity, bcrypt_auth, BcryptAuth
@@ -17,8 +15,10 @@ app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
 if os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
     app.config.from_object('http_quiz.config.DevelopmentConfig')
+    bind_injections_dev(app)
 elif os.environ['APP_ENVIRONMENT'] == 'test':
     app.config.from_object('http_quiz.config.TestConfig')
+    bind_injections_test(app)
 
 # Perform migrations on the data
 db.init_app(app)
@@ -37,10 +37,6 @@ app.register_blueprint(products_view)
 app.register_blueprint(user_view)
 app.register_blueprint(root_view)
 app.register_blueprint(quiz_view)
-
-if os.environ['APP_ENVIRONMENT'] == 'test':
-    FlaskInjector(app=app, modules=[bind_injections_test], injector=injector)
-
 
 @app.cli.command()
 @click.argument('email')
