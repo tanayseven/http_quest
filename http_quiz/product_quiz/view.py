@@ -1,7 +1,7 @@
-from flask import Blueprint, jsonify, g, request
-from injector import inject
-
-from http_quiz.product_quiz.problem_statements import ProductCollection, Product
+from flask import Blueprint, g, jsonify, request
+from http_quiz.di import container
+from http_quiz.product_quiz.problem_statements import Product, \
+    ProductCollection
 from http_quiz.product_quiz.translations import _
 from http_quiz.quiz.model import QuestionStatus
 from http_quiz.quiz.quiz import candidate_token_required
@@ -137,8 +137,7 @@ def problem_statement():
 
 @products_view.route('/product_quiz/<int:problem_number>/input', methods=('GET',))
 @candidate_token_required('sequential', 'product')
-@inject
-def problem_input(problem_number, random: RandomWrapper = RandomWrapper()):
+def problem_input(problem_number, random: RandomWrapper = container.random):
     input_ = ProductCollection.generate_products(random.randrange(1, 20))
     input_dict = ProductCollection.to_dict(input_)
     latest_answer_by_candidate = QuizRepo.fetch_latest_answer_by_candidate(g.candidate)

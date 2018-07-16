@@ -1,24 +1,31 @@
 import datetime
-import random
 import os
+import random
 
-from flask import Flask, g
 from flask_bcrypt import Bcrypt
+from tinydic import Container
 
-from http_quiz.utilities import RandomWrapper
+from test.fakes import FakeBcrypt, FakeDatetime, FakeRandom
 from http_quiz.ext import bcrypt
-from test.fakes import FakeDatetime, FakeRandom, FakeBcrypt
+from http_quiz.utilities import RandomWrapper
 
 
-def bind_injections_test(app: Flask):
-    with app.app_context():
-        g.bcrypt = FakeBcrypt()
-        g.datetime = FakeDatetime()
-        g.random = FakeRandom()
+container = Container()
 
 
-def bind_injections_dev(app: Flask):  # pragma: no cover
-    with app.app_context():
-        g.bcrypt = bcrypt
-        g.datetime = datetime.datetime
-        g.random = random
+def bind_injections_test():
+    container.bcrypt = FakeBcrypt()
+    container.datetime = FakeDatetime()
+    container.random = FakeRandom()
+
+
+def bind_injections_dev():  # pragma: no cover
+    container.bcrypt = bcrypt
+    container.datetime = datetime.datetime
+    container.random = random
+
+
+if os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
+    bind_injections_dev()
+elif os.environ['APP_ENVIRONMENT'] == 'test':
+    bind_injections_test()

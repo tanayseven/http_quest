@@ -6,7 +6,7 @@ from flask import request, jsonify, url_for, g
 from flask_jwt import current_identity
 from flask_mail import Message
 
-from http_quiz.extensions import mail
+from http_quiz.ext import mail
 from http_quiz.quiz.model import Candidate, CandidateStatus
 from http_quiz.quiz.repo import CandidateRepo
 from http_quiz.quiz.translations import get_text

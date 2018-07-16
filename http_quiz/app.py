@@ -3,7 +3,6 @@ import os
 import click
 from flask import Flask
 
-from http_quiz.di import bind_injections_test, bind_injections_dev
 from http_quiz.ext import jwt, migrate, mail, bcrypt, db
 from http_quiz.product_quiz.view import products_view
 from http_quiz.quiz.view import quiz_view
@@ -15,10 +14,8 @@ app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
 if os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
     app.config.from_object('http_quiz.config.DevelopmentConfig')
-    bind_injections_dev(app)
 elif os.environ['APP_ENVIRONMENT'] == 'test':
     app.config.from_object('http_quiz.config.TestConfig')
-    bind_injections_test(app)
 
 # Perform migrations on the data
 db.init_app(app)

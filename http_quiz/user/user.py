@@ -3,10 +3,9 @@ from typing import Tuple, Union
 
 from flask_bcrypt import Bcrypt
 from flask_mail import Message
-from injector import inject
 
-from http_quiz.di import injector
-from http_quiz.extensions import mail, bcrypt
+from http_quiz.di import container
+from http_quiz.ext import mail, bcrypt
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
 from http_quiz.user.translations import get_text
@@ -14,9 +13,8 @@ from http_quiz.utilities import load_template
 
 
 class BcryptAuth:
-    @inject
-    def __init__(self, bcrypt: Bcrypt=bcrypt):
-        self.bcrypt = bcrypt
+    def __init__(self):
+        self.bcrypt = container.bcrypt
 
     def authenticate(self, email: str, password: str) -> Union[User, None]:
         user = UserRepo.fetch_user_by_email(email)
@@ -53,7 +51,7 @@ class BcryptAuth:
         return hashed_password, success
 
 
-bcrypt_auth: BcryptAuth = injector.get(BcryptAuth)
+bcrypt_auth: BcryptAuth = BcryptAuth()
 
 
 def identity(payload: dict):

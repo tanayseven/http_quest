@@ -1,12 +1,11 @@
 import datetime
 from datetime import timedelta
 from json import JSONEncoder
-from typing import List, Dict, Union
+from typing import Dict, List, Union
 
-from injector import inject
-from flask import g
-
+from http_quiz.di import container
 from http_quiz.utilities import RandomWrapper
+
 
 name_with_categories = {
     'Mobile Phone': 'Electronics',
@@ -39,15 +38,15 @@ name_with_categories = {
 
 
 class Product:
-    def __init__(self, name: str, category: str, price: int, start_date: datetime.datetime,
-                 end_date: datetime.datetime, datetime_: g.datetime):
+    def __init__(self, name: str, category: str, price: int, start_date,
+                 end_date):
 
         self.name = name
         self.category = category
         self.price = price
         self.start_date = start_date
         self.end_date = end_date
-        self.datetime_ = datetime_
+        self.datetime_ = container.datetime
 
     def to_dict(self) -> dict:
         return {
@@ -98,9 +97,9 @@ class Product:
 
 
 class ProductFactory:
-    def __init__(self, random: RandomWrapper = g.random, datetime: datetime.datetime = g.datetime):
-        self._random = random
-        self._datetime = datetime
+    def __init__(self):
+        self._random = container.random
+        self._datetime = container.datetime
 
     def new_product(self, id_: int) -> Product:
         name = list(name_with_categories.keys())[id_]
@@ -110,16 +109,15 @@ class ProductFactory:
             self._random.randrange(100, 10000),
             self._datetime.now() - timedelta(days=self._random.randrange(2, 9)),
             self._datetime.now() + timedelta(days=self._random.randrange(2, 9)),
-            self._datetime,
         )
 
 
-product_factory: ProductFactory = ProductFactory()
 
 
 class ProductCollection:
     @staticmethod
     def generate_products(count: int) -> List[Product]:
+        product_factory: ProductFactory = ProductFactory()
         return [
             product_factory.new_product(x) for x in range(count)
         ]

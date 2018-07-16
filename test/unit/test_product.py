@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from http_quiz.product_quiz.problem_statements import name_with_categories, product_factory, ProductCollection, Product
+from http_quiz.product_quiz.problem_statements import name_with_categories, ProductCollection, Product, ProductFactory
 from test.fakes import FakeRandom, FakeDatetime
 
 
@@ -34,7 +34,7 @@ class TestProductCollection:
     @pytest.fixture(autouse=True)
     def setup(self):
         FakeRandom.reset()
-        self.product_factory = product_factory
+        self.product_factory = ProductFactory()
         self.datetime_now = datetime(year=2018, month=2, day=13)
 
     def test_product_is_generated_correctly(self):

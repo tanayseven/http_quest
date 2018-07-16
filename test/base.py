@@ -6,8 +6,7 @@ from flask import json
 from flask.testing import FlaskClient
 
 from http_quiz.app import app
-from http_quiz.ext import db
-from http_quiz.extensions import mail
+from http_quiz.ext import db, mail
 from http_quiz.quiz.model import QuizType
 from http_quiz.quiz.repo import CandidateRepo
 from http_quiz.user.model import User
