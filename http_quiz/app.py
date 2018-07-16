@@ -1,14 +1,14 @@
 import os
 
 import click
-from flask import Flask
-
-from http_quiz.ext import jwt, migrate, mail, bcrypt, db
+from flask import Flask, url_for
+from http_quiz.ext import bcrypt, db, jwt, mail, migrate
 from http_quiz.product_quiz.view import products_view
 from http_quiz.quiz.view import quiz_view
-from http_quiz.user.user import identity, bcrypt_auth, BcryptAuth
+from http_quiz.user.user import BcryptAuth, bcrypt_auth, identity
 from http_quiz.user.view import user_view
 from http_quiz.view import root_view
+
 
 app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
