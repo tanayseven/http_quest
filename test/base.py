@@ -11,7 +11,7 @@ from http_quiz.quiz.model import QuizType
 from http_quiz.quiz.repo import CandidateRepo
 from http_quiz.user.model import User
 from http_quiz.user.repo import UserRepo
-from http_quiz.user.user import bcrypt_auth
+from http_quiz.user.user import create_user
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):
@@ -46,7 +46,7 @@ class DatabaseTest:
 
 class ApiTestBase(DatabaseTest):
     def create_user(self):
-        bcrypt_auth.create_user('user@domain.com', 'password')
+        create_user('user@domain.com', 'password')
         self.mail_outbox.pop()
         return UserRepo.fetch_user_by_email('user@domain.com')
 

@@ -5,7 +5,7 @@ from flask import Flask, url_for
 from http_quiz.ext import bcrypt, db, jwt, mail, migrate
 from http_quiz.product_quiz.view import products_view
 from http_quiz.quiz.view import quiz_view
-from http_quiz.user.user import BcryptAuth, bcrypt_auth, identity
+from http_quiz.user.user import authenticate, identity, create_user
 from http_quiz.user.view import user_view
 from http_quiz.view import root_view
 
@@ -23,7 +23,7 @@ migrate.init_app(app)
 
 # Add handlers for Flask-JWT
 jwt.identity_handler(identity)
-jwt.authentication_handler(bcrypt_auth.authenticate)
+jwt.authentication_handler(authenticate)
 jwt.init_app(app)
 
 mail.init_app(app)
@@ -39,7 +39,7 @@ app.register_blueprint(quiz_view)
 @click.argument('email')
 def create_new_admin(email):
     """Creates a new admin with the given username"""
-    success = bcrypt_auth.create_user(email=email)
+    success = create_user(email=email)
     if success:
         print('Created a new user with the email: ' + email)
         return
