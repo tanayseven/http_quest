@@ -5,7 +5,7 @@ setup(
     packages=['http_quiz'],
     include_package_data=True,
     install_requires=[
-        'flask==0.12.2',
+        'flask==1.0.2',
         'pytest==3.4.2',
         'pytest-cov==2.5.1',
         'pylint==1.8.4',
