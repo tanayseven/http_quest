@@ -32,8 +32,19 @@ services:
       - .:/app
     working_dir: /app
     ports:
-      - '80:5000'
+      - '5000:5000'
     container_name: http_quiz_app
     depends_on:
       - database
       - mailcatcher
+  view:
+    environment:
+      - SOME_VAR=some_val
+    build:
+      context: .
+      dockerfile: View.Dockerfile
+    volumes:
+      - ./:app
+    working_dir: /app
+    ports:
+      - '80:80'

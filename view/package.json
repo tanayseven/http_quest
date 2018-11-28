@@ -1,0 +1,30 @@
+{
+  "name": "http_quiz",
+  "version": "1.0.0",
+  "description": "A frontend for http_quiz",
+  "main": "index.js",
+  "directories": {
+    "../test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanayseven/http_quiz.git"
+  },
+  "keywords": [
+    "http",
+    "quiz",
+    "admin",
+    "console",
+    "evaluation",
+    "questionaire"
+  ],
+  "author": "Tanay PrabhuDesai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tanayseven/http_quiz/issues"
+  },
+  "homepage": "https://github.com/tanayseven/http_quiz#readme"
+}
