@@ -26,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/tanayseven/http_quiz/issues"
   },
-  "homepage": "https://github.com/tanayseven/http_quiz#readme"
+  "homepage": "https://github.com/tanayseven/http_quiz#readme",
+  "devDependencies": {
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
+  }
 }

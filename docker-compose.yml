@@ -44,7 +44,7 @@ services:
       context: .
       dockerfile: View.Dockerfile
     volumes:
-      - ./:app
-    working_dir: /app
+      - ./view/build:/usr/share/nginx/html
     ports:
       - '80:80'
+    container_name: http_quiz_view
