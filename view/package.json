@@ -1,33 +1,25 @@
 {
-  "name": "http_quiz",
-  "version": "1.0.0",
-  "description": "A frontend for http_quiz",
-  "main": "index.js",
-  "directories": {
-    "../test": "test"
+  "name": "view",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.6.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-scripts-ts": "3.1.0"
   },
   "scripts": {
-    "test": "test"
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tanayseven/http_quiz.git"
-  },
-  "keywords": [
-    "http",
-    "quiz",
-    "admin",
-    "console",
-    "evaluation",
-    "questionaire"
-  ],
-  "author": "Tanay PrabhuDesai",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tanayseven/http_quiz/issues"
-  },
-  "homepage": "https://github.com/tanayseven/http_quiz#readme",
   "devDependencies": {
+    "@types/jest": "^23.3.10",
+    "@types/node": "^10.12.11",
+    "@types/react": "^16.7.11",
+    "@types/react-dom": "^16.0.11",
+    "typescript": "^3.2.1",
     "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2"
   }
