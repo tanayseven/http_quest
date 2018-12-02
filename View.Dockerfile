@@ -1,4 +1,4 @@
-FROM node:8 as build
+FROM node:8 as dev
 WORKDIR /app
 ADD ./view/ /app
 RUN npm install

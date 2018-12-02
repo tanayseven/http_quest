@@ -1,4 +1,4 @@
-FROM python:3.7 as build
+FROM python:3.7 as dev
 WORKDIR /app
 ADD . /app
 # Install Chrome for Selenium
@@ -19,6 +19,7 @@ CMD ["flask", "db", "upgrade"]
 
 
 FROM python:3.7 as prod
+WORKDIR /app
 ADD . /app
 RUN pip install -e .
 ENV FLASK_APP="http_quiz.app:app"

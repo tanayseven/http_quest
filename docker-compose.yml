@@ -4,9 +4,7 @@ services:
     environment:
       - POSTGRES_USER=http_quiz
       - POSTGRES_PASSWORD=http_quiz
-    build:
-      context: .
-      dockerfile: Database.Dockerfile
+    image: postgres:10
     tmpfs: /pgtmpfs
     container_name: http_quiz_database
   mailcatcher:
