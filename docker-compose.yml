@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
   database:
     environment:
@@ -26,6 +26,7 @@ services:
     build:
       context: .
       dockerfile: App.Dockerfile
+      target: dev
     volumes:
       - .:/app
     working_dir: /app
@@ -41,6 +42,7 @@ services:
     build:
       context: .
       dockerfile: View.Dockerfile
+      target: dev
     volumes:
       - ./view/build:/usr/share/nginx/html
     ports:

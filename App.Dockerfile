@@ -15,7 +15,7 @@ RUN curl https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.z
 RUN pip install -e .
 ENV FLASK_APP="http_quiz.app:app"
 CMD ["flask", "db", "upgrade"]
-#  CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
+CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
 
 
 FROM python:3.7 as prod
