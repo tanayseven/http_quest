@@ -6,7 +6,7 @@
     :target: https://coveralls.io/github/tanayseven/http_quest?branch=HEAD
     :alt: test coverage
 
-.. image:: https://api.codeclimate.com/v1/badges/581fb314c868e6c41e90/maintainability
+.. image:: https://api.codeclimate.com/v1/badges/a939e0acceece8e12b6b/maintainability
    :target: https://codeclimate.com/github/tanayseven/http_quest/maintainability
    :alt: Maintainability
 
