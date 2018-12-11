@@ -2,8 +2,8 @@ from typing import Union
 
 from sqlalchemy import desc, join
 
-from http_quiz.ext import db
-from http_quiz.quiz.model import Candidate, SequentialQuiz, QuestionStatus
+from http_quest.ext import db
+from http_quest.quiz.model import Candidate, SequentialQuiz, QuestionStatus
 
 
 class CandidateRepo:

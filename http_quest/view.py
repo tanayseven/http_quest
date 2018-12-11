@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask.templating import render_template
 
-from http_quiz.translations import get_text
+from http_quest.translations import get_text
 
 
 root_view = Blueprint('root', __name__)

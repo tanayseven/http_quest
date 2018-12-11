@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='http_quiz',
-    packages=['http_quiz'],
+    name='http_quest',
+    packages=['http_quest'],
     include_package_data=True,
     install_requires=[
         'flask==1.0.2',

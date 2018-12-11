@@ -1,8 +1,8 @@
 from flask import json
 
-from http_quiz.quiz.model import QuizType
-from http_quiz.quiz.repo import CandidateRepo
-from http_quiz.quiz.translations import get_text
+from http_quest.quiz.model import QuizType
+from http_quest.quiz.repo import CandidateRepo
+from http_quest.quiz.translations import get_text
 from test.base import ApiTestBase
 
 

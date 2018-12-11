@@ -2,7 +2,7 @@ from enum import Enum
 
 from sqlalchemy.dialects.postgresql import JSONB
 
-from http_quiz.ext import db
+from http_quest.ext import db
 
 
 class CandidateStatus(Enum):

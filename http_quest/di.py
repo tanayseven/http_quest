@@ -6,8 +6,8 @@ from flask_bcrypt import Bcrypt
 from tinydic import Container
 
 from test.fakes import FakeBcrypt, FakeDatetime, FakeRandom
-from http_quiz.ext import bcrypt
-from http_quiz.utilities import RandomWrapper
+from http_quest.ext import bcrypt
+from http_quest.utilities import RandomWrapper
 
 
 container = Container()

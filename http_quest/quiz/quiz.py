@@ -6,12 +6,12 @@ from flask import request, jsonify, url_for, g
 from flask_jwt import current_identity
 from flask_mail import Message
 
-from http_quiz.ext import mail
-from http_quiz.quiz.model import Candidate, CandidateStatus
-from http_quiz.quiz.repo import CandidateRepo
-from http_quiz.quiz.translations import get_text
-from http_quiz.user.model import User
-from http_quiz.utilities import load_template
+from http_quest.ext import mail
+from http_quest.quiz.model import Candidate, CandidateStatus
+from http_quest.quiz.repo import CandidateRepo
+from http_quest.quiz.translations import get_text
+from http_quest.user.model import User
+from http_quest.utilities import load_template
 
 
 def create_new_candidate_token():

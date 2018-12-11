@@ -1,4 +1,4 @@
-from http_quiz.utilities import get_translation_for
+from http_quest.utilities import get_translation_for
 
 en_IN = {
     'candidate_token_success': 'Token is successfully generated and sent by email to you and the candidate.',

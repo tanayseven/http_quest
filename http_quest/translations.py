@@ -1,4 +1,4 @@
-from http_quiz.utilities import get_translation_for
+from http_quest.utilities import get_translation_for
 
 en_IN = {
     'root_welcome': 'This is the / . Please go to GET /login for any further activity'

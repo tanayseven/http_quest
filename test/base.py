@@ -5,13 +5,13 @@ import pytest
 from flask import json
 from flask.testing import FlaskClient
 
-from http_quiz.app import app
-from http_quiz.ext import db, mail
-from http_quiz.quiz.model import QuizType
-from http_quiz.quiz.repo import CandidateRepo
-from http_quiz.user.model import User
-from http_quiz.user.repo import UserRepo
-from http_quiz.user.user import create_user
+from http_quest.app import app
+from http_quest.ext import db, mail
+from http_quest.quiz.model import QuizType
+from http_quest.quiz.repo import CandidateRepo
+from http_quest.user.model import User
+from http_quest.user.repo import UserRepo
+from http_quest.user.user import create_user
 
 
 def _post_json(self, url: str = '/', body=None, headers=None):

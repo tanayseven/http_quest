@@ -1,12 +1,12 @@
 from flask import Blueprint, g, jsonify, request
-from http_quiz.di import container
-from http_quiz.product_quiz.problem_statements import Product, \
+from http_quest.di import container
+from http_quest.product_quiz.problem_statements import Product, \
     ProductCollection
-from http_quiz.product_quiz.translations import _
-from http_quiz.quiz.model import QuestionStatus
-from http_quiz.quiz.quiz import candidate_token_required
-from http_quiz.quiz.repo import QuizRepo
-from http_quiz.utilities import RandomWrapper
+from http_quest.product_quiz.translations import _
+from http_quest.quiz.model import QuestionStatus
+from http_quest.quiz.quiz import candidate_token_required
+from http_quest.quiz.repo import QuizRepo
+from http_quest.utilities import RandomWrapper
 
 products_view = Blueprint('product_quiz', __name__)
 

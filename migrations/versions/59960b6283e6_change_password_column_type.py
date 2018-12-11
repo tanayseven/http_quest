@@ -10,10 +10,10 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-from http_quiz.app import app
-from http_quiz.ext import db
-from http_quiz.user.model import User
-from http_quiz.user.user import _reset_password_for_user
+from http_quest.app import app
+from http_quest.ext import db
+from http_quest.user.model import User
+from http_quest.user.user import _reset_password_for_user
 
 revision = '59960b6283e6'
 down_revision = 'ffc021d174b1'

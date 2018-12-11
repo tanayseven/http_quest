@@ -10,5 +10,5 @@ htmlcov/
 
 .mypy_cache/
 
-http_quiz.iml
+http_quest.iml
 view/node_modules/

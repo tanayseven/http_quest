@@ -2,23 +2,23 @@ version: '3.4'
 services:
   database:
     environment:
-      - POSTGRES_USER=http_quiz
-      - POSTGRES_PASSWORD=http_quiz
+      - POSTGRES_USER=http_quest
+      - POSTGRES_PASSWORD=http_quest
     image: postgres:10
     tmpfs: /pgtmpfs
-    container_name: http_quiz_database
+    container_name: http_quest_database
   mailcatcher:
     image: "schickling/mailcatcher"
     ports:
       - '1080:1080'
       - '1025:1025'
-    container_name: http_quiz_mailcatcher
+    container_name: http_quest_mailcatcher
   app:
     environment:
       - APP_ENVIRONMENT=dev
       - APP_LOCALE=hi
-      - DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz
-      - TEST_DATABASE_URI=postgresql://http_quiz:http_quiz@database/http_quiz_test
+      - DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest_test
       - FLASK_DEBUG=true
       - HEADLESS=true
       - SECRET_KEY=some_secret
@@ -32,7 +32,7 @@ services:
     working_dir: /app
     ports:
       - '5000:5000'
-    container_name: http_quiz_app
+    container_name: http_quest_app
     depends_on:
       - database
       - mailcatcher
@@ -47,4 +47,4 @@ services:
       - ./view/build:/usr/share/nginx/html
     ports:
       - '80:80'
-    container_name: http_quiz_view
+    container_name: http_quest_view

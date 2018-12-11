@@ -4,12 +4,12 @@ from typing import Tuple, Union
 from flask_bcrypt import Bcrypt
 from flask_mail import Message
 
-from http_quiz.di import container
-from http_quiz.ext import mail, bcrypt
-from http_quiz.user.model import User
-from http_quiz.user.repo import UserRepo
-from http_quiz.user.translations import get_text
-from http_quiz.utilities import load_template
+from http_quest.di import container
+from http_quest.ext import mail, bcrypt
+from http_quest.user.model import User
+from http_quest.user.repo import UserRepo
+from http_quest.user.translations import get_text
+from http_quest.utilities import load_template
 
 
 def authenticate(email: str, password: str) -> Union[User, None]:

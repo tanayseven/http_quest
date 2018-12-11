@@ -3,8 +3,8 @@ from datetime import timedelta
 from json import JSONEncoder
 from typing import Dict, List, Union
 
-from http_quiz.di import container
-from http_quiz.utilities import RandomWrapper
+from http_quest.di import container
+from http_quest.utilities import RandomWrapper
 
 
 name_with_categories = {

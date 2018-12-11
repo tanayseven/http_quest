@@ -1,10 +1,10 @@
 from flask import jsonify, Blueprint, request
 from flask_jwt import jwt_required
 
-from http_quiz.user.schema import new_password_schema, create_new_schema, password_reset_schema
-from http_quiz.user.translations import get_text
-from http_quiz.user.user import reset_password_for_user_having_email, create_user, update_password_for_token
-from http_quiz.utilities import validate_json
+from http_quest.user.schema import new_password_schema, create_new_schema, password_reset_schema
+from http_quest.user.translations import get_text
+from http_quest.user.user import reset_password_for_user_having_email, create_user, update_password_for_token
+from http_quest.utilities import validate_json
 
 user_view = Blueprint('user', __name__)
 

@@ -1,7 +1,7 @@
 from typing import Union, Any
 
-from http_quiz.ext import db
-from http_quiz.user.model import User
+from http_quest.ext import db
+from http_quest.user.model import User
 
 
 class UserRepo:

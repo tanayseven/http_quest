@@ -2,20 +2,20 @@ import os
 
 import click
 from flask import Flask, url_for
-from http_quiz.ext import bcrypt, db, jwt, mail, migrate
-from http_quiz.product_quiz.view import products_view
-from http_quiz.quiz.view import quiz_view
-from http_quiz.user.user import authenticate, identity, create_user
-from http_quiz.user.view import user_view
-from http_quiz.view import root_view
+from http_quest.ext import bcrypt, db, jwt, mail, migrate
+from http_quest.product_quiz.view import products_view
+from http_quest.quiz.view import quiz_view
+from http_quest.user.user import authenticate, identity, create_user
+from http_quest.user.view import user_view
+from http_quest.view import root_view
 
 
 app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
 if os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
-    app.config.from_object('http_quiz.config.DevelopmentConfig')
+    app.config.from_object('http_quest.config.DevelopmentConfig')
 elif os.environ['APP_ENVIRONMENT'] == 'test':
-    app.config.from_object('http_quiz.config.TestConfig')
+    app.config.from_object('http_quest.config.TestConfig')
 
 # Perform migrations on the data
 db.init_app(app)

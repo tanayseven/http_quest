@@ -1,31 +1,32 @@
-.. image:: https://travis-ci.org/tanayseven/http_quiz.svg?branch=master
-    :target: https://travis-ci.org/tanayseven/http_quiz
+.. image:: https://travis-ci.org/tanayseven/http_quest.svg?branch=master
+    :target: https://travis-ci.org/tanayseven/http_quest
     :alt: tests
 
-.. image:: https://coveralls.io/repos/github/tanayseven/http_quiz/badge.svg?branch=HEAD
-    :target: https://coveralls.io/github/tanayseven/http_quiz?branch=HEAD
+.. image:: https://coveralls.io/repos/github/tanayseven/http_quest/badge.svg?branch=HEAD
+    :target: https://coveralls.io/github/tanayseven/http_quest?branch=HEAD
     :alt: test coverage
 
 .. image:: https://api.codeclimate.com/v1/badges/581fb314c868e6c41e90/maintainability
-   :target: https://codeclimate.com/github/tanayseven/http_quiz/maintainability
+   :target: https://codeclimate.com/github/tanayseven/http_quest/maintainability
    :alt: Maintainability
 
-.. image:: https://img.shields.io/github/license/tanayseven/http_quiz.svg
-    :target: https://github.com/tanayseven/http_quiz/blob/master/LICENSE.txt
+.. image:: https://img.shields.io/github/license/tanayseven/http_quest.svg
+    :target: https://github.com/tanayseven/http_quest/blob/master/LICENSE.txt
     :alt: license
 
-.. image:: https://img.shields.io/github/repo-size/tanayseven/http_quiz.svg
-    :target: https://travis-ci.org/tanayseven/http_quiz
+.. image:: https://img.shields.io/github/repo-size/tanayseven/http_quest.svg
+    :target: https://travis-ci.org/tanayseven/http_quest
     :alt: GitHub repo size in bytes
 
 
-HTTP Quiz
+HTTP Quest
 =========
 
-Have your own quiz over HTTP
-----------------------------
+Have your own quest over HTTP
+-----------------------------
 
-A modular platform that helps you add your custom Quiz or let's you make one of your candidate to have
+A modular platform that helps you add your custom quest for your users to solve in by writing programs that communicate
+with this application via HTTP
 
 
 Architecture
@@ -34,7 +35,7 @@ Architecture
 Files and directories in root
 -----------------------------
 
-1. ``http_quiz`` contains the main source code which is the production code that runs this application. These are
+1. ``http_quest`` contains the main source code which is the production code that runs this application. These are
    further divided into modules, each module handling some responsibility in the system. Checkout the subsection
    modules_.
 2. ``migrations`` contains the database migration files right from the very first migration to the latest one. use the
@@ -96,7 +97,7 @@ To run all the tests in the application run
 .. code-block:: bash
 
     ./pytest_exec # Just run the tests
-    ./pytest_exec --cov-report=html --cov http_quiz test/ # Run tests with coverage
+    ./pytest_exec --cov-report=html --cov http_quest test/ # Run tests with coverage
 
 To perform migrations run
 

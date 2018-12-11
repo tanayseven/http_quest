@@ -1,11 +1,11 @@
 from flask import Blueprint, jsonify
 from flask_jwt import jwt_required
 
-from http_quiz.quiz.model import QuizType
-from http_quiz.quiz.quiz import create_new_candidate_token
-from http_quiz.quiz.schema import new_candidate_token_schema
-from http_quiz.quiz.translations import get_text
-from http_quiz.utilities import validate_json
+from http_quest.quiz.model import QuizType
+from http_quest.quiz.quiz import create_new_candidate_token
+from http_quest.quiz.schema import new_candidate_token_schema
+from http_quest.quiz.translations import get_text
+from http_quest.utilities import validate_json
 
 quiz_view = Blueprint('quiz', __name__)
 

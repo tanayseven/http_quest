@@ -1,8 +1,8 @@
 from click.testing import CliRunner
 
-from http_quiz.app import create_new_admin, app
-from http_quiz.user.model import User
-from http_quiz.user.repo import UserRepo
+from http_quest.app import create_new_admin, app
+from http_quest.user.model import User
+from http_quest.user.repo import UserRepo
 from test.base import DatabaseTest
 
 
