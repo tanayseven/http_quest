@@ -5,7 +5,8 @@ env:
     - DOCKER_COMPOSE_VERSION=1.20.1
 
 before_install:
-  - sudo apt-get update
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  - sudo apt-get update && sudo apt-get install yarn
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -13,6 +14,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 before_script:
+  - cd view; yarn install && yarn build; cd ..
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
 
