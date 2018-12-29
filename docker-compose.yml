@@ -36,15 +36,25 @@ services:
     depends_on:
       - database
       - mailcatcher
+  view-dev:
+    build:
+      context: .
+      dockerfile: View.Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    container_name: http_quest_view_dev
   view:
     environment:
       - SOME_VAR=some_val
     build:
       context: .
       dockerfile: View.Dockerfile
-      target: dev
+      target: prod
     volumes:
-      - ./view/build:/usr/share/nginx/html
+      - ./view/build/:/usr/share/nginx/html/
     ports:
       - '80:80'
     container_name: http_quest_view
+    depends_on:
+      - view-dev

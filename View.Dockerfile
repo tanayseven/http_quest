@@ -1,8 +1,11 @@
 FROM node:8 as dev
 WORKDIR /app
 ADD ./view/ /app
-RUN npm install
-CMD ["npm", "build"]
+RUN export CI=true \
+    && yarn install \
+    && yarn build \
+    && yarn test
+CMD ["yarn", "start"]
 
 FROM nginx:1.15 as prod
-ADD ./view/build /usr/share/nginx/html
+COPY ./view/build/ /usr/share/nginx/html/
