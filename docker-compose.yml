@@ -41,6 +41,8 @@ services:
       context: .
       dockerfile: View.Dockerfile
       target: dev
+    volumes:
+      - ./view/:/app/
     ports:
       - "3000:3000"
     container_name: http_quest_view_dev
