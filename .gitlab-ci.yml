@@ -10,6 +10,7 @@ build:
     - docker 
     - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
     - sudo apt-get update && sudo apt-get install yarn
+    - cd view/; yarn install; cd ../
   script:
     - apk add --no-cache py-pip
     - pip install docker-compose
