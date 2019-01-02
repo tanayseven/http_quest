@@ -12,9 +12,9 @@ from http_quest.view import root_view
 
 app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
-if os.environ['APP_ENVIRONMENT'] == 'dev':  # pragma: no cover
+if os.environ['APP_ENVIRONMENT'] in ('dev', 'prod',):  # pragma: no cover
     app.config.from_object('http_quest.config.DevelopmentConfig')
-elif os.environ['APP_ENVIRONMENT'] == 'test':
+elif os.environ['APP_ENVIRONMENT'] in ('test',):
     app.config.from_object('http_quest.config.TestConfig')
 
 # Perform migrations on the data
@@ -45,3 +45,6 @@ def create_new_admin(email):
         return
     print('Sorry something went wrong')
     exit(-1)
+
+if __name__ == "__main__":
+    app.run()

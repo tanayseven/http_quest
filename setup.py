@@ -23,5 +23,6 @@ setup(
         'doubles==1.5.0',
         'behave==1.2.6',
         'selenium==3.13.0',
+        'pylint<2.0.0',
     ],
 )

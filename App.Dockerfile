@@ -18,10 +18,8 @@ CMD ["flask", "db", "upgrade"]
 CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
 
 
-FROM python:3.7 as prod
-WORKDIR /app
-ADD . /app
+FROM tiangolo/uwsgi-nginx:python3.7 as prod
+ENV UWSGI_INI /app/http_quest/uwsgi.ini
+COPY ./http_quest /app/http_quest
+COPY ./setup.py /app/setup.py
 RUN pip install -e .
-ENV FLASK_APP="http_quest.app:app"
-CMD ["flask", "db", "upgrade"]
-CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
