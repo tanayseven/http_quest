@@ -1,13 +1,14 @@
-from behave import given, when, then
 import os
+
+from behave import given, when, then
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+
 
 class WebDriver:
     DOWNLOAD_DIR = '/tmp'
 
     def __init__(self):
-        headless=bool(os.environ.get('HEADLESS'))
+        headless = bool(os.environ.get('HEADLESS'))
         self.options = webdriver.ChromeOptions()
         self.options.add_argument('--disable-extensions')
         if headless:
@@ -32,21 +33,23 @@ class WebDriver:
         self.driver.get('http://localhost')
 
 
-
 @given('we have behave installed')
 def step_impl(context):
     pass
+
 
 @when('we implement {number:d} tests')
 def step_impl(context, number):
     assert number > 1 or number == 0
     context.tests_count = number
 
+
 @when('we start selenium webbrowser')
 def step_impl(context):
     context.webbrowser = WebDriver()
     context.webbrowser.login()
     context.webbrowser.close()
+
 
 @then('behave will test them for us!')
 def step_impl(context):
