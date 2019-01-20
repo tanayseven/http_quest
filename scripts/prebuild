@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+rm -rf view/build
+cp -r view/build_base view/build
