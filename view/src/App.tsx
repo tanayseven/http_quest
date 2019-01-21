@@ -1,20 +1,17 @@
 import * as React from 'react';
 import './App.css';
 
-import logo from './logo.svg';
+import { Button, Card, TextField } from '@material-ui/core';
 
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <Card className="login-card">
+        <div className="centered-container"><TextField id="username" className="login-input" label="Username" variant="outlined"/></div>
+        <div className="centered-container"><TextField id="password" className="login-input" label="Password" variant="outlined" type="password" /></div>
+        <div className="centered-container"><Button className="login-input" variant="contained" color="primary">Login</Button></div>
+        <div className="centered-container"><Button className="login-input" variant="contained" color="primary">Sign Up</Button></div>
+      </Card>
     );
   }
 }
