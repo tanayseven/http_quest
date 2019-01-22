@@ -7,6 +7,7 @@ class App extends React.Component {
   public render() {
     return (
       <Card className="login-card">
+        <div className="centered-container"><p>Login into Http Quest</p></div>
         <div className="centered-container"><TextField id="username" className="login-input" label="Username" variant="outlined"/></div>
         <div className="centered-container"><TextField id="password" className="login-input" label="Password" variant="outlined" type="password" /></div>
         <div className="centered-container"><Button className="login-input" variant="contained" color="primary">Login</Button></div>
