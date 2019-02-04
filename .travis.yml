@@ -14,6 +14,7 @@ before_install:
 
 before_script:
   - ./script/prebuild
+  - git submodule update --init --recursive
   - docker-compose build
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
