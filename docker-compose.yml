@@ -58,8 +58,8 @@ services:
       - mailcatcher
   view-dev:
     build:
-      context: .
-      dockerfile: View.Dockerfile
+      context: view
+      dockerfile: Dockerfile
       target: dev
     volumes:
       - ./view/:/app/
@@ -72,8 +72,8 @@ services:
     environment:
       - SOME_VAR=some_val
     build:
-      context: .
-      dockerfile: View.Dockerfile
+      context: view
+      dockerfile: Dockerfile
       target: prod
     volumes:
       - ./view/build/:/usr/share/nginx/html/
