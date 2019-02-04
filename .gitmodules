@@ -1,3 +1,4 @@
 [submodule "view"]
 	path = view
-	url = https://github.com/tanayseven/http_quest.git
+	url = https://github.com/tanayseven/http_quest_frontend.git
+	branch = master
