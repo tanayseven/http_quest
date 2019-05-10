@@ -96,27 +96,30 @@ To run all the tests in the application run
 
 .. code-block:: bash
 
-    ./pytest_exec # Just run the tests
-    ./pytest_exec --cov-report=html --cov http_quest test/ # Run tests with coverage
+    ./script/pytest_exec # Just run the tests
+    ./script/pytest_exec --cov-report=html --cov http_quest test/ # Run tests with coverage
 
 To perform migrations run
 
 .. code-block:: bash
 
-    ./app_exec flask db migrate # Detect and create migration files
-    ./app_exec flask db upgrade # Actually perform migrations on the database
-    ./app_exec flask db --help # For info about the other database migration commands
+    ./script/app_exec flask db migrate # Detect and create migration files
+    ./script/app_exec flask db upgrade # Actually perform migrations on the database
+    ./script/app_exec flask db --help # For info about the other database migration commands
 
 
 For Linux only: files created by a container (like migration files) are owned by root because Docker runs as root
 
 .. code-block:: bash
 
-    ./reset_ownership # needs sudo password, will change the owner to yourself
+    ./script/reset_ownership # needs sudo password, will change the owner to yourself
 
 .. code-block:: bash
 
-    ./app_exec flask create_new_admin yourname@yourmail.com # Create a new admin on server from the commandline
+    ./script/app_exec flask seed_db # Seed the database with test data for testing
+
+.. code-block:: bash
+    git submodule update --remote # To pull the latest frontend
 
 
 LICENSE

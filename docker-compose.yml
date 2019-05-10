@@ -59,7 +59,7 @@ services:
   view-dev:
     build:
       context: view
-      dockerfile: Dockerfile
+      dockerfile: View.Dockerfile
       target: dev
     volumes:
       - ./view/:/app/
@@ -73,7 +73,7 @@ services:
       - SOME_VAR=some_val
     build:
       context: view
-      dockerfile: Dockerfile
+      dockerfile: View.Dockerfile
       target: prod
     volumes:
       - ./view/build/:/usr/share/nginx/html/
