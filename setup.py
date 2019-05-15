@@ -10,7 +10,6 @@ setup(
         'pytest-cov==2.5.1',
         'pylint==1.8.4',
         'mypy==0.580',
-        'tinydic==0.1.2',
         'Flask-Testing==0.7.1',
         'flask-sqlalchemy==2.3.2',
         'flask-migrate==2.1.1',
@@ -24,5 +23,6 @@ setup(
         'behave==1.2.6',
         'selenium==3.13.0',
         'pylint<2.0.0',
+        'pact-python==0.18.0',
     ],
 )

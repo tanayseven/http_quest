@@ -1,14 +1,11 @@
-import datetime
 import os
 import random
 
-from flask_bcrypt import Bcrypt
-from tinydic import Container
+import datetime
 
-from test.fakes import FakeBcrypt, FakeDatetime, FakeRandom
+from http_quest.container import Container
 from http_quest.ext import bcrypt
-from http_quest.utilities import RandomWrapper
-
+from test.fakes import FakeBcrypt, FakeDatetime, FakeRandom
 
 container = Container()
 
