@@ -7,78 +7,44 @@ services:
     image: postgres:10
     tmpfs: /pgtmpfs
     container_name: http_quest_database
-  mailcatcher:
-    image: "schickling/mailcatcher"
-    ports:
-      - '1080:1080'
-      - '1025:1025'
-    container_name: http_quest_mailcatcher
-  app-dev:
+  build:
     environment:
       - APP_ENVIRONMENT=dev
-      - APP_LOCALE=hi
+      - APP_LOCALE=en
       - DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest_test
       - FLASK_DEBUG=true
-      - HEADLESS=true
       - SECRET_KEY=some_secret
       - COVERALLS_REPO_TOKEN
     build:
       context: .
-      dockerfile: App.Dockerfile
-      target: dev
+      dockerfile: Dockerfile
+      target: build
     volumes:
       - .:/app
     working_dir: /app
     ports:
       - '5000:5000'
-    container_name: http_quest_app_dev
+    container_name: http_quest_backend_build
     depends_on:
       - database
-      - mailcatcher
   app:
     environment:
       - APP_ENVIRONMENT=prod
-      - APP_LOCALE=hi
+      - APP_LOCALE=en
       - DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest_test
       - SECRET_KEY=some_secret
     build:
       context: .
-      dockerfile: App.Dockerfile
+      dockerfile: Dockerfile
       target: prod
     volumes:
       - .:/app
     working_dir: /app
     ports:
       - '8000:80'
-    container_name: http_quest_app
+    container_name: http_quest_backend_app
     depends_on:
       - database
-      - mailcatcher
-  view-dev:
-    build:
-      context: view
-      dockerfile: View.Dockerfile
-      target: dev
-    volumes:
-      - ./view/:/app/
-    ports:
-      - "3000:3000"
-    container_name: http_quest_view_dev
-    depends_on:
-      - app-dev
-  view:
-    environment:
-      - SOME_VAR=some_val
-    build:
-      context: view
-      dockerfile: View.Dockerfile
-      target: prod
-    volumes:
-      - ./view/build/:/usr/share/nginx/html/
-    ports:
-      - '80:80'
-    container_name: http_quest_view
-    depends_on:
-      - view-dev
+

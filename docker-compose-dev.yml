@@ -13,7 +13,7 @@ services:
       - '1080:1080'
       - '1025:1025'
     container_name: http_quest_mailcatcher
-  app-dev:
+  app:
     environment:
       - APP_ENVIRONMENT=dev
       - APP_LOCALE=hi
@@ -36,27 +36,7 @@ services:
     depends_on:
       - database
       - mailcatcher
-  app:
-    environment:
-      - APP_ENVIRONMENT=prod
-      - APP_LOCALE=hi
-      - DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest_test
-      - SECRET_KEY=some_secret
-    build:
-      context: .
-      dockerfile: App.Dockerfile
-      target: prod
-    volumes:
-      - .:/app
-    working_dir: /app
-    ports:
-      - '8000:80'
-    container_name: http_quest_app
-    depends_on:
-      - database
-      - mailcatcher
-  view-dev:
+  view:
     build:
       context: view
       dockerfile: View.Dockerfile
@@ -67,18 +47,4 @@ services:
       - "3000:3000"
     container_name: http_quest_view_dev
     depends_on:
-      - app-dev
-  view:
-    environment:
-      - SOME_VAR=some_val
-    build:
-      context: view
-      dockerfile: View.Dockerfile
-      target: prod
-    volumes:
-      - ./view/build/:/usr/share/nginx/html/
-    ports:
-      - '80:80'
-    container_name: http_quest_view
-    depends_on:
-      - view-dev
+      - app

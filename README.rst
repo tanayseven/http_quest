@@ -10,11 +10,11 @@
    :target: https://codeclimate.com/github/tanayseven/http_quest/maintainability
    :alt: Maintainability
 
-.. image:: https://img.shields.io/github/license/tanayseven/http_quest.svg
+.. image:: https://img.shields.io/github/license/tanayseven/http_quest.svg?cacheSeconds=86400
     :target: https://github.com/tanayseven/http_quest/blob/master/LICENSE.txt
     :alt: license
 
-.. image:: https://img.shields.io/github/repo-size/tanayseven/http_quest.svg
+.. image:: https://img.shields.io/github/repo-size/tanayseven/http_quest.svg?cacheSeconds=86400
     :target: https://travis-ci.org/tanayseven/http_quest
     :alt: GitHub repo size in bytes
 
@@ -120,6 +120,12 @@ For Linux only: files created by a container (like migration files) are owned by
 
 .. code-block:: bash
     git submodule update --remote # To pull the latest frontend
+
+
+To install python packages into a virtual environment
+
+.. code-block:: bash
+    pip install -e .
 
 
 LICENSE
