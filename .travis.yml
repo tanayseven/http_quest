@@ -13,9 +13,6 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 before_script:
-  - rm -rf view/
-  - git clone https://github.com/tanayseven/http_quest_frontend.git view
-  - ./script/prebuild
   - docker-compose build
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
@@ -23,7 +20,6 @@ before_script:
 script:
   - ./script/create_test_database
   - ./script/pytest_exec --cov http_quest --cov test test/
-  - ./script/behave_exec
 
 after_script:
   - ./script/app_exec coveralls
