@@ -20,7 +20,7 @@
 
 
 HTTP Quest
-=========
+==========
 
 Have your own quest over HTTP
 -----------------------------
@@ -119,13 +119,16 @@ For Linux only: files created by a container (like migration files) are owned by
     ./script/app_exec flask seed_db # Seed the database with test data for testing
 
 .. code-block:: bash
+
     git submodule update --remote # To pull the latest frontend
 
 
 To install python packages into a virtual environment
 
 .. code-block:: bash
-    pip install -e .
+
+    pip install pipenv
+    pipenv install
 
 
 LICENSE
