@@ -1,14 +1,25 @@
 FROM python:3.7 as build
+ENV APP_ENVIRONMENT=test
 WORKDIR /app
 ADD . /app
-RUN pip install pipenv && pipenv install
-CMD ["APP_ENVIRONMENT=test","pytest"]
-CMD ["flask", "db", "upgrade"]
-CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
+RUN pip install pipenv && pipenv install --system --dev
+RUN pytest -k test/unit
 
-FROM tiangolo/uwsgi-nginx:python3.7 as prod
+FROM build as db_migrate
+WORKDIR /app
+CMD ["flask", "db", "upgrade"]
+
+FROM build as api_tests
+WORKDIR /app
+ENV APP_ENVIRONMENT=test
+CMD ["pytest"]
+
+FROM build as prod
+ENV APP_ENVIRONMENT=prod
+WORKDIR /app
 ENV UWSGI_INI /app/http_quest/uwsgi.ini
-COPY ./http_quest /app/http_quest
-COPY ./Pipfile /app/Pipfile
-COPY ./Pipfile.lock /app/Pipfile.lock
-RUN pip install pipenv && pipenv install
+COPY --from=build /app/http_quest /app/http_quest
+COPY --from=build /app/Pipfile /app/Pipfile
+COPY --from=build /app/Pipfile.lock /app/Pipfile.lock
+RUN pip install pipenv && pipenv install --system
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8000", "-w", "3"]

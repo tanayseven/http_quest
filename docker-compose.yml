@@ -7,25 +7,11 @@ services:
     image: postgres:10
     tmpfs: /pgtmpfs
     container_name: http_quest_database
-  build:
-    environment:
-      - APP_ENVIRONMENT=dev
-      - APP_LOCALE=en
-      - DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest_test
-      - FLASK_DEBUG=true
-      - SECRET_KEY=some_secret
-      - COVERALLS_REPO_TOKEN
+  db_migrate:
     build:
       context: .
       dockerfile: Dockerfile
-      target: build
-    volumes:
-      - .:/app
-    working_dir: /app
-    ports:
-      - '5000:5000'
-    container_name: http_quest_backend_build
+      target: db_migrate
     depends_on:
       - database
   app:
@@ -47,4 +33,12 @@ services:
     container_name: http_quest_backend_app
     depends_on:
       - database
+      - db_migrate
+  api_tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: db_migrate
+    depends_on:
+      - app
 

@@ -5,7 +5,7 @@ import pytest
 from flask import json
 from flask.testing import FlaskClient
 
-from http_quest.app import app
+from app import app
 from http_quest.ext import db, mail
 from http_quest.quiz.model import QuizType
 from http_quest.quiz.repo import CandidateRepo
