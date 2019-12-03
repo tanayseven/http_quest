@@ -6,12 +6,13 @@ services:
       - POSTGRES_PASSWORD=http_quest
     image: postgres:10
     tmpfs: /pgtmpfs
-    container_name: http_quest_database
-  db_migrate:
+    container_name: http-quest-database
+  db-migrate:
     build:
       context: .
       dockerfile: Dockerfile
-      target: db_migrate
+      target: db-migrate
+    container_name: http-quest-db-migrate
     depends_on:
       - database
   app:
@@ -30,15 +31,15 @@ services:
     working_dir: /app
     ports:
       - '8000:80'
-    container_name: http_quest_backend_app
+    container_name: http-quest-backend-app
     depends_on:
       - database
-      - db_migrate
-  api_tests:
+      - db-migrate
+  integration-tests:
     build:
       context: .
       dockerfile: Dockerfile
-      target: db_migrate
+      target: db-migrate
     depends_on:
       - app
 
