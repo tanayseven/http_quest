@@ -11,9 +11,10 @@ from http_quest.view import root_view
 
 app: Flask = Flask(__name__.split('.')[0], template_folder='template')
 
-if os.environ['APP_ENVIRONMENT'] in ('dev', 'prod',):  # pragma: no cover
+app_environment = os.environ.get('APP_ENVIRONMENT', 'test')
+if app_environment in ('dev', 'prod',):  # pragma: no cover
     app.config.from_object('http_quest.config.DevelopmentConfig')
-elif os.environ['APP_ENVIRONMENT'] in ('test',):
+elif app_environment in ('test',):
     app.config.from_object('http_quest.config.TestConfig')
 
 # Perform migrations on the data

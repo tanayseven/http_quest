@@ -22,7 +22,8 @@ def bind_injections_dev():  # pragma: no cover
     container.random = random
 
 
-if os.environ['APP_ENVIRONMENT'] in ('dev', 'prod',):  # pragma: no cover
+app_environment = os.environ.get('APP_ENVIRONMENT', 'test')
+if app_environment in ('dev', 'prod',):  # pragma: no cover
     bind_injections_dev()
-elif os.environ['APP_ENVIRONMENT'] in ('test',):
+elif app_environment in ('test',):
     bind_injections_test()
