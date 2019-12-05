@@ -6,7 +6,7 @@ from flask import json, Response
 from http_quest.product_quiz.problem_statements import Product
 from http_quest.quiz.repo import QuizRepo
 from test.base import ApiTestBase
-from test.fakes import FakeRandom, FakeDatetime
+from fakes import FakeRandom, FakeDatetime
 
 
 class TestProductApi(ApiTestBase):

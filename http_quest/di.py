@@ -5,7 +5,7 @@ import datetime
 
 from http_quest.container import Container
 from http_quest.ext import bcrypt
-from test.fakes import FakeBcrypt, FakeDatetime, FakeRandom
+from fakes import FakeBcrypt, FakeDatetime, FakeRandom
 
 container = Container()
 

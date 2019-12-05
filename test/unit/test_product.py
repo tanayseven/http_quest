@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import pytest
 
 from http_quest.product_quiz.problem_statements import name_with_categories, ProductCollection, Product, ProductFactory
-from test.fakes import FakeRandom, FakeDatetime
+from fakes import FakeRandom, FakeDatetime
 
 
 class TestProduct:
