@@ -20,9 +20,8 @@ before_script:
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
 
 script:
-  - ./script/create_test_database
   - ./script/pytest_exec --cov http_quest --cov test test/
 
 after_script:
-  - ./script/app_exec coveralls
+  - docker-compose exec -it http_quest_integration_tests coveralls
 

@@ -55,7 +55,7 @@ services:
       - db_migrate_dev
   integration-tests:
     environment:
-      - DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest
+      - APP_ENVIRONMENT=test
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
     build:
       context: .

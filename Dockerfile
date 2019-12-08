@@ -22,7 +22,7 @@ ENV APP_ENVIRONMENT=test
 RUN pip install 'poetry==1.0.0b8'
 RUN poetry export --dev -f requirements.txt > requirements.txt \
     && pip install -r requirements.txt
-CMD ["pytest"]
+CMD ["pytest", "--cov", "http_quest", "--cov", "test", "test/"]
 
 FROM build as prod
 ENV APP_ENVIRONMENT=prod
