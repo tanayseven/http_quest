@@ -8,37 +8,37 @@ services:
       context: .
       dockerfile: DevDatabase.Dockerfile
     tmpfs: /pgtmpfs
-    container_name: http-quest-database
-  db-migrate:
+    container_name: http_quest_database
+    ports:
+      - 5432:5432
+  db_migrate_dev:
     environment:
-      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
+      - DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest
       - APP_ENVIRONMENT=dev
     build:
       context: .
       dockerfile: Dockerfile
       target: db-migrate
-    container_name: http-quest-db-migrate
+    container_name: http_quest_db_migrate_dev
     depends_on:
       - database
-  db-migrate-test:
+  db_migrate_test:
     environment:
-      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
       - APP_ENVIRONMENT=test
     build:
       context: .
       dockerfile: Dockerfile
       target: db-migrate
-    container_name: http-quest-db-migrate-test
+    container_name: http_quest_db_migrate_test
     depends_on:
       - database
   app:
     environment:
       - APP_ENVIRONMENT=prod
       - APP_LOCALE=en
-      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
+      - DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
       - SECRET_KEY=some_secret
     build:
       context: .
@@ -49,19 +49,18 @@ services:
     working_dir: /app
     ports:
       - '8000:80'
-    container_name: http-quest-backend-app
+    container_name: http_quest_backend_app
     depends_on:
       - database
-      - db-migrate
+      - db_migrate_dev
   integration-tests:
     environment:
-      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
+      - DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
     build:
       context: .
       dockerfile: Dockerfile
       target: db-migrate
+    container_name: http_quest_integration_tests
     depends_on:
-      - app
-      - db-migrate-test
-
+      - db_migrate_test

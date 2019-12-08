@@ -22,7 +22,7 @@ class DevelopmentConfig(Config):
 
 
 class TestConfig(Config):
-    DATABASE_URI = os.environ.get('TEST_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI')
     FLASK_DEBUG = True
     TESTING = True
     MAIL_SUPPRESS_SEND = True
