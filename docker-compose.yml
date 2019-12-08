@@ -58,7 +58,7 @@ services:
     environment:
       - APP_ENVIRONMENT=test
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
-      - APP_LOCALE='en'
+      - APP_LOCALE=en
     build:
       context: .
       dockerfile: Dockerfile
