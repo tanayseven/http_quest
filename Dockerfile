@@ -27,7 +27,6 @@ CMD ["pytest"]
 FROM build as prod
 ENV APP_ENVIRONMENT=prod
 WORKDIR /app
-ENV UWSGI_INI /app/http_quest/uwsgi.ini
 COPY --from=build /app/http_quest /app/http_quest
 # To be removed later:
 COPY --from=build /app/fakes.py /app/fakes.py

@@ -4,10 +4,16 @@ services:
     environment:
       - POSTGRES_USER=http_quest
       - POSTGRES_PASSWORD=http_quest
-    image: postgres:10
+    build:
+      context: .
+      dockerfile: DevDatabase.Dockerfile
     tmpfs: /pgtmpfs
     container_name: http-quest-database
   db-migrate:
+    environment:
+      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
+      - APP_ENVIRONMENT=dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,12 +21,24 @@ services:
     container_name: http-quest-db-migrate
     depends_on:
       - database
+  db-migrate-test:
+    environment:
+      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
+      - APP_ENVIRONMENT=test
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: db-migrate
+    container_name: http-quest-db-migrate-test
+    depends_on:
+      - database
   app:
     environment:
       - APP_ENVIRONMENT=prod
       - APP_LOCALE=en
-      - DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest
-      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@database/http_quest_test
+      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
       - SECRET_KEY=some_secret
     build:
       context: .
@@ -36,10 +54,14 @@ services:
       - database
       - db-migrate
   integration-tests:
+    environment:
+      - DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest
+      - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http-quest-database/http_quest_test
     build:
       context: .
       dockerfile: Dockerfile
       target: db-migrate
     depends_on:
       - app
+      - db-migrate-test
 
