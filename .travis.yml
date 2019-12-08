@@ -20,7 +20,7 @@ before_script:
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
 
 script:
-  - ./script/pytest_exec --cov http_quest --cov test test/
+  - docker-compose run integration-tests pytest
 
 after_script:
   - docker-compose exec -it http_quest_integration_tests coveralls
