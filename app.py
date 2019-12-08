@@ -9,7 +9,7 @@ from http_quest.user.user import authenticate, identity
 from http_quest.user.view import user_view
 from http_quest.view import root_view
 
-app: Flask = Flask(__name__.split('.')[0], template_folder='template')
+app: Flask = Flask(__name__.split('.')[0], template_folder='http_quest/template')
 
 app_environment = os.environ.get('APP_ENVIRONMENT', 'test')
 if app_environment in ('dev', 'prod',):  # pragma: no cover

@@ -15,12 +15,12 @@ before_install:
 before_script:
   - sudo /etc/init.d/mysql stop
   - sudo /etc/init.d/postgresql stop
+
+script:
   - docker-compose build
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
-
-script:
-  - docker-compose run integration-tests pytest
+  - docker-compose exec -it integration-tests pytest
 
 after_script:
   - docker-compose exec -it http_quest_integration_tests coveralls

@@ -53,14 +53,16 @@ services:
     depends_on:
       - database
       - db_migrate_dev
+      - db_migrate_test
   integration-tests:
     environment:
       - APP_ENVIRONMENT=test
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
+      - APP_LOCALE='en'
     build:
       context: .
       dockerfile: Dockerfile
       target: db-migrate
     container_name: http_quest_integration_tests
     depends_on:
-      - db_migrate_test
+      - app
