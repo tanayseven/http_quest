@@ -20,4 +20,7 @@ script:
   - docker-compose build
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
-  - docker-compose run integration-tests "pytest && coveralls" # TODO: move coveralls to after_script
+  - docker-compose run integration-tests pytest
+
+after_script:
+  - docker-compose run integration-tests coveralls
