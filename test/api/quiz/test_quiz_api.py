@@ -1,8 +1,8 @@
 from flask import json
+from flask_babel import gettext as _
 
 from http_quest.quiz.model import QuizType
 from http_quest.quiz.repo import CandidateRepo
-from http_quest.quiz.translations import get_text
 from test.base import ApiTestBase
 
 
@@ -15,7 +15,7 @@ class TestQuizApi(ApiTestBase):
         response = self.app_test.post_json(url='/quiz/new_candidate_token', body=body, headers=headers)
         assert response.status_code == 200
         self.assert_has_one_mail_with_subject_and_recipients(
-            get_text('candidate_token_mail_subject'),
+            _('Here is your new candidate token to be used for the quiz.'),
             [body.get('email'), user.email]
         )
         candidate_token = self.mail_body_extract_token()

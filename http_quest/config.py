@@ -12,6 +12,9 @@ class Config(object):
     JWT_AUTH_URL_RULE = '/user/login'
     SECRET_KEY = 'secret'
     MAIL_DEFAULT_SENDER = 'noreply@resttest.com'
+    SUPPORTED_LANGUAGES = {'hi': 'Hindi', 'en': 'English'}
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
 class DevelopmentConfig(Config):

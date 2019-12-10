@@ -5,11 +5,11 @@ from functools import wraps
 from flask import request, jsonify, url_for, g
 from flask_jwt import current_identity
 from flask_mail import Message
+from flask_babel import gettext as _
 
 from http_quest.ext import mail
 from http_quest.quiz.model import Candidate, CandidateStatus
 from http_quest.quiz.repo import CandidateRepo
-from http_quest.quiz.translations import get_text
 from http_quest.user.model import User
 from http_quest.utilities import load_template
 
@@ -29,7 +29,7 @@ def create_new_candidate_token():
     )
     candidate = CandidateRepo.add(candidate)
     mail.send(Message(
-        get_text('candidate_token_mail_subject'),
+        _('Here is your new candidate token to be used for the quiz.'),
         recipients=[user.email, candidate.email],
         body=load_template('candidate_token.html', {
             'token': token,

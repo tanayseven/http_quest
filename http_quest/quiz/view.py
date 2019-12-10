@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify
 from flask_jwt import jwt_required
+from flask_babel import gettext as _
 
 from http_quest.quiz.model import QuizType
 from http_quest.quiz.quiz import create_new_candidate_token
 from http_quest.quiz.schema import new_candidate_token_schema
-from http_quest.quiz.translations import get_text
 from http_quest.utilities import validate_json
 
 quiz_view = Blueprint('quiz', __name__)
@@ -15,7 +15,7 @@ quiz_view = Blueprint('quiz', __name__)
 @jwt_required()
 def create_candidate_token():
     response = {
-        'message': get_text('candidate_token_success')
+        'message': _('Token is successfully generated and sent by email to you and the candidate.')
     }
     create_new_candidate_token()
     return jsonify(response), 200

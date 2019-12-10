@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from http_quest.ext import bcrypt, db, jwt, mail, migrate
+from http_quest.ext import bcrypt, db, jwt, mail, migrate, babel
 from http_quest.product_quiz.view import products_view
 from http_quest.quiz.view import quiz_view
 from http_quest.user.user import authenticate, identity
@@ -29,6 +29,8 @@ jwt.init_app(app)
 mail.init_app(app)
 
 bcrypt.init_app(app)
+
+babel.init_app(app)
 
 app.register_blueprint(products_view)
 app.register_blueprint(user_view)

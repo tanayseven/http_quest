@@ -1,0 +1,92 @@
+# Hindi translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-12-10 22:35+0000\n"
+"PO-Revision-Date: 2019-12-10 22:36+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: hi\n"
+"Language-Team: hi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: http_quest/view.py:10
+msgid "This is the / . Please go to GET /login for any further activity"
+msgstr ""
+
+#: http_quest/product_quiz/view.py:22
+msgid "Welcome to the  product quiz."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:23
+msgid "This problem number is {0}."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:25
+msgid ""
+"Compute the count for the total number of products in the list given via "
+"input"
+msgstr ""
+
+#: http_quest/product_quiz/view.py:26
+msgid ""
+"Awesome, you've solved the first problem. Active products are those for "
+"which current date time fall within start and end date of the current "
+"date. Compute the count of all such products"
+msgstr ""
+
+#: http_quest/product_quiz/view.py:28
+msgid ""
+"You're going good!. For your next problem, you have to compute the count "
+"of the products for every category."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:29 http_quest/product_quiz/view.py:30
+msgid ""
+"Congratulations! You've solved the  problem, for the fourth problem, you "
+"have completed all the problems!"
+msgstr ""
+
+#: http_quest/product_quiz/view.py:32
+msgid ""
+"The input url for getting the test data is GET on /product/{0}/input/ and"
+" the data will be in JSON. And you will have to respond with the output "
+"on the URL by doing a POST on /product_quiz/{0}/output/."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:36
+msgid "The examples for the sample input and output are included here."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:38
+msgid "You've solved this problem successfully."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:39
+msgid "Wrong solution. Please attempt again with a new input."
+msgstr ""
+
+#: http_quest/product_quiz/view.py:40
+msgid ""
+"You've already attempted this problem, please fetch a new input from the "
+"input URL."
+msgstr ""
+
+#: http_quest/quiz/quiz.py:32 test/api/quiz/test_quiz_api.py:18
+msgid "Here is your new candidate token to be used for the quiz."
+msgstr "क्विज के लिए उपयोग करने के लिए आपका नया कैंडिडेट टोकन यहां दिया गया है।"
+
+#: http_quest/quiz/view.py:18
+msgid ""
+"Token is successfully generated and sent by email to you and the "
+"candidate."
+msgstr "टोकन सफलतापूर्वक जेनरेट और आपको और कैंडिडेट को ईमेल द्वारा भेजा गया है।"
+

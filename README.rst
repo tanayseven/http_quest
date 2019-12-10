@@ -109,6 +109,18 @@ To perform migrations run
     poetry run flask db upgrade # Actually perform migrations on the database
     poetry run flask db --help # For info about the other database migration commands
 
+To extract translations used in the code into a pot file (when new strings are added in .py files):
+
+.. code-block:: bash
+
+    poetry run pybabel extract -F babel.cfg -o messages.pot .
+
+To create translations for the extracted pot file into a po file (add the translations to the new po file):
+
+.. code-block:: bash
+
+    poetry run pybabel init -i messages.pot -d translations -l hi # where hi stands for the language Hindi
+
 
 LICENSE
 =======
