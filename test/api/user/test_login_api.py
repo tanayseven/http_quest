@@ -1,7 +1,7 @@
 from flask import json
+from flask_babel import gettext as _
 
 from http_quest.user.repo import UserRepo
-from http_quest.user.translations import get_text
 from http_quest.user.user import create_user
 from test.base import ApiTestBase
 
@@ -13,7 +13,7 @@ class TestLoginApi(ApiTestBase):
         request_payload = {'email': user.email}
         response = self.app_test.post_json(url='/user/forgot_password', body=request_payload)
         self.assert_response_ok_and_has_message(response)
-        subject = get_text('password_reset_mail_subject')
+        subject = _('Password Reset Instructions')
         self.assert_has_one_mail_with_subject(subject)
 
     def test_that_invalid_email_sent_to_reset_password_fails(self):
@@ -41,7 +41,7 @@ class TestLoginApi(ApiTestBase):
         assert response.status_code == 200
         assert 'message' in json.loads(response.data)
         self.assert_has_one_mail_with_subject_and_recipients(
-            subject=get_text('password_reset_mail_subject'),
+            subject=_('Password Reset Instructions'),
             recipients=['someuser@somedomain.com'],
         )
         expected_user = UserRepo.fetch_user_by_email('someuser@somedomain.com')

@@ -119,7 +119,7 @@ To create translations for the extracted pot file into a po file (add the transl
 
 .. code-block:: bash
 
-    poetry run pybabel init -i messages.pot -d translations -l hi # where hi stands for the language Hindi
+    pybabel update -i messages.pot -d translations # where hi stands for the language Hindi
 
 
 LICENSE

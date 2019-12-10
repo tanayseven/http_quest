@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-12-10 22:35+0000\n"
+"POT-Creation-Date: 2019-12-10 23:06+0000\n"
 "PO-Revision-Date: 2019-12-10 22:36+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: hi\n"
@@ -89,4 +89,45 @@ msgid ""
 "Token is successfully generated and sent by email to you and the "
 "candidate."
 msgstr "टोकन सफलतापूर्वक जेनरेट और आपको और कैंडिडेट को ईमेल द्वारा भेजा गया है।"
+
+#: http_quest/user/user.py:59
+msgid "User could not be found"
+msgstr "यूजर नहीं मिल सका।"
+
+#: http_quest/user/user.py:61
+msgid "Password reset instructions successfully sent to your email address"
+msgstr "पासवर्ड रीसेट निर्देश सफलतापूर्वक आपके ईमेल पते पर भेजे गए है।"
+
+#: http_quest/user/user.py:67 test/api/user/test_login_api.py:16
+#: test/api/user/test_login_api.py:44
+msgid "Password Reset Instructions"
+msgstr "पासवर्ड रीसेट सूचना"
+
+#: http_quest/user/view.py:15
+msgid "To login, please POST `login_format` on /login"
+msgstr "लॉगिन करने के लिए, कृपया `login_format` को POST /login पर भेजें।"
+
+#: http_quest/user/view.py:16
+msgid "<your_email>"
+msgstr "<आपका_ईमेल>"
+
+#: http_quest/user/view.py:16
+msgid "<your_password>"
+msgstr "<आपका_पासवर्ड>"
+
+#: http_quest/user/view.py:35
+msgid "The user has been created and the password information is sent to them"
+msgstr "यूजर बनाया गया है और पासवर्ड जानकारी उन्हें भेजी गयी है।"
+
+#: http_quest/user/view.py:40
+msgid "The user already exists"
+msgstr "यूजर पहले से मौजूद है।"
+
+#: http_quest/user/view.py:47
+msgid "Your password has been successfully reset."
+msgstr "आपका पासवर्ड सफलतापूर्वक रीसेट कर दिया गया है।"
+
+#: http_quest/user/view.py:52
+msgid "You have submitted an invalid password token."
+msgstr "आपने एक अवैध पासवर्ड टोकन सबमिट किया है।"
 

@@ -1,14 +1,13 @@
 import uuid
 from typing import Tuple, Union
 
-from flask_bcrypt import Bcrypt
+from flask_babel import gettext as _
 from flask_mail import Message
 
 from http_quest.di import container
-from http_quest.ext import mail, bcrypt
+from http_quest.ext import mail
 from http_quest.user.model import User
 from http_quest.user.repo import UserRepo
-from http_quest.user.translations import get_text
 from http_quest.utilities import load_template
 
 
@@ -57,15 +56,15 @@ def identity(payload: dict):
 def reset_password_for_user_having_email(email: str) -> Tuple[dict, bool]:
     user = UserRepo.load_user_for_email(email)
     if user is None:
-        return {'message': get_text('user_not_found')}, False
+        return {'message': _('User could not be found')}, False
     _reset_password_for_user(user)
-    return {'message': get_text('password_reset_instructions_sent_to_email')}, True
+    return {'message': _('Password reset instructions successfully sent to your email address')}, True
 
 
 def _reset_password_for_user(user: User):
     token = _create_password_reset_token(user)
     msg = Message(
-        get_text('password_reset_mail_subject'),
+        _('Password Reset Instructions'),
         recipients=[user.email],
         body=load_template('password_reset.html', {'token': token}),
     )

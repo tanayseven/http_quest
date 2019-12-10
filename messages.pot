@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-12-10 22:35+0000\n"
+"POT-Creation-Date: 2019-12-10 23:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,5 +87,46 @@ msgstr ""
 msgid ""
 "Token is successfully generated and sent by email to you and the "
 "candidate."
+msgstr ""
+
+#: http_quest/user/user.py:59
+msgid "User could not be found"
+msgstr ""
+
+#: http_quest/user/user.py:61
+msgid "Password reset instructions successfully sent to your email address"
+msgstr ""
+
+#: http_quest/user/user.py:67 test/api/user/test_login_api.py:16
+#: test/api/user/test_login_api.py:44
+msgid "Password Reset Instructions"
+msgstr ""
+
+#: http_quest/user/view.py:15
+msgid "To login, please POST `login_format` on /login"
+msgstr ""
+
+#: http_quest/user/view.py:16
+msgid "<your_email>"
+msgstr ""
+
+#: http_quest/user/view.py:16
+msgid "<your_password>"
+msgstr ""
+
+#: http_quest/user/view.py:35
+msgid "The user has been created and the password information is sent to them"
+msgstr ""
+
+#: http_quest/user/view.py:40
+msgid "The user already exists"
+msgstr ""
+
+#: http_quest/user/view.py:47
+msgid "Your password has been successfully reset."
+msgstr ""
+
+#: http_quest/user/view.py:52
+msgid "You have submitted an invalid password token."
 msgstr ""
 
