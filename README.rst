@@ -42,28 +42,19 @@ Files and directories in root
    command ``flask db --help`` to know how to use migrations.
 3. ``test`` contains the source code which tests the production code. Most of the tests written in the ``test``
    directory are HTTP api level tests.
-4. ``create_test_database`` creates test database in the postgres container. This will be helpful for creating a test
-   database after just starting a container esp. if you change the schema of the database and need to flush the existing
-   test database.
-5. ``app_exec`` is used to execute a command inside the app container from the outside. The app container is the
-   container that runs the flask web app.
-6. ``db_exec`` is used to execute a command inside the database container from the outside. The database container is
-   the container that runs postgres.
-7. ``reset_ownership`` (for linux) is used for resetting the permissions of the files that are generated/created from
-   inside the containers in the shared volume. They are by default owned by root on creation.
 
 .. _modules:
 
 Modules
 -------
 
-The project consists of modules which is further divided into different files.
+The project consists of modules which are further divided into different files.
 
 1. ``model.py`` contains all the models needed by the module in which this is placed. The models in this place.
 2. ``repo.py`` contains the data manipulation functionality abstracting out the handling of database sessions. It also
    uses different models of various different modules.
-3. ``translations.py`` contains localized translation for all the strings used throughout the project.
-4. ``schema.py`` contains json schema that is used to validate JSON entering an HTTP endpoint
+3. ``translations.py`` contains a localised translation for all the strings used throughout the project.
+4. ``schema.py`` contains JSON schema that is used to validate JSON entering an HTTP endpoint
 5. ``view.py`` contains definitions of HTTP endpoints which can either be GET or POST or any other ones
 6. ``<business_logic>.py`` something like for example ``user.py`` which will contain all the business logic for that
    sub-domain, in this example it will contain business logic for the user sub-domain.
@@ -80,55 +71,43 @@ Prerequisites
 Usage Instructions
 ~~~~~~~~~~~~~~~~~~
 
-To build all the Docker images using ``docker-compose``
+The project is developed/build using poetry and you need it installed to proceed
+
+To install all the packages in a newly created virtual environment from the lock file:
 
 .. code-block:: bash
 
-    docker-compose build
+    poetry install
 
-To run the whole application as containers using ``docker-compose``
-
-.. code-block:: bash
-
-    docker-compose up
-
-To run all the tests in the application run
+To run the project (make sure that your database is setup):
 
 .. code-block:: bash
 
-    ./script/pytest_exec # Just run the tests
-    ./script/pytest_exec --cov-report=html --cov http_quest test/ # Run tests with coverage
+    poetry run flask run
+
+To run all the tests run:
+
+.. code-block:: bash
+
+    poetry run pytest
+    poetry run pytest test/unit # just run the unit tests
+    poetry run pytest -k test_name_of_the_test_case # just run one test case
+
+Run all tests with code coverage and check it on browser
+
+.. code-block:: bash
+
+    poetry run pytest --cov-report=html --cov=http_quest --cov=test test/ # Run tests with coverage
+    cd htmlcov # the directory where coverage report is generated
+    poetry run python -m http.server # run an http server to browse the report
 
 To perform migrations run
 
 .. code-block:: bash
 
-    ./script/app_exec flask db migrate # Detect and create migration files
-    ./script/app_exec flask db upgrade # Actually perform migrations on the database
-    ./script/app_exec flask db --help # For info about the other database migration commands
-
-
-For Linux only: files created by a container (like migration files) are owned by root because Docker runs as root
-
-.. code-block:: bash
-
-    ./script/reset_ownership # needs sudo password, will change the owner to yourself
-
-.. code-block:: bash
-
-    ./script/app_exec flask seed_db # Seed the database with test data for testing
-
-.. code-block:: bash
-
-    git submodule update --remote # To pull the latest frontend
-
-
-To install python packages into a virtual environment
-
-.. code-block:: bash
-
-    pip install pipenv
-    pipenv install
+    poetry run flask db migrate # Detect and create migration files
+    poetry run flask db upgrade # Actually perform migrations on the database
+    poetry run flask db --help # For info about the other database migration commands
 
 
 LICENSE
