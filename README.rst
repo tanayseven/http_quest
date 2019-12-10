@@ -115,11 +115,11 @@ To extract translations used in the code into a pot file (when new strings are a
 
     poetry run pybabel extract -F babel.cfg -o messages.pot .
 
-To create translations for the extracted pot file into a po file (add the translations to the new po file):
+To create translations for the extracted pot file into a po file (then manually add the translations to the new po file):
 
 .. code-block:: bash
 
-    pybabel update -i messages.pot -d translations # where hi stands for the language Hindi
+    pybabel update -i messages.pot -d translations
 
 
 LICENSE
