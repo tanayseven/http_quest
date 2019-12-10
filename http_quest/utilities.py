@@ -2,8 +2,8 @@ import os
 import random
 from functools import wraps
 
-from cerberus import Validator
 from flask import request, jsonify, render_template
+from jsonschema import validate, ValidationError
 
 
 def fetch_locale_from_request_else_use_default():
@@ -25,9 +25,12 @@ def validate_json(schema):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if Validator(schema).validate(request.json):
+            try:
+                validate(instance=request.json, schema=schema)
+            except ValidationError as e:
+                return jsonify({'message': f'Invalid JSON: {str(e)}'}), 400
+            else:
                 return f(*args, **kwargs)
-            return jsonify({'message': 'Invalid json'}), 400
 
         return decorated_function
 

@@ -1,12 +1,27 @@
 new_password_schema = {
-    'new_password': {'type': 'string', 'required': True},
+    'type': 'object',
+    'required': ['new_password'],
+    'properties': {
+        'new_password': {'type': 'string'},
+    },
+    "additionalProperties": False,
 }
 
 create_new_schema = {
-    'email': {'type': 'string', 'required': True},
-    'password': {'type': 'string'},
+    'type': 'object',
+    'required': ['email'],
+    'properties': {
+        'email': {'type': 'string'},
+        'password': {'type': 'string'},
+    },
+    "additionalProperties": False,
 }
 
 password_reset_schema = {
-    'email': {'type': 'string', 'required': True},
+    'type': 'object',
+    'required': ['email'],
+    'properties': {
+        'email': {'type': 'string'},
+    },
+    "additionalProperties": False,
 }
