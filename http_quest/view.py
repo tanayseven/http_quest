@@ -7,7 +7,7 @@ root_view = Blueprint('root', __name__)
 
 @root_view.route('/health', methods=('GET',))
 def health_get():
-    data = {'message': _('This is the / . Please go to GET /login for any further activity')}
+    data = {'message': _('Health is OK')}
     return jsonify(data)
 
 

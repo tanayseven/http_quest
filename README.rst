@@ -119,7 +119,7 @@ To create translations for the extracted pot file into a po file (then manually 
 
 .. code-block:: bash
 
-    pybabel update -i messages.pot -d translations
+    poetry run pybabel update -i messages.pot -d translations
 
 
 LICENSE

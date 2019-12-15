@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-12-10 23:06+0000\n"
+"POT-Creation-Date: 2019-12-14 22:38+0000\n"
 "PO-Revision-Date: 2019-12-10 22:36+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: hi\n"
@@ -19,22 +19,22 @@ msgstr ""
 "Generated-By: Babel 2.7.0\n"
 
 #: http_quest/view.py:10
-msgid "This is the / . Please go to GET /login for any further activity"
-msgstr ""
+msgid "Health is OK"
+msgstr "स्वास्थ्य ठीक है"
 
 #: http_quest/product_quiz/view.py:22
 msgid "Welcome to the  product quiz."
-msgstr ""
+msgstr "प्रॉडक्ट क्विज में आपका स्वागत है।"
 
 #: http_quest/product_quiz/view.py:23
 msgid "This problem number is {0}."
-msgstr ""
+msgstr "ये सवाल क्रमांक {0} है।"
 
 #: http_quest/product_quiz/view.py:25
 msgid ""
 "Compute the count for the total number of products in the list given via "
 "input"
-msgstr ""
+msgstr "इनपुट के माध्यम से दी गई सूची में कुल प्रोडक्ट्स की संख्या गिने।"
 
 #: http_quest/product_quiz/view.py:26
 msgid ""
@@ -130,4 +130,7 @@ msgstr "आपका पासवर्ड सफलतापूर्वक र
 #: http_quest/user/view.py:52
 msgid "You have submitted an invalid password token."
 msgstr "आपने एक अवैध पासवर्ड टोकन सबमिट किया है।"
+
+#~ msgid "This is the / . Please go to GET /login for any further activity"
+#~ msgstr ""
 
