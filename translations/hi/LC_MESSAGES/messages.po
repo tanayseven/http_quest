@@ -41,7 +41,8 @@ msgid ""
 "Awesome, you've solved the first problem. Active products are those for "
 "which current date time fall within start and end date of the current "
 "date. Compute the count of all such products"
-msgstr ""
+msgstr "बहुत बढ़िया, आपने पहली प्रॉब्लम सॉल्व किया है। एक्टिव प्रोडक्ट्स वे हैं जिनके लिए वर्तमान "
+"दिन समय वर्तमान दिन के प्रारंभ और समाप्ति के भीतर आती है। ऐसे सभी प्रोडक्ट्स की गिनती करें।"
 
 #: http_quest/product_quiz/view.py:28
 msgid ""
