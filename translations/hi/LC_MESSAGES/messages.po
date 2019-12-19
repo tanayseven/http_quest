@@ -48,38 +48,39 @@ msgstr "बहुत बढ़िया, आपने पहली प्रॉ�
 msgid ""
 "You're going good!. For your next problem, you have to compute the count "
 "of the products for every category."
-msgstr ""
+msgstr "आप बहुत अच्छा कर रहे हो! अपने अगले प्रॉब्लम के लिए, आपको हर केटेगरी के प्रोडक्ट्स की गिनती करनी होगी।"
 
 #: http_quest/product_quiz/view.py:29 http_quest/product_quiz/view.py:30
 msgid ""
 "Congratulations! You've solved the  problem, for the fourth problem, you "
 "have completed all the problems!"
-msgstr ""
+msgstr "बधाई हो! आपने सवाल का जवाब दिया है, चौथे प्रॉब्लम के लिए, आपने सभी समस्याओं को पूरा कर लिया है!"
 
 #: http_quest/product_quiz/view.py:32
 msgid ""
 "The input url for getting the test data is GET on /product/{0}/input/ and"
 " the data will be in JSON. And you will have to respond with the output "
 "on the URL by doing a POST on /product_quiz/{0}/output/."
-msgstr ""
+msgstr "परीक्षण डेटा प्राप्त करने के लिए इनपुट URL GET /product/{0}/input/ पर प्राप्त होता है और डेटा JSON "
+"में होगा। और आपको URL पर आउटपुट के साथ POST /product_quiz/{0}/output/ करके जवाब देना होगा।"
 
 #: http_quest/product_quiz/view.py:36
 msgid "The examples for the sample input and output are included here."
-msgstr ""
+msgstr "सैंपल इनपुट और आउटपुट के उदाहरण यहां दिए गए हैं।"
 
 #: http_quest/product_quiz/view.py:38
 msgid "You've solved this problem successfully."
-msgstr ""
+msgstr "आपने इस सवाल का सफलतापूर्वक उत्तर दिया है।"
 
 #: http_quest/product_quiz/view.py:39
 msgid "Wrong solution. Please attempt again with a new input."
-msgstr ""
+msgstr "गलत उत्तर। कृपया एक नए इनपुट के साथ फिर से प्रयास करें।"
 
 #: http_quest/product_quiz/view.py:40
 msgid ""
 "You've already attempted this problem, please fetch a new input from the "
 "input URL."
-msgstr ""
+msgstr "आपने पहले ही इस सवाल का जवाब दिया है। कृपया इनपुट URL से एक नया इनपुट प्राप्त करें।"
 
 #: http_quest/quiz/quiz.py:32 test/api/quiz/test_quiz_api.py:18
 msgid "Here is your new candidate token to be used for the quiz."
