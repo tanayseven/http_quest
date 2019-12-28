@@ -18,7 +18,7 @@ FROM build as integration-tests
 WORKDIR /app
 ENV APP_ENVIRONMENT=test
 RUN pip install 'poetry==1.0.0b8'
-RUN poetry install --no-dev
+RUN poetry install
 CMD ["poetry", "run", "pytest", "--cov", "http_quest", "--cov", "test", "test/"]
 
 FROM build as prod
