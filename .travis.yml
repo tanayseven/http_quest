@@ -13,8 +13,8 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 before_script:
-  - sudo /etc/init.d/mysql stop
-  - sudo /etc/init.d/postgresql stop
+  - sudo /etc/init.d/mysql stop  # Kill the default running process to free the port
+  - sudo /etc/init.d/postgresql stop  # Kill the default running process to free the port
 
 script:
   - docker-compose build
