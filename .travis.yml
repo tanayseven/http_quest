@@ -17,6 +17,7 @@ before_script:
   - sudo /etc/init.d/postgresql stop  # Kill the default running process to free the port
 
 script:
+  - docker-compose rm
   - docker-compose build
   - docker-compose up -d
   - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
