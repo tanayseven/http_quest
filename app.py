@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 
+from http_quest.config import CONFIG
 from http_quest.ext import bcrypt, db, jwt, mail, migrate, babel
 from http_quest.product_quiz.view import products_view
 from http_quest.quiz.view import quiz_view
@@ -11,11 +12,7 @@ from http_quest.view import root_view
 
 app: Flask = Flask(__name__.split('.')[0], template_folder='http_quest/template')
 
-app_environment = os.environ.get('APP_ENVIRONMENT', 'test')
-if app_environment in ('dev', 'prod',):  # pragma: no cover
-    app.config.from_object('http_quest.config.DevelopmentConfig')
-elif app_environment in ('test',):
-    app.config.from_object('http_quest.config.TestConfig')
+app.config.from_object(CONFIG)
 
 # Perform migrations on the data
 db.init_app(app)

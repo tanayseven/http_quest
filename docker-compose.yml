@@ -65,4 +65,4 @@ services:
       target: db-migrate
     container_name: http_quest_integration_tests
     depends_on:
-      - app
+      - db_migrate_test

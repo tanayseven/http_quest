@@ -4,9 +4,12 @@ import os
 class Config(object):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URI',
+        'postgresql://http_quest:http_quest@localhost:5432/http_quest_test'
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    LOCALE = os.environ.get('APP_LOCALE')
+    LOCALE = os.environ.get('APP_LOCALE', 'en')
     JWT_AUTH_USERNAME_KEY = 'email'
     JWT_AUTH_PASSWORD_KEY = 'password'
     JWT_AUTH_URL_RULE = '/user/login'
@@ -25,7 +28,16 @@ class DevelopmentConfig(Config):
 
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'TEST_DATABASE_URI',
+        'postgresql://http_quest:http_quest@localhost:5432/http_quest_test',
+    )
     FLASK_DEBUG = True
     TESTING = True
     MAIL_SUPPRESS_SEND = True
+
+
+CONFIG = {
+    'test': TestConfig,
+    'dev': DevelopmentConfig,
+}[os.environ.get('APP_ENVIRONMENT', 'test')]
