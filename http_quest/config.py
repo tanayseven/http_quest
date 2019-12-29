@@ -37,7 +37,20 @@ class TestConfig(Config):
     MAIL_SUPPRESS_SEND = True
 
 
+class ProdConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URI',
+        'postgresql://http_quest:http_quest@localhost:5432/http_quest_test',
+    )
+    FLASK_DEBUG = False
+    TESTING = False
+    MAIL_SERVER = 'mailcatcher'
+    MAIL_PORT = '1025'
+    MAIL_SUPPRESS_SEND = False
+
+
 CONFIG = {
     'test': TestConfig,
     'dev': DevelopmentConfig,
+    'prod': ProdConfig,
 }[os.environ.get('APP_ENVIRONMENT', 'test')]
