@@ -17,6 +17,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - curl https://cli-assets.heroku.com/install.sh | sh
 
 before_script:
   - sudo /etc/init.d/mysql stop  # Kill the default running process to free the port
