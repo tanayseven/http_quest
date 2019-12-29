@@ -8,6 +8,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - sudo rm /usr/local/bin/docker-compose
+  - pip install awscli
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
@@ -16,11 +17,16 @@ before_script:
   - sudo /etc/init.d/mysql stop  # Kill the default running process to free the port
   - sudo /etc/init.d/postgresql stop  # Kill the default running process to free the port
 
-script:
-  - docker-compose build
-  - docker-compose up -d
-  - sleep 7 # Wait for containers to start, temporary hack, to be removed after finding a better way
-  - docker-compose run integration-tests poetry run pytest
+jobs:
+  include:
+    - stage: Test
+      script: ./shell-scripts/test.sh
+    - stage: Docker image build and publish
+      script: ./shell-scripts/docker_build.sh
+    - stage: Deploy to Heroku
+      script: ./shell-scripts/deploy_heroku.sh
+    - stage: Publish code coverage
+      script: ./shell-scripts/publish_coverage.sh
 
 after_script:
   - docker-compose run integration-tests coveralls
