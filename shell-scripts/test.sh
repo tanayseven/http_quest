@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-docker-compose run integration-tests poetry run pytest || exit 1
+docker-compose run integration-tests poetry run pytest --cov http_quest --cov test/ || exit 1
 aws s3 sync .coverage s3://tanayseven-http-quest-backend-build/$TRAVIS_BUILD_NUMBER/coverage_files/.coverage

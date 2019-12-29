@@ -32,6 +32,3 @@ jobs:
       script: ./shell-scripts/deploy_heroku.sh
     - stage: Publish code coverage
       script: ./shell-scripts/publish_coverage.sh
-
-after_script:
-  - docker-compose run integration-tests coveralls
