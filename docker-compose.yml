@@ -58,6 +58,7 @@ services:
     environment:
       - APP_ENVIRONMENT=test
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
+      - COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}
       - APP_LOCALE=en
     volumes:
       - .:/app/
