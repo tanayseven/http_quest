@@ -49,7 +49,7 @@ services:
       - .:/app
     working_dir: /app
     ports:
-      - '8000:80'
+      - '8000:8000'
     container_name: http_quest_backend_app
     depends_on:
       - database

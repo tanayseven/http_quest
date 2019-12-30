@@ -32,4 +32,4 @@ COPY --from=build /app/pyproject.toml /app/pyproject.toml
 RUN pip install 'poetry==1.0.0b8'
 RUN poetry install --no-dev
 EXPOSE ${PORT}
-CMD ["poetry", "run", "gunicorn", "app:app", "-b", "0.0.0.0:${PORT}", "-w", "3"]
+CMD ["poetry", "run", "gunicorn", "app:app", "-w", "3"]
