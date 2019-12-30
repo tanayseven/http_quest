@@ -40,6 +40,7 @@ services:
       - DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest
       - TEST_DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest_test
       - SECRET_KEY=some_secret
+      - PORT=8000
     build:
       context: .
       dockerfile: Dockerfile

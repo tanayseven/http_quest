@@ -31,6 +31,5 @@ COPY --from=build /app/poetry.lock /app/poetry.lock
 COPY --from=build /app/pyproject.toml /app/pyproject.toml
 RUN pip install 'poetry==1.0.0b8'
 RUN poetry install --no-dev
-ENV PORT=8000
 EXPOSE ${PORT}
 CMD ["poetry", "run", "gunicorn", "app:app", "-b", "0.0.0.0:${PORT}", "-w", "3"]
