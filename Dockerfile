@@ -25,11 +25,16 @@ FROM build as prod
 ENV APP_ENVIRONMENT=prod
 WORKDIR /app
 COPY --from=build /app/http_quest /app/http_quest
+COPY translations/ /app/translations/
 # To be removed later:
 COPY --from=build /app/fakes.py /app/fakes.py
 COPY --from=build /app/poetry.lock /app/poetry.lock
 COPY --from=build /app/pyproject.toml /app/pyproject.toml
 RUN pip install 'poetry==1.0.0b8'
-RUN poetry install --no-dev
+RUN export tmpfile=$(mktemp /tmp/requirements.XXXXXX) && \
+    poetry export -f requirements.txt > $tmpfile && \
+    pip install -r $tmpfile && \
+    rm $tmpfile
+RUN pip uninstall --yes poetry
 EXPOSE ${PORT}
 CMD ["poetry", "run", "gunicorn", "app:app", "-w", "3"]
