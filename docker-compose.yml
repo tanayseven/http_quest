@@ -13,7 +13,7 @@ services:
       - 5432:5432
   db_migrate_dev:
     environment:
-      - DATABASE_URI=postgresql://http_quest:http_quest@http_quest_database/http_quest
+      - DATABASE_URI=${DATABASE_URI}
       - APP_ENVIRONMENT=dev
     build:
       context: .

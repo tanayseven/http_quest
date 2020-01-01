@@ -31,5 +31,7 @@ jobs:
       script: ./shell-scripts/docker_build.sh
     - stage: Deploy to Heroku
       script: ./shell-scripts/deploy_heroku.sh
+    - stage: Migrate database
+      script: ./shell-scripts/migrate_database.sh
     - stage: Publish code coverage
       script: ./shell-scripts/publish_coverage.sh
